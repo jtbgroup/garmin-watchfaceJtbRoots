@@ -1,0 +1,4 @@
+<fonts>
+	<font id="customFont" filename="paranoid_150.fnt" filter="0123456789"/>
+	<font id="microFont" filename="courier_5.fnt" filter="0123456789."/>
+</fonts>

@@ -1,0 +1,34 @@
+<strings>
+
+    <string id="AppName">JtB Face roots</string>
+    
+   	<string id="propertyColorClockHour">Color for clock Hours</string>
+    <string id="propertyColorClockMinute">Color for clock Minutes</string>
+    <string id="propertyColorBackground">Background color</string>
+    <string id="propertyColorMode">Color Mode</string>
+	<string id="standard">Standard</string>
+	<string id="disco">Flashing Disco</string>
+	<string id="lucy">Lucy In The Sky With Diamonds</string>
+	
+    <string id="white">White</string>
+    <string id="light_gray">Gray</string>
+    <string id="dark_gray">Dark Gray</string>
+    <string id="black">Black</string>
+    <string id="red">Red</string>
+    <string id="dark_red">Dark Red</string>
+    <string id="orange">Orange</string>
+    <string id="yellow">Yellow</string>
+	<string id="green">Green</string>
+	<string id="dark_green">Dark Green</string>
+	<string id="blue">Blue</string>
+	<string id="dark_blue">Dark Blue</string>
+	<string id="purple">Purple</string>
+	<string id="pink">Pink</string>
+	
+	<string id="propertyDateFormat">Format of the date</string>
+	<string id="weekDayTxt_dayNum_monthTxt">Sun 16 Feb</string>
+	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
+	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
+	
+	<string id="propertyHrKeepDisplayed">Keep Heart rate displayed when screen is sleep</string>
+</strings>

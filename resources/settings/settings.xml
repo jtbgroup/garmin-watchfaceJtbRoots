@@ -1,0 +1,98 @@
+<settings>
+
+	<!-- <setting propertyKey="@Properties.appVersion" title="@Strings.AppVersionTitle"> 
+		<settingConfig type="alphaNumeric" readonly="true" /> </setting> <setting 
+		propertyKey="@Properties.myString" title="@Strings.MyStringTitle" prompt="@Strings.MyStringPrompt"> 
+		<settingConfig type="list"> <listEntry value="0">@Strings.HelloWorld</listEntry> 
+		<listEntry value="1">@Strings.Ackbar</listEntry> <listEntry value="2">@Strings.Garmin</listEntry> 
+		</settingConfig> </setting> <setting propertyKey="@Properties.myNumber" title="@Strings.MyNumberTitle" 
+		prompt="@Strings.MyNumberPrompt"> <settingConfig type="numeric" errorMessage="@Strings.MyNumberError" 
+		/> </setting> <setting propertyKey="@Properties.screenSleep" title="@Strings.ScreenSleepTitle"> 
+		<settingConfig type="boolean" /> </setting> <setting propertyKey="@Properties.username" 
+		title="@Strings.UsernameTitle"> <settingConfig type="alphaNumeric" required="true" 
+		/> </setting> -->
+
+	<setting propertyKey="@Properties.COLOR_MODE"
+		title="@Strings.propertyColorMode">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.standard</listEntry>
+			<listEntry value="1">@Strings.disco</listEntry>
+			<listEntry value="2">@Strings.lucy</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.COLOR_BKG"
+		title="@Strings.propertyColorBackground">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.white</listEntry>
+			<listEntry value="1">@Strings.light_gray</listEntry>
+			<listEntry value="2">@Strings.dark_gray</listEntry>
+			<listEntry value="3">@Strings.black</listEntry>
+			<listEntry value="4">@Strings.red</listEntry>
+			<listEntry value="5">@Strings.dark_red</listEntry>
+			<listEntry value="6">@Strings.orange</listEntry>
+			<listEntry value="7">@Strings.yellow</listEntry>
+			<listEntry value="8">@Strings.green</listEntry>
+			<listEntry value="9">@Strings.dark_green</listEntry>
+			<listEntry value="10">@Strings.blue</listEntry>
+			<listEntry value="11">@Strings.dark_blue</listEntry>
+			<listEntry value="12">@Strings.purple</listEntry>
+			<listEntry value="13">@Strings.pink</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.COLOR_CLOCK_HOUR"
+		title="@Strings.propertyColorClockHour">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.white</listEntry>
+			<listEntry value="1">@Strings.light_gray</listEntry>
+			<listEntry value="2">@Strings.dark_gray</listEntry>
+			<listEntry value="3">@Strings.black</listEntry>
+			<listEntry value="4">@Strings.red</listEntry>
+			<listEntry value="5">@Strings.dark_red</listEntry>
+			<listEntry value="6">@Strings.orange</listEntry>
+			<listEntry value="7">@Strings.yellow</listEntry>
+			<listEntry value="8">@Strings.green</listEntry>
+			<listEntry value="9">@Strings.dark_green</listEntry>
+			<listEntry value="10">@Strings.blue</listEntry>
+			<listEntry value="11">@Strings.dark_blue</listEntry>
+			<listEntry value="12">@Strings.purple</listEntry>
+			<listEntry value="13">@Strings.pink</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.COLOR_CLOCK_MIN"
+		title="@Strings.propertyColorClockMinute">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.white</listEntry>
+			<listEntry value="1">@Strings.light_gray</listEntry>
+			<listEntry value="2">@Strings.dark_gray</listEntry>
+			<listEntry value="3">@Strings.black</listEntry>
+			<listEntry value="4">@Strings.red</listEntry>
+			<listEntry value="5">@Strings.dark_red</listEntry>
+			<listEntry value="6">@Strings.orange</listEntry>
+			<listEntry value="7">@Strings.yellow</listEntry>
+			<listEntry value="8">@Strings.green</listEntry>
+			<listEntry value="9">@Strings.dark_green</listEntry>
+			<listEntry value="10">@Strings.blue</listEntry>
+			<listEntry value="11">@Strings.dark_blue</listEntry>
+			<listEntry value="12">@Strings.purple</listEntry>
+			<listEntry value="13">@Strings.pink</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.DATE_FORMAT"
+		title="@Strings.propertyDateFormat">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
+			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
+			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.HR_KEEP_DISPLAYED"
+		title="@Strings.propertyHrKeepDisplayed">
+		<settingConfig type="boolean" />
+	</setting>
+
+</settings>

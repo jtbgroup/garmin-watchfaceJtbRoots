@@ -1,0 +1,8 @@
+<properties> 
+	<property id="COLOR_MODE" type="number">0</property> 
+	<property id="COLOR_BKG" type="number">3</property> 
+	<property id="COLOR_CLOCK_HOUR" type="number">0</property> 
+	<property id="COLOR_CLOCK_MIN" type="number">4</property> 
+	<property id="DATE_FORMAT" type="number">0</property> 
+	<property id="HR_KEEP_DISPLAYED" type="boolean">true</property>
+</properties> 
