@@ -20,6 +20,7 @@ class WatchfaceJtbView extends Ui.WatchFace {
 	var COLOR_FOREGROUND = Gfx.COLOR_WHITE;
 	
 	var FONT_SMALL = Gfx.FONT_SYSTEM_XTINY;
+	var FONT_SECONDS = Gfx.FONT_SYSTEM_SMALL;
 	
 	var screen_height, screen_width;
 	
@@ -51,7 +52,6 @@ class WatchfaceJtbView extends Ui.WatchFace {
 	var PROP_COLOR_CLOCK_MIN = Gfx.COLOR_RED;
 	var PROP_DATE_FORMAT=0;
 	var PROP_SHOW_SECONDS = true;
-	var PROP_SECONDS_KEEP_DISPLAYED=true;
 	var PROP_SHOW_HR = true;
 	var PROP_HR_KEEP_DISPLAYED=true;
 
@@ -127,11 +127,6 @@ class WatchfaceJtbView extends Ui.WatchFace {
    			System.println(e.getErrorMessage());
 		}
 		
-		try{
-			PROP_SECONDS_KEEP_DISPLAYED = Application.Properties.getValue("PROP_SECONDS_KEEP_DISPLAYED");
-		} catch (e instanceof InvalidKeyException) {
-   			System.println(e.getErrorMessage());
-		}
 		
 		try{
 			PROP_SHOW_HR = Application.Properties.getValue("PROP_SHOW_HR");
@@ -171,7 +166,7 @@ class WatchfaceJtbView extends Ui.WatchFace {
        	displayBtAndAlarm(dc);
         displayDate(dc);
 		
-		if(PROP_SHOW_HR || (!sleeping && PROP_SHOW_HR)){
+		if(!sleeping && PROP_SHOW_HR){
 		   displayHr(dc);
         }
         
@@ -183,9 +178,7 @@ class WatchfaceJtbView extends Ui.WatchFace {
     }
     
   	function onPartialUpdate(dc){
-  		dc.clearClip();
-  		
-  		if(PROP_HR_KEEP_DISPLAYED){
+  		if(sleeping && PROP_SHOW_HR && PROP_HR_KEEP_DISPLAYED){
   			var clipX = heartR_x;
   			var clipY = heartR_y;
   			var clipWidth = 22+dc.getTextWidthInPixels("000", FONT_SMALL);
@@ -195,15 +188,8 @@ class WatchfaceJtbView extends Ui.WatchFace {
 	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
 	  		dc.setColor(COLOR_FOREGROUND, PROP_COLOR_BACKGROUND);
 		    dc.drawBitmap(heartR_x, heartR_y + iconAdjustment, iconHeart );
-			dc.drawText(screen_width/2 + icon_components_padding, heartR_y, FONT_SMALL, retrieveHeartrateText() ,Gfx.TEXT_JUSTIFY_LEFT);
+			dc.drawText(screen_width/2 + icon_components_padding, heartR_y, FONT_SMALL, retrieveHeartrateText(), Gfx.TEXT_JUSTIFY_LEFT);
     	}
-    	
-    	if(PROP_SECONDS_KEEP_DISPLAYED){
-	    	var clockTime = System.getClockTime();
-    		dc.setClip(screen_width-40,seconds_y, 40, dc.getFontHeight(Gfx.FONT_SYSTEM_SMALL));
-    		dc.setColor(PROP_COLOR_CLOCK_MIN, PROP_COLOR_BACKGROUND);
-			dc.drawText(screen_width-40,seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
-		}
     }
     
     function getRandomColor(colorToAvoid){
@@ -299,7 +285,7 @@ class WatchfaceJtbView extends Ui.WatchFace {
         dc.setColor(PROP_COLOR_CLOCK_MIN, COLOR_TRANSPARENT);
         dc.drawText(dc.getWidth()/2, clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT);
         
-        if(!sleeping && PROP_SHOW_SECONDS == true){
+        if(!sleeping && PROP_SHOW_SECONDS){
 			dc.drawText(screen_width-40,seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
 		}
     }
@@ -363,12 +349,11 @@ class WatchfaceJtbView extends Ui.WatchFace {
     }
     function onExitSleep() {
    		sleeping = false;
-   		Ui.requestUpdate();
     }
     
     function onEnterSleep() {
     	sleeping = true;
-        Ui.requestUpdate();
+   		Ui.requestUpdate();
     }
     
  

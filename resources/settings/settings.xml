@@ -85,10 +85,6 @@
 		title="@Strings.propertyShowSeconds">
 		<settingConfig type="boolean" />
 	</setting>
-	<setting propertyKey="@Properties.PROP_SECONDS_KEEP_DISPLAYED"
-		title="@Strings.propertySecondsKeepDisplayed">
-		<settingConfig type="boolean" />
-	</setting>
 	
 	<setting propertyKey="@Properties.PROP_DATE_FORMAT"
 		title="@Strings.propertyDateFormat">

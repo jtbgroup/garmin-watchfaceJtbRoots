@@ -5,7 +5,6 @@
 	<property id="PROP_COLOR_CLOCK_MIN" type="number">4</property> 
 	<property id="PROP_DATE_FORMAT" type="number">0</property> 
 	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
-	<property id="PROP_SECONDS_KEEP_DISPLAYED" type="boolean">true</property>
 	<property id="PROP_SHOW_HR" type="boolean">true</property>
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">true</property>
 </properties> 
