@@ -1,8 +1,11 @@
 <properties> 
-	<property id="COLOR_MODE" type="number">0</property> 
-	<property id="COLOR_BKG" type="number">3</property> 
-	<property id="COLOR_CLOCK_HOUR" type="number">0</property> 
-	<property id="COLOR_CLOCK_MIN" type="number">4</property> 
-	<property id="DATE_FORMAT" type="number">0</property> 
-	<property id="HR_KEEP_DISPLAYED" type="boolean">true</property>
+	<property id="PROP_COLOR_MODE" type="number">0</property> 
+	<property id="PROP_COLOR_BACKGROUND" type="number">3</property> 
+	<property id="PROP_COLOR_CLOCK_HOUR" type="number">0</property> 
+	<property id="PROP_COLOR_CLOCK_MIN" type="number">4</property> 
+	<property id="PROP_DATE_FORMAT" type="number">0</property> 
+	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
+	<property id="PROP_SECONDS_KEEP_DISPLAYED" type="boolean">true</property>
+	<property id="PROP_SHOW_HR" type="boolean">true</property>
+	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">true</property>
 </properties> 

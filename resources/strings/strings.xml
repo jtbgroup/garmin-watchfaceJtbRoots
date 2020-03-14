@@ -29,6 +29,9 @@
 	<string id="weekDayTxt_dayNum_monthTxt">Sun 16 Feb</string>
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
+	<string id="propertyShowSeconds">Show seconds</string>
+	<string id="propertySecondsKeepDisplayed">Keep seconds displayed when screen is sleeping</string>
+	<string id="propertyShowHr">Show heart rate</string>
+	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping</string>
 	
-	<string id="propertyHrKeepDisplayed">Keep Heart rate displayed when screen is sleep</string>
 </strings>
