@@ -6,7 +6,7 @@ using Toybox.Time.Gregorian as Calendar;
 using Toybox.ActivityMonitor as Mon;
 using Toybox.Math as Mt;
 
-class WatchfaceJtbView extends Ui.WatchFace {
+class WatchfaceRootsJtbView extends Ui.WatchFace {
 
 	var customFont, microFont = null;
 	var iconHeart, iconBT, iconBell, iconEnveloppe, iconRunner = null;
@@ -24,7 +24,7 @@ class WatchfaceJtbView extends Ui.WatchFace {
 	
 	var screen_height, screen_width;
 	
- 	var batt_width = 25;
+ 	var batt_width = 22;
     var batt_height = 10;
     var batt_dop_width = 2;
     var batt_dop_height = 5;
@@ -318,8 +318,12 @@ class WatchfaceJtbView extends Ui.WatchFace {
         dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
         dc.drawLine(batt_dop_x, batt_dop_y+1, batt_dop_x, batt_dop_y + batt_dop_height-1);
 
+		var fillBar = ((batt_width -2 ) * battery / 100);
+		var fillBar2 = Math.round(fillBar);
+		System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
+		
         dc.setColor(fillColor, COLOR_TRANSPARENT);
-        dc.fillRectangle(batt_x +1, batt_y+1, ((batt_width -2 ) * battery / 100), batt_height-2);
+        dc.fillRectangle(batt_x +1 , batt_y+1, fillBar2, batt_height-2);
     }
     
 	function displayDate(dc){

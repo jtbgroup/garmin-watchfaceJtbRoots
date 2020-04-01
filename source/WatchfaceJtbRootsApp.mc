@@ -1,6 +1,6 @@
 using Toybox.Application;
 
-class WatchfaceJtbApp extends Application.AppBase {
+class WatchfaceJtbRootsApp extends Application.AppBase {
 
 	var view;
 	
@@ -18,7 +18,7 @@ class WatchfaceJtbApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-    	view =  new WatchfaceJtbView();
+    	view =  new WatchfaceRootsJtbView();
         return [ view ];
     }
 	
