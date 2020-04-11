@@ -22,8 +22,8 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	var DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM=1;
 	var DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM=2;
 	//hour format
-	var HOUR_FORMAT_12 = 0;
-	var HOUR_FORMAT_24 = 1;
+//	var HOUR_FORMAT_12 = 0;
+//	var HOUR_FORMAT_24 = 1;
 
 	//CONSTANTS		
 	var COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
@@ -64,7 +64,7 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	var PROP_SHOW_SECONDS = true;
 	var PROP_SHOW_HR = true;
 	var PROP_HR_KEEP_DISPLAYED=true;
-	var PROP_HOUR_FORMAT=HOUR_FORMAT_24;
+//	var PROP_HOUR_FORMAT=HOUR_FORMAT_24;
 
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
@@ -132,11 +132,11 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
    			System.println(e.getErrorMessage());
 		}
 			
-		try{
-			PROP_HOUR_FORMAT = Application.Properties.getValue("PROP_HOUR_FORMAT");
-		} catch (e instanceof InvalidKeyException) {
-   			System.println(e.getErrorMessage());
-		}
+//		try{
+//			PROP_HOUR_FORMAT = Application.Properties.getValue("PROP_HOUR_FORMAT");
+//		} catch (e instanceof InvalidKeyException) {
+//   			System.println(e.getErrorMessage());
+//		}
 			
 		try{
 			PROP_SHOW_SECONDS = Application.Properties.getValue("PROP_SHOW_SECONDS");
@@ -409,7 +409,7 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 
 		var fillBar = ((batt_width -2 ) * battery / 100);
 		var fillBar2 = Math.round(fillBar);
-		System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
+		//System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
 		
         dc.setColor(fillColor, COLOR_TRANSPARENT);
         dc.fillRectangle(batt_x +1 , batt_y+1, fillBar2, batt_height-2);
