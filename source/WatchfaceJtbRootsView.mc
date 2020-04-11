@@ -11,17 +11,27 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	var customFont, microFont = null;
 	var iconHeart, iconBT, iconBell, iconEnveloppe, iconRunner = null;
 	
+	//CONSTANT values for properties
+	// color mode
 	var COLOR_MODE_STANDARD = 0;
 	var COLOR_MODE_DISCO = 1;
 	var COLOR_MODE_LUCY = 2;
+	// colors
 	var COLORS = [Gfx.COLOR_WHITE, Gfx.COLOR_LT_GRAY, Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK, Gfx.COLOR_RED, Gfx.COLOR_DK_RED, Gfx.COLOR_ORANGE, Gfx.COLOR_YELLOW, Gfx.COLOR_GREEN, Gfx.COLOR_DK_GREEN, Gfx.COLOR_BLUE, Gfx.COLOR_DK_BLUE, Gfx.COLOR_PURPLE, Gfx.COLOR_PINK];
-	
+	var DATE_FORMAT_WEEKDAYTXT_DAYNUM_MONTHTXT=0;
+	var DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM=1;
+	var DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM=2;
+	//hour format
+	var HOUR_FORMAT_12 = 0;
+	var HOUR_FORMAT_24 = 1;
+
+	//CONSTANTS		
 	var COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
 	var COLOR_FOREGROUND = Gfx.COLOR_WHITE;
-	
 	var FONT_SMALL = Gfx.FONT_SYSTEM_XTINY;
 	var FONT_SECONDS = Gfx.FONT_SYSTEM_SMALL;
 	
+	//Instance variables 
 	var screen_height, screen_width;
 	
  	var batt_width = 22;
@@ -50,10 +60,11 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	var PROP_COLOR_BACKGROUND = Gfx.COLOR_BLACK;
 	var PROP_COLOR_CLOCK_H = Gfx.COLOR_WHITE;
 	var PROP_COLOR_CLOCK_MIN = Gfx.COLOR_RED;
-	var PROP_DATE_FORMAT=0;
+	var PROP_DATE_FORMAT=DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM;
 	var PROP_SHOW_SECONDS = true;
 	var PROP_SHOW_HR = true;
 	var PROP_HR_KEEP_DISPLAYED=true;
+	var PROP_HOUR_FORMAT=HOUR_FORMAT_24;
 
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
@@ -122,6 +133,12 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 		}
 			
 		try{
+			PROP_HOUR_FORMAT = Application.Properties.getValue("PROP_HOUR_FORMAT");
+		} catch (e instanceof InvalidKeyException) {
+   			System.println(e.getErrorMessage());
+		}
+			
+		try{
 			PROP_SHOW_SECONDS = Application.Properties.getValue("PROP_SHOW_SECONDS");
 		} catch (e instanceof InvalidKeyException) {
    			System.println(e.getErrorMessage());
@@ -141,27 +158,19 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 		}
     }
 
-    // Update the view
+/**
+	------------------------
+	UPDATE THE VIEW
+	------------------------
+*/
     function onUpdate(dc) {
-    	if(PROP_COLOR_MODE == COLOR_MODE_DISCO){
-    		var color = getRandomColor(PROP_COLOR_BACKGROUND);
-    		PROP_COLOR_CLOCK_H = color;
-    		PROP_COLOR_CLOCK_MIN = color;
-    	}else if(PROP_COLOR_MODE == COLOR_MODE_LUCY){
-    		var color = getRandomColor(null);
-    		PROP_COLOR_BACKGROUND = color;
-    		PROP_COLOR_CLOCK_H = getRandomColor(color);
-    		PROP_COLOR_CLOCK_MIN = getRandomColor(color);
-    	}
+    	randomizeColors();
     
     	dc.clearClip();
     	dc.setColor(COLOR_FOREGROUND, PROP_COLOR_BACKGROUND);
     	dc.clear();
     	
-        // Draw the battery icon
-        displayBatteryIcon(dc, 0xFF0000, 0xFFAA00, 0x00FF00);
-       	displayBatteryPercent(dc);
-       	
+        displayBattery(dc);
    		displayClock(dc);
        	displayBtAndAlarm(dc);
         displayDate(dc);
@@ -170,14 +179,12 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 		   displayHr(dc);
         }
         
-        var stepsCount = Mon.getInfo().steps;
-        displayStepsBar(dc, stepsCount);
-        displayStepsCounter(dc, stepsCount);
+      	displaySteps(dc);
         
         displayNotifications(dc);
     }
     
-  	function onPartialUpdate(dc){
+    function onPartialUpdate(dc){
   		if(sleeping && PROP_SHOW_HR && PROP_HR_KEEP_DISPLAYED){
   			var clipX = heartR_x;
   			var clipY = heartR_y;
@@ -192,6 +199,25 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
     	}
     }
     
+    
+/**
+	------------------------
+	COLORS
+	------------------------
+*/
+    function randomizeColors(){
+   		if(PROP_COLOR_MODE == COLOR_MODE_DISCO){
+    		var color = getRandomColor(PROP_COLOR_BACKGROUND);
+    		PROP_COLOR_CLOCK_H = color;
+    		PROP_COLOR_CLOCK_MIN = color;
+    	}else if(PROP_COLOR_MODE == COLOR_MODE_LUCY){
+    		var color = getRandomColor(null);
+    		PROP_COLOR_BACKGROUND = color;
+    		PROP_COLOR_CLOCK_H = getRandomColor(color);
+    		PROP_COLOR_CLOCK_MIN = getRandomColor(color);
+    	}
+    }
+    
     function getRandomColor(colorToAvoid){
     	var r = Mt.rand() % COLORS.size();
     	var color = COLORS[r];
@@ -201,29 +227,18 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
     	return color;
     }
     
-    function displayNotifications(dc){
-    	dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
-		var notif = System.getDeviceSettings().notificationCount;
-		if(notif>0){
-		    dc.drawBitmap(35, heartR_y + iconAdjustment , iconEnveloppe);
-		    //x = 35 + 25 (enveloppe width) + 4 (gap)
-			dc.drawText(64, heartR_y, FONT_SMALL, notif.toString(),Gfx.TEXT_JUSTIFY_LEFT);	    	
-		}
+/**
+	------------------------
+	STEPS
+	------------------------
+*/
+    function displaySteps(dc){
+		var stepsCount = Mon.getInfo().steps;
+        displayStepsBar(dc, stepsCount);
+        displayStepsCounter(dc, stepsCount);
     }
     
-	function displayBtAndAlarm(dc){
-		dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
-		
-		if(System.getDeviceSettings().phoneConnected){
-		    dc.drawBitmap(35, date_y+4 , iconBT);	
-		}
-	    
-	    if(System.getDeviceSettings().alarmCount >= 1){
-		    dc.drawBitmap(50, date_y+4 , iconBell);	
-		}
-	}
-   
-   	function displayStepsBar(dc, stepsCount){
+    function displayStepsBar(dc, stepsCount){
         dc.drawRectangle(screen_width/2 - stepsBar_width/2, stepsCount_y - 10, stepsBar_width, stepsBar_height);
         
         var stepsCountGoal = Mon.getInfo().stepGoal;
@@ -253,6 +268,47 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	  	dc.drawText(start+iconWidthAndPadding, stepsCount_y,  FONT_SMALL, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT);
 	}
     
+
+/**
+	------------------------
+	NOTIFICATIONS
+	------------------------
+*/
+    function displayNotifications(dc){
+    	dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
+		var notif = System.getDeviceSettings().notificationCount;
+		if(notif>0){
+		    dc.drawBitmap(35, heartR_y + iconAdjustment , iconEnveloppe);
+		    //x = 35 + 25 (enveloppe width) + 4 (gap)
+			dc.drawText(64, heartR_y, FONT_SMALL, notif.toString(),Gfx.TEXT_JUSTIFY_LEFT);	    	
+		}
+    }
+    
+
+/**
+	------------------------
+	BLUETOOTH & ALARM
+	------------------------
+*/
+	function displayBtAndAlarm(dc){
+		dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
+		
+		if(System.getDeviceSettings().phoneConnected){
+		    dc.drawBitmap(35, date_y+4 , iconBT);	
+		}
+	    
+	    if(System.getDeviceSettings().alarmCount >= 1){
+		    dc.drawBitmap(50, date_y+4 , iconBell);	
+		}
+	}
+   
+
+
+/**
+	------------------------
+	HEARTH RATE
+	------------------------
+*/
     function displayHr(dc){
     	dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
 		dc.drawBitmap(heartR_x, heartR_y + iconAdjustment, iconHeart );
@@ -267,29 +323,62 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 		return "000";
     }    
     
+ 
+ /**
+	------------------------
+	CLOCK
+	------------------------
+*/
     function displayClock(dc){
+    	//draw hour
+        dc.setColor(PROP_COLOR_CLOCK_H, COLOR_TRANSPARENT);
    		var clockTime = System.getClockTime();
         var hour = clockTime.hour;
         if(!Sys.getDeviceSettings().is24Hour){
-        	hour=Lang.format("$1$", [hour.format("%02d")]);
+        	if(hour == 0 ){
+        		hour = 12;	
+        	}else if(hour > 12){
+        		hour = hour - 12;
+        	}
         }
-        
-        dc.setColor(PROP_COLOR_CLOCK_H, COLOR_TRANSPARENT);
+
+        var hourToString = hour.format("%02d");
+//		if(hourToString.length() == 1){
+//			hourToString="0"+hourToString;
+//		}
 		
-		var hourToString = hour.toString();
-		if(hourToString.length() == 1){
-			hourToString="0"+hourToString;
+		if(!Sys.getDeviceSettings().is24Hour){
+			var hourWidth = dc.getTextWidthInPixels(hourToString, customFont);
+			var aOrP = "A";
+			if(clockTime.hour>=12){
+				aOrP = "P";
+			}
+			var aOrPHeight = dc.getFontHeight(Gfx.FONT_SYSTEM_XTINY);
+			dc.drawText(dc.getWidth()/2-hourWidth, (screen_height/2)-aOrPHeight, Gfx.FONT_SYSTEM_XTINY, aOrP, Gfx.TEXT_JUSTIFY_RIGHT);
+			dc.drawText(dc.getWidth()/2-hourWidth, (screen_height/2), Gfx.FONT_SYSTEM_XTINY, "M", Gfx.TEXT_JUSTIFY_RIGHT);
 		}
 		dc.drawText(dc.getWidth()/2, clock_y, customFont, hourToString ,Gfx.TEXT_JUSTIFY_RIGHT);
-
+		
+		//draw min
         dc.setColor(PROP_COLOR_CLOCK_MIN, COLOR_TRANSPARENT);
         dc.drawText(dc.getWidth()/2, clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT);
         
+        //draw sec
         if(!sleeping && PROP_SHOW_SECONDS){
-			dc.drawText(screen_width-40,seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
+			dc.drawText(screen_width-40,seconds_y, FONT_SECONDS, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
 		}
     }
-    
+
+/**
+	------------------------
+	BATTERY
+	------------------------
+*/
+	function displayBattery(dc){
+		displayBatteryIcon(dc, 0xFF0000, 0xFFAA00, 0x00FF00);
+       	displayBatteryPercent(dc);
+	}
+	
     function displayBatteryPercent(dc){
 	   	var battery = Sys.getSystemStats().battery;
 		dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
@@ -325,7 +414,12 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
         dc.setColor(fillColor, COLOR_TRANSPARENT);
         dc.fillRectangle(batt_x +1 , batt_y+1, fillBar2, batt_height-2);
     }
-    
+
+/**
+	------------------------
+	DATE
+	------------------------
+*/
 	function displayDate(dc){
         var dateStr = formatDate();
         dc.setColor(COLOR_FOREGROUND, COLOR_TRANSPARENT);
@@ -335,18 +429,24 @@ class WatchfaceRootsJtbView extends Ui.WatchFace {
 	function formatDate(){
 		var now = Time.now();
 		
-		if (PROP_DATE_FORMAT == 1){
+		if (PROP_DATE_FORMAT == DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	       return Lang.format("$1$/$2$/$3$", [info.day.format("%02d"), info.month.format("%02d"), info.year]);
-		}else if (PROP_DATE_FORMAT == 2){
+		}else if (PROP_DATE_FORMAT == DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	        return Lang.format("$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year]);
-		}
-		
+		}		
 	    var info = Calendar.info(now, Time.FORMAT_MEDIUM);
 	   	return  Lang.format("$1$ $2$ $3$", [info.day_of_week,info.day, info.month]);
 	}
-    
+
+
+
+/**
+	------------------------
+	WATCH ACTIVITY
+	------------------------
+*/
     function onShow() {
 	}
     function onHide() {

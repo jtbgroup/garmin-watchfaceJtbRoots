@@ -95,6 +95,14 @@
 		</settingConfig>
 	</setting>
 	
+	<!-- setting propertyKey="@Properties.PROP_HOUR_FORMAT"
+		title="@Strings.propertyHourFormat" -->
+		<!--settingConfig type="list"-->
+			<!--listEntry value="0">@Strings.hour_format_12</listEntry-->
+			<!--listEntry value="1">@Strings.hour_format_24</listEntry-->
+		<!--/settingConfig-->
+	<!--/setting -->
+	
 	<setting propertyKey="@Properties.PROP_SHOW_HR"
 		title="@Strings.propertyShowHr">
 		<settingConfig type="boolean" />
