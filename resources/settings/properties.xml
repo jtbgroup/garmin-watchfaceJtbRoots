@@ -13,6 +13,7 @@
 	<property id="PROP_DATE_FORMAT" type="number">0</property> 
 	<!--property id="PROP_HOUR_FORMAT" type="number">1</property -->
 	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
+	<property id="PROP_SHOW_NOTIFICATION" type="boolean">true</property>
 	<property id="PROP_SHOW_HR" type="boolean">true</property>
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">true</property>
 </properties> 

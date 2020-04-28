@@ -36,6 +36,7 @@
 	<!--string id="hour_format_24">24 hours</string-->
 	
 	<string id="propertyShowSeconds">Show seconds</string>
+	<string id="propertyShowNotification">Show notifications</string>
 	<string id="propertyShowHr">Show heart rate</string>
 	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping</string>
 	

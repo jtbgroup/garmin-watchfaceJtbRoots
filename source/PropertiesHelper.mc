@@ -31,6 +31,7 @@ module PropertiesHelper {
 	const PROP_MODE_COLOR="PROP_MODE_COLOR";
 	const PROP_DATE_FORMAT="PROP_DATE_FORMAT";
 	
+	const PROP_SHOW_NOTIFICATION="PROP_SHOW_NOTIFICATION";
 	const PROP_SHOW_SECONDS="PROP_SHOW_SECONDS";
 	const PROP_SHOW_HR="PROP_SHOW_HR";
 	const PROP_HR_KEEP_DISPLAYED="PROP_HR_KEEP_DISPLAYED";
@@ -49,6 +50,7 @@ module PropertiesHelper {
 		PROP_MODE_COLOR=>OPTION_MODE_COLOR_STANDARD,
 		PROP_DATE_FORMAT=>OPTION_DATE_FORMAT_WEEKDAYTXT_DAYNUM_MONTHTXT,
 		PROP_SHOW_SECONDS=>true,
+		PROP_SHOW_NOTIFICATION=>true,
 		PROP_SHOW_HR=>true,
 		PROP_HR_KEEP_DISPLAYED=>true,
 		PROP_COLOR_FOREGROUND=>Gfx.COLOR_WHITE,
@@ -66,20 +68,20 @@ module PropertiesHelper {
 		for(var i = 0; i < keys.size(); i++){
 			try{
 				key = keys[i];
-				System.print(i + " > " + key);
+				//System.print(i + " > " + key);
 				value = Application.Properties.getValue(key);
 				if(null != value){
 					if(key.find("PROP_COLOR") != null){
-						System.print(" - " + value);
+						//System.print(" - " + value);
 						value = Ch.getColorByIndex(value);
-						System.print(" - " + value);
+						//System.print(" - " + value);
 					}
 				}
 			} catch (e instanceof InvalidKeyException) {
 		   		System.println(e.getErrorMessage());
 			}
 			properties.put(key, value);
-			System.println(" > " + getValue(key));
+			//System.println(" > " + getValue(key));
 		}
 	}
 	

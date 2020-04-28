@@ -41,7 +41,6 @@
 		</settingConfig>
 	</setting>
 
-
 	<setting propertyKey="@Properties.PROP_COLOR_FOREGROUND"
 		title="@Strings.propertyColorForeground">
 		<settingConfig type="list">
@@ -61,7 +60,6 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
-
 
 	<setting propertyKey="@Properties.PROP_COLOR_CLOCK_HOUR"
 		title="@Strings.propertyColorClockHour">
@@ -101,38 +99,6 @@
 			<listEntry value="12">@Strings.purple</listEntry>
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_SECONDS"
-		title="@Strings.propertyShowSeconds">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_DATE_FORMAT"
-		title="@Strings.propertyDateFormat">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
-			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
-			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
-		</settingConfig>
-	</setting>
-	
-	<!-- setting propertyKey="@Properties.PROP_HOUR_FORMAT"
-		title="@Strings.propertyHourFormat" -->
-		<!--settingConfig type="list"-->
-			<!--listEntry value="0">@Strings.hour_format_12</listEntry-->
-			<!--listEntry value="1">@Strings.hour_format_24</listEntry-->
-		<!--/settingConfig-->
-	<!--/setting -->
-	
-	<setting propertyKey="@Properties.PROP_SHOW_HR"
-		title="@Strings.propertyShowHr">
-		<settingConfig type="boolean" />
-	</setting>
-
-	<setting propertyKey="@Properties.PROP_HR_KEEP_DISPLAYED"
-		title="@Strings.propertyHrKeepDisplayed">
-		<settingConfig type="boolean" />
 	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_RUNNER"
@@ -234,5 +200,34 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
+	
+	<setting propertyKey="@Properties.PROP_DATE_FORMAT"
+		title="@Strings.propertyDateFormat">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
+			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
+			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.PROP_SHOW_SECONDS"
+		title="@Strings.propertyShowSeconds">
+		<settingConfig type="boolean" />
+	</setting>
+	
+	<setting propertyKey="@Properties.PROP_SHOW_NOTIFICATION"
+		title="@Strings.propertyShowNotification">
+		<settingConfig type="boolean" />
+	</setting>
+	
+	<setting propertyKey="@Properties.PROP_SHOW_HR"
+		title="@Strings.propertyShowHr">
+		<settingConfig type="boolean" />
+	</setting>
 
+	<setting propertyKey="@Properties.PROP_HR_KEEP_DISPLAYED"
+		title="@Strings.propertyHrKeepDisplayed">
+		<settingConfig type="boolean" />
+	</setting>
+	
 </settings>

@@ -78,7 +78,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
-    
     function computeCoordinates(dc){
     	//get screen dimensions
 		co_Screen_Width = dc.getWidth();
@@ -119,10 +118,12 @@ public class RootsJtbView extends Ui.WatchFace {
     	co_StepsBar_y = Y_L6;
     	co_StepsCount_y = co_StepsBar_y+10;
     	
+    	// This is only to make UI debugging easier
 		if(showLines){
 	        System.println("screen height="+co_Screen_Height+", L1="+Y_L1+", L2="+Y_L2+", L3="+Y_L3+", L4="+Y_L4+", L6="+Y_L6);
 	    }
     }
+
 /**
 	------------------------
 	UPDATE THE VIEW
@@ -145,7 +146,10 @@ public class RootsJtbView extends Ui.WatchFace {
         }
         
       	displaySteps(dc);
-        displayNotifications(dc);
+      	
+      	if(Ph.getValue(Ph.PROP_SHOW_NOTIFICATION)){
+        	displayNotifications(dc);
+        }
         
         if(showLines){
 		    drawGridLines(dc);
