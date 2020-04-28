@@ -1,9 +1,84 @@
 <drawables>
     <bitmap id="LauncherIcon" filename="launcher_icon.png" />
-    <bitmap id="iconHeart" filename="icon_heart_16.png" />
-    <bitmap id="iconBT" filename="icon_bt_16.png" />
-    <bitmap id="iconBell" filename="icon_bell_16.png" />
-    <bitmap id="iconEnveloppe" filename="icon_enveloppe_16.png" />
-    <bitmap id="iconRunner" filename="icon_runner_16.png" />
+   
+    <bitmap id="icon_bluetooth_16_BLUE" filename="bluetooth_16_BLUE.png" />
+    <bitmap id="icon_bell_16_BLACK" filename="bell_16_BLACK.png" />
+    <bitmap id="icon_enveloppe_16_BLACK" filename="enveloppe_16_BLACK.png" />
+    <bitmap id="icon_heart_16_BLACK" filename="heart_16_BLACK.png" />
+    
+    <bitmap id="icon_bluetooth_16_BLACK" filename="bluetooth_16_BLACK.png" />
+    <bitmap id="icon_bluetooth_16_BLUE" filename="bluetooth_16_BLUE.png" />
+    <bitmap id="icon_bluetooth_16_DK_BLUE" filename="bluetooth_16_DK_BLUE.png" />
+    <bitmap id="icon_bluetooth_16_DK_GRAY" filename="bluetooth_16_DK_GRAY.png" />
+    <bitmap id="icon_bluetooth_16_DK_GREEN" filename="bluetooth_16_DK_GREEN.png" />
+    <bitmap id="icon_bluetooth_16_DK_RED" filename="bluetooth_16_DK_RED.png" />
+    <bitmap id="icon_bluetooth_16_GREEN" filename="bluetooth_16_GREEN.png" />
+    <bitmap id="icon_bluetooth_16_LT_GRAY" filename="bluetooth_16_LT_GRAY.png" />
+    <bitmap id="icon_bluetooth_16_ORANGE" filename="bluetooth_16_ORANGE.png" />
+    <bitmap id="icon_bluetooth_16_PINK" filename="bluetooth_16_PINK.png" />
+    <bitmap id="icon_bluetooth_16_PURPLE" filename="bluetooth_16_PURPLE.png" />
+    <bitmap id="icon_bluetooth_16_RED" filename="bluetooth_16_RED.png" />
+    <bitmap id="icon_bluetooth_16_WHITE" filename="bluetooth_16_WHITE.png" />
+    <bitmap id="icon_bluetooth_16_YELLOW" filename="bluetooth_16_YELLOW.png" />
+    
+    <bitmap id="icon_bell_16_BLACK" filename="bell_16_BLACK.png" />
+    <bitmap id="icon_bell_16_BLUE" filename="bell_16_BLUE.png" />
+    <bitmap id="icon_bell_16_DK_BLUE" filename="bell_16_DK_BLUE.png" />
+    <bitmap id="icon_bell_16_DK_GRAY" filename="bell_16_DK_GRAY.png" />
+    <bitmap id="icon_bell_16_DK_GREEN" filename="bell_16_DK_GREEN.png" />
+    <bitmap id="icon_bell_16_DK_RED" filename="bell_16_DK_RED.png" />
+    <bitmap id="icon_bell_16_GREEN" filename="bell_16_GREEN.png" />
+    <bitmap id="icon_bell_16_LT_GRAY" filename="bell_16_LT_GRAY.png" />
+    <bitmap id="icon_bell_16_ORANGE" filename="bell_16_ORANGE.png" />
+    <bitmap id="icon_bell_16_PINK" filename="bell_16_PINK.png" />
+    <bitmap id="icon_bell_16_PURPLE" filename="bell_16_PURPLE.png" />
+    <bitmap id="icon_bell_16_RED" filename="bell_16_RED.png" />
+    <bitmap id="icon_bell_16_WHITE" filename="bell_16_WHITE.png" />
+    <bitmap id="icon_bell_16_YELLOW" filename="bell_16_YELLOW.png" />
+    
+    <bitmap id="icon_enveloppe_16_BLACK" filename="enveloppe_16_BLACK.png" />
+    <bitmap id="icon_enveloppe_16_BLUE" filename="enveloppe_16_BLUE.png" />
+    <bitmap id="icon_enveloppe_16_DK_BLUE" filename="enveloppe_16_DK_BLUE.png" />
+    <bitmap id="icon_enveloppe_16_DK_GRAY" filename="enveloppe_16_DK_GRAY.png" />
+    <bitmap id="icon_enveloppe_16_DK_GREEN" filename="enveloppe_16_DK_GREEN.png" />
+    <bitmap id="icon_enveloppe_16_DK_RED" filename="enveloppe_16_DK_RED.png" />
+    <bitmap id="icon_enveloppe_16_GREEN" filename="enveloppe_16_GREEN.png" />
+    <bitmap id="icon_enveloppe_16_LT_GRAY" filename="enveloppe_16_LT_GRAY.png" />
+    <bitmap id="icon_enveloppe_16_ORANGE" filename="enveloppe_16_ORANGE.png" />
+    <bitmap id="icon_enveloppe_16_PINK" filename="enveloppe_16_PINK.png" />
+    <bitmap id="icon_enveloppe_16_PURPLE" filename="enveloppe_16_PURPLE.png" />
+    <bitmap id="icon_enveloppe_16_RED" filename="enveloppe_16_RED.png" />
+    <bitmap id="icon_enveloppe_16_WHITE" filename="enveloppe_16_WHITE.png" />
+    <bitmap id="icon_enveloppe_16_YELLOW" filename="enveloppe_16_YELLOW.png" />
+    
+    <bitmap id="icon_heart_16_BLACK" filename="heart_16_BLACK.png" />
+    <bitmap id="icon_heart_16_BLUE" filename="heart_16_BLUE.png" />
+    <bitmap id="icon_heart_16_DK_BLUE" filename="heart_16_DK_BLUE.png" />
+    <bitmap id="icon_heart_16_DK_GRAY" filename="heart_16_DK_GRAY.png" />
+    <bitmap id="icon_heart_16_DK_GREEN" filename="heart_16_DK_GREEN.png" />
+    <bitmap id="icon_heart_16_DK_RED" filename="heart_16_DK_RED.png" />
+    <bitmap id="icon_heart_16_GREEN" filename="heart_16_GREEN.png" />
+    <bitmap id="icon_heart_16_LT_GRAY" filename="heart_16_LT_GRAY.png" />
+    <bitmap id="icon_heart_16_ORANGE" filename="heart_16_ORANGE.png" />
+    <bitmap id="icon_heart_16_PINK" filename="heart_16_PINK.png" />
+    <bitmap id="icon_heart_16_PURPLE" filename="heart_16_PURPLE.png" />
+    <bitmap id="icon_heart_16_RED" filename="heart_16_RED.png" />
+    <bitmap id="icon_heart_16_WHITE" filename="heart_16_WHITE.png" />
+    <bitmap id="icon_heart_16_YELLOW" filename="heart_16_YELLOW.png" />
+    
+    <bitmap id="icon_runner_16_BLACK" filename="runner_16_BLACK.png" />
+    <bitmap id="icon_runner_16_BLUE" filename="runner_16_BLUE.png" />
+    <bitmap id="icon_runner_16_DK_BLUE" filename="runner_16_DK_BLUE.png" />
+    <bitmap id="icon_runner_16_DK_GRAY" filename="runner_16_DK_GRAY.png" />
+    <bitmap id="icon_runner_16_DK_GREEN" filename="runner_16_DK_GREEN.png" />
+    <bitmap id="icon_runner_16_DK_RED" filename="runner_16_DK_RED.png" />
+    <bitmap id="icon_runner_16_GREEN" filename="runner_16_GREEN.png" />
+    <bitmap id="icon_runner_16_LT_GRAY" filename="runner_16_LT_GRAY.png" />
+    <bitmap id="icon_runner_16_ORANGE" filename="runner_16_ORANGE.png" />
+    <bitmap id="icon_runner_16_PINK" filename="runner_16_PINK.png" />
+    <bitmap id="icon_runner_16_PURPLE" filename="runner_16_PURPLE.png" />
+    <bitmap id="icon_runner_16_RED" filename="runner_16_RED.png" />
+    <bitmap id="icon_runner_16_WHITE" filename="runner_16_WHITE.png" />
+    <bitmap id="icon_runner_16_YELLOW" filename="runner_16_YELLOW.png" />
     
 </drawables>

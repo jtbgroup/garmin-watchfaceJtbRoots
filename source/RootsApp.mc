@@ -1,11 +1,12 @@
 using Toybox.Application;
 
-class WatchfaceJtbRootsApp extends Application.AppBase {
+class RootsApp extends Application.AppBase {
 
 	var view;
 	
     function initialize() {
         AppBase.initialize();
+        PropertiesHelper.loadProperties();
     }
 
     // onStart() is called on application start up
@@ -18,12 +19,13 @@ class WatchfaceJtbRootsApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() {
-    	view =  new WatchfaceRootsJtbView();
+    	view =  new RootsJtbView();
         return [ view ];
     }
 	
 	function onSettingsChanged(){
-		view.loadProperties();
+		PropertiesHelper.loadProperties();
+		view.reloadBasics();
 	}
 
 }

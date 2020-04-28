@@ -5,6 +5,7 @@
    	<string id="propertyColorClockHour">Color for clock Hours</string>
     <string id="propertyColorClockMinute">Color for clock Minutes</string>
     <string id="propertyColorBackground">Background color</string>
+    <string id="propertyColorForeground">Foreground color</string>
     <string id="propertyColorMode">Color Mode</string>
 	<string id="standard">Standard</string>
 	<string id="disco">Flashing Disco</string>
@@ -38,6 +39,11 @@
 	<string id="propertyShowHr">Show heart rate</string>
 	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping</string>
 	
+	<string id="propertyIconColorBluetooth">Color bluetooth connection icon</string>
+	<string id="propertyIconColorHeart">Color heart icon</string>
+	<string id="propertyIconColorAlarm">Color alarm icon</string>
+	<string id="propertyIconColorRunner">Color runner icon</string>
+	<string id="propertyIconColorNotification">Color notification icon</string>
 	
 	
 </strings>
