@@ -4,15 +4,15 @@
 	<property id="PROP_COLOR_FOREGROUND" type="number">0</property>
 	<property id="PROP_COLOR_CLOCK_HOUR" type="number">0</property> 
 	<property id="PROP_COLOR_CLOCK_MIN" type="number">4</property> 
-	<property id="PROP_ICON_COLOR_RUNNER" type="number">0</property> 
-	<property id="PROP_ICON_COLOR_HEART" type="number">4</property> 
-	<property id="PROP_ICON_COLOR_NOTIFICATION" type="number">0</property> 
-	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">11</property> 
+	<property id="PROP_COLOR_ICON_BLUETOOTH" type="number">3</property> 
 	<property id="PROP_ICON_COLOR_ALARM" type="number">7</property> 
+	<property id="PROP_ICON_COLOR_NOTIFICATION" type="number">0</property> 
+	<property id="PROP_ICON_COLOR_HEART" type="number">4</property> 
+	<property id="PROP_ICON_COLOR_RUNNER" type="number">0</property> 
+	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">11</property> 
 	<property id="PROP_DATE_FORMAT" type="number">0</property> 
 	<!--property id="PROP_HOUR_FORMAT" type="number">1</property -->
 	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
 	<property id="PROP_SHOW_HR" type="boolean">true</property>
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">true</property>
-	<property id="PROP_COLOR_ICON_BLUETOOTH" type="number">3</property> 
 </properties> 

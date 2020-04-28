@@ -39,11 +39,11 @@
 	<string id="propertyShowHr">Show heart rate</string>
 	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping</string>
 	
-	<string id="propertyIconColorBluetooth">Color bluetooth connection icon</string>
-	<string id="propertyIconColorHeart">Color heart icon</string>
-	<string id="propertyIconColorAlarm">Color alarm icon</string>
-	<string id="propertyIconColorRunner">Color runner icon</string>
-	<string id="propertyIconColorNotification">Color notification icon</string>
+	<string id="propertyIconColorBluetooth">Color for the bluetooth connection icon</string>
+	<string id="propertyIconColorHeart">Color for the heart rate icon</string>
+	<string id="propertyIconColorAlarm">Color for the alarm icon</string>
+	<string id="propertyIconColorRunner">Color for the steps icon</string>
+	<string id="propertyIconColorNotification">Color for the notification icon</string>
 	
 	
 </strings>
