@@ -45,7 +45,6 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var customFont, microFont = null;
 	hidden var colorBackground, colorHour, colorMinute, colorFontBasic;
 	hidden var iconHeart, iconBT, iconAlarm, iconNotification, iconRunner = null;
-	hidden var bluetoothIcon;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -66,16 +65,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasicIcons();		
 		reloadBasicColors();
 		computeCoordinates(dc);
-		
-		bluetoothIcon = new BluetoothIcon({
-			:identifier=>"BTI",
-			:locX=>co_IconBT_x,
-			:locY=>co_IconBT_y,
-			:width=>ICON_BT_WIDTH,
-			:height=>ICON_BT_HEIGHT,
-			:fgc=>Ph.getValue(Ph.PROP_ICON_COLOR_BLUETOOTH),
-			:bgc=>Ph.getValue(Ph.PROP_COLOR_CLOCK_HOUR)		
-		});
     }
     
     function computeCoordinates(dc){
@@ -277,7 +266,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		var notif = System.getDeviceSettings().notificationCount;
 		if(notif>0){
 		    dc.drawBitmap(co_IconNotif_x, co_IconNotif_y , iconNotification);
-		    //x = 35 + 25 (enveloppe width) + 4 (gap)
 			dc.drawText(co_IconNotif_x+ICON_NOTIFICATION_WIDTH+ICON_PADDING, co_IconNotif_y-ICON_PADDING, FONT_SMALL, notif.toString(),Gfx.TEXT_JUSTIFY_LEFT);	    	
 		}
     }
@@ -293,7 +281,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		
 		if(System.getDeviceSettings().phoneConnected){
 		    dc.drawBitmap(co_IconBT_x, co_IconBT_y , iconBT);	
-			//bluetoothIcon.draw(dc);
 		}
 	    
 	    if(System.getDeviceSettings().alarmCount >= 1){
