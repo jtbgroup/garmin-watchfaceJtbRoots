@@ -6,6 +6,9 @@ using Toybox.Application;
 using PropertiesHelper as Ph;
 using ColorHelper as Ch;
 
+/**
+ This Helper class is used to manage icons
+*/
 module IconHelper {
 	var runner = {
 		Ch.BLACK=>Rez.Drawables.icon_runner_16_BLACK,
