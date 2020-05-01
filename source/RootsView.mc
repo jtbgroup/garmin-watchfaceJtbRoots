@@ -4,9 +4,8 @@ using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
 using Toybox.ActivityMonitor as Mon;
-using PropertiesHelper as Ph;
-using ColorHelper as Ch;
-using IconHelper as Ih;
+using RootsConstants as Cst;
+using JTBHelper as Helper;
 
 public class RootsJtbView extends Ui.WatchFace {
 
@@ -45,6 +44,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var customFont, microFont = null;
 	hidden var colorBackground, colorHour, colorMinute, colorFontBasic;
 	hidden var iconHeart, iconBT, iconAlarm, iconNotification, iconRunner = null;
+	hidden var showSeconds, showHR, showNotification, dateFormat, colorMode;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -58,12 +58,17 @@ public class RootsJtbView extends Ui.WatchFace {
 	//lines
 	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	
+	
+	
+	function initialize (){
+		Ui.WatchFace.initialize();
+	}
+	
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
 		microFont = Ui.loadResource(Rez.Fonts.microFont);
 		
-		reloadBasicIcons();		
-		reloadBasicColors();
+		reloadBasics();
 		computeCoordinates(dc);
     }
     
@@ -130,23 +135,23 @@ public class RootsJtbView extends Ui.WatchFace {
        	displayBtAndAlarm(dc);
         displayDate(dc);
 		
-		if(!sleeping && Ph.getValue(Ph.PROP_SHOW_HR)){
+		if(!sleeping && showHR){
 		   displayHr(dc);
         }
         
       	displaySteps(dc);
       	
-      	if(Ph.getValue(Ph.PROP_SHOW_NOTIFICATION)){
+      	if(showNotification){
         	displayNotifications(dc);
         }
         
         // This is useful for Ui debugging
-        if(showLines){
+       if(showLines){
 		    drawGridLines(dc);
 	    }
     }
     
-    function drawGridLines(dc){
+    (:debug) function drawGridLines(dc){
 		dc.setColor(colorFontBasic, colorBackground);
         dc.drawLine(0, Y_L1, co_Screen_Width, Y_L1);
         dc.drawLine(0, Y_L2, co_Screen_Width, Y_L2);
@@ -156,10 +161,9 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function onPartialUpdate(dc){
-    	var showHr = Ph.getValue(Ph.PROP_SHOW_HR);
-    	var keepDisp = Ph.getValue(Ph.PROP_HR_KEEP_DISPLAYED);
+    	var keepDisp = Helper.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
     
-  		if(sleeping && showHr && keepDisp){
+  		if(sleeping && showHR && keepDisp){
   			var clipWidth = ICON_HEARTH_WIDTH + ICON_PADDING+dc.getTextWidthInPixels("000", FONT_SMALL);
   			var clipHeight = ICON_HEARTH_HEIGHT;
   			var clipX = co_Screen_Width/2-clipWidth/2;
@@ -181,14 +185,23 @@ public class RootsJtbView extends Ui.WatchFace {
  	function reloadBasics(){
     	reloadBasicColors();
     	reloadBasicIcons();
+    	reloadOtherBasics();
+    }
+    
+    function reloadOtherBasics(){
+    	showSeconds = Helper.getPropertyValue(Cst.PROP_SHOW_SECONDS);
+    	showHR = Helper.getPropertyValue(Cst.PROP_SHOW_HR);
+    	showNotification = Helper.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
+    	colorMode = Helper.getPropertyValue(Cst.PROP_MODE_COLOR);
+    	dateFormat = Helper.getPropertyValue(Cst.PROP_DATE_FORMAT);
     }
     
     function reloadBasicIcons(){
-    	iconHeart = Ui.loadResource( Ih.getHeartIcon() );
-		iconBT = Ui.loadResource( Ih.getBluetoothIcon() );
-		iconAlarm = Ui.loadResource( Ih.getAlarmIcon() );
-		iconNotification = Ui.loadResource( Ih.getNotificationIcon() );
-		iconRunner = Ui.loadResource( Ih.getRunnerIcon() );
+    	iconHeart = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_HEART, Cst.PROP_ICON_COLOR_HEART) );
+		iconBT = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_BLUETOOTH, Cst.PROP_ICON_COLOR_BLUETOOTH) );
+		iconAlarm = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_ALARM, Cst.PROP_ICON_COLOR_ALARM) );
+		iconNotification = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_NOTIFICATION, Cst.PROP_ICON_COLOR_NOTIFICATION) );
+		iconRunner = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_RUNNER, Cst.PROP_ICON_COLOR_RUNNER) );
     }
 /**
 	------------------------
@@ -196,22 +209,22 @@ public class RootsJtbView extends Ui.WatchFace {
 	------------------------
 */
     function reloadBasicColors(){
-    	colorBackground = Ph.getValue(Ph.PROP_COLOR_BACKGROUND);
-	    colorHour =  Ph.getValue(Ph.PROP_COLOR_CLOCK_HOUR);
-    	colorMinute = Ph.getValue(Ph.PROP_COLOR_CLOCK_MIN);
-    	colorFontBasic=Ph.getValue(Ph.PROP_COLOR_FOREGROUND);
+    	colorBackground =  Helper.getPropertyValue(Cst.PROP_COLOR_BACKGROUND);
+	    colorHour =  Helper.getPropertyValue(Cst.PROP_COLOR_CLOCK_HOUR);
+    	colorMinute = Helper.getPropertyValue(Cst.PROP_COLOR_CLOCK_MIN);
+    	colorFontBasic = Helper.getPropertyValue(Cst.PROP_COLOR_FOREGROUND);
     }
     
 	function loadColorModeColors(){
-       	if(Ph.getValue(Ph.PROP_MODE_COLOR) == Ph.OPTION_MODE_COLOR_DISCO){
-    		var color = Ch.getRandomColor(colorBackground);
+       	if(colorMode == Cst.OPTION_MODE_COLOR_DISCO){
+    		var color = Helper.getRandomColor(colorBackground);
     		colorHour = color;
     		colorMinute = color;
-    	}else if(Ph.getValue(Ph.PROP_MODE_COLOR) == Ph.OPTION_MODE_COLOR_LUCY){
-    		var color = Ch.getRandomColor(null);
+    	}else if(colorMode == Cst.OPTION_MODE_COLOR_LUCY){
+    		var color = Helper.getRandomColor(null);
     		colorBackground = color;
-    		colorHour = Ch.getRandomColor(color);
-    		colorMinute = Ch.getRandomColor(color);
+    		colorHour = Helper.getRandomColor(color);
+    		colorMinute = Helper.getRandomColor(color);
     	}
     }
     
@@ -350,7 +363,7 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(dc.getWidth()/2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
         
         //draw sec
-        if(!sleeping && Ph.getValue(Ph.PROP_SHOW_SECONDS)){
+        if(!sleeping && showSeconds){
 			dc.drawText(co_Screen_Width-40,co_Seconds_y, FONT_SECONDS, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT|Gfx.TEXT_JUSTIFY_VCENTER);  
 		}
     }
@@ -412,13 +425,14 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(co_Screen_Width - 35,co_Date_y, FONT_DATE, dateStr, Gfx.TEXT_JUSTIFY_RIGHT);
     }
 
+//TODO: THis must be reviewed to gain performance and not querying the properties every refresh
 	function formatDate(){
 		var now = Time.now();
 		
-		if (Ph.getValue(Ph.PROP_DATE_FORMAT) == Ph.OPTION_DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM){
+		if (dateFormat == Cst.OPTION_DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	       return Lang.format("$1$/$2$/$3$", [info.day.format("%02d"), info.month.format("%02d"), info.year]);
-		}else if (Ph.getValue(Ph.PROP_DATE_FORMAT) == Ph.OPTION_DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM){
+		}else if (dateFormat == Cst.OPTION_DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	        return Lang.format("$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year]);
 		}		
