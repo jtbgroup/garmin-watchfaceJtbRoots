@@ -44,7 +44,10 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var customFont, microFont = null;
 	hidden var colorBackground, colorHour, colorMinute, colorForeground;
 	hidden var iconHeart, iconBT, iconAlarm, iconNotification, iconRunner = null;
+<<<<<<< HEAD
 	hidden var showSeconds, showHR, showNotification, dateFormat, colorMode;
+=======
+>>>>>>> refs/heads/1.5.0-branch
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;

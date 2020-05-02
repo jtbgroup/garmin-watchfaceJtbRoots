@@ -31,10 +31,6 @@
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
-	<!--string id="propertyHourFormat">Format of the date</string-->
-	<!--string id="hour_format_12">12 hours</string-->
-	<!--string id="hour_format_24">24 hours</string-->
-	
 	<string id="propertyShowSeconds">Show seconds</string>
 	<string id="propertyShowNotification">Show notifications</string>
 	<string id="propertyShowHr">Show heart rate</string>
@@ -45,6 +41,5 @@
 	<string id="propertyIconColorAlarm">Color for the alarm icon</string>
 	<string id="propertyIconColorRunner">Color for the steps icon</string>
 	<string id="propertyIconColorNotification">Color for the notification icon</string>
-	
 	
 </strings>
