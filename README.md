@@ -4,3 +4,4 @@ More information can be found [here](https://apps.garmin.com/en-US/apps/c69e79c4
 
 ### 1.6.0
 * Some refactoring
+* new launcher icon
