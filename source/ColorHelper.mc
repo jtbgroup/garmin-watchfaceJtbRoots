@@ -1,8 +1,6 @@
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
-using Toybox.Lang as Lang;
 using Toybox.Math as Mt;
-using Toybox.Application;
 
 module JTBHelper {
 
@@ -29,13 +27,28 @@ module JTBHelper {
 	    	return COLORS_D.get(colorId);
 	    }
 	
-		public function getRandomColor(colorToAvoid){
-		    	var r = Mt.rand() % COLORS_D.size();
-		    	var color = COLORS_D.get(r);
-		    	if(null != colorToAvoid && colorToAvoid == color){
-		    		return getRandomColor(colorToAvoid);
-		    	}
-		    	return color;
+		/**
+		* @param colorToAvoid is an array of colors that can't be returned as random color.
+		*/
+		public function getRandomColor(colorsToAvoid){
+		    return getRandom(colorsToAvoid, false);
+		}
+		
+		public function getRandomColorId(colorsToAvoid){
+		    return getRandom(colorsToAvoid, true);
+		}
+		
+		private function getRandom(colorsToAvoid, returnId){
+	    	var r = Mt.rand() % COLORS_D.size();
+			var color = COLORS_D.get(r);
+	    	if(null != colorsToAvoid && colorsToAvoid.indexOf(color) > -1){
+	    		return getRandom(colorsToAvoid, returnId);
+	    	}
+	    	
+	    	if(returnId){
+	    		return r;
+	    	}
+	    	return color;
 		}
 	}
 }

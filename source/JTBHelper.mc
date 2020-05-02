@@ -25,8 +25,12 @@ module JTBHelper {
 		hidden static var colorHelper = new ColorHelper();
 		hidden static var iconHelper = new IconHelper();
 		
-		function getRandomColor(colorToAvoid){
-			return colorHelper.getRandomColor(colorToAvoid);
+		function getRandomColor(colorsToAvoid){
+			return colorHelper.getRandomColor(colorsToAvoid);
+		}
+		
+		function getRandomColorId(colorsToAvoid){
+			return colorHelper.getRandomColorId(colorsToAvoid);
 		}
 		
 		function getColorById(id){
@@ -48,6 +52,10 @@ module JTBHelper {
 		function getColoredIcon(iconDictId, colorPropertyKey){
 			return iconHelper.getColoredIcon(iconDictId, colorPropertyKey);
 		}
+		
+		function getRandomColoredIcon(iconDictId, colorsToAvoid){
+			return iconHelper.getRandomColoredIcon(iconDictId, colorsToAvoid);
+		}
 	}
 	
 	
@@ -63,9 +71,23 @@ module JTBHelper {
 	function getColoredIcon(iconDictId, colorPropertyKey){
 		return helper.getColoredIcon(iconDictId, colorPropertyKey);
 	}
-	 	
-	function getRandomColor(colorToAvoid){
-		return helper.getRandomColor(colorToAvoid);
+	
+	function getRandomColoredIcon(iconDictId, colorsToAvoid){
+		return helper.getRandomColoredIcon(iconDictId, colorsToAvoid);
+	}
+	
+	/**
+	* @param colorToAvoid is an array of colors that can't be returned as random color.
+	*/
+	function getRandomColor(colorsToAvoid){
+		return helper.getRandomColor(colorsToAvoid);
+	}
+	
+	/**
+	* this will return one of the constant colors of the module
+	*/
+	function getRandomColorId(colorsToAvoid){
+		return helper.getRandomColorId(colorsToAvoid);
 	}
 	
 	function getPropertyValue(key){
