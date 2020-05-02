@@ -1,5 +1,5 @@
 <drawables>
-    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+     <bitmap id="LauncherIcon" filename="roots.png" />
    
     <bitmap id="icon_bluetooth_16_BLUE" filename="bluetooth_16_BLUE.png" />
     <bitmap id="icon_bell_16_BLACK" filename="bell_16_BLACK.png" />

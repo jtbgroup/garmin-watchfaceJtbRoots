@@ -4,9 +4,8 @@ using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
 using Toybox.ActivityMonitor as Mon;
-using PropertiesHelper as Ph;
-using ColorHelper as Ch;
-using IconHelper as Ih;
+using RootsConstants as Cst;
+using JTBHelper as Helper;
 
 public class RootsJtbView extends Ui.WatchFace {
 
@@ -43,8 +42,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	//IINSTANCE VARIABLES 
 	//general
 	hidden var customFont, microFont = null;
-	hidden var colorBackground, colorHour, colorMinute, colorFontBasic;
+	hidden var colorBackground, colorHour, colorMinute, colorForeground;
 	hidden var iconHeart, iconBT, iconAlarm, iconNotification, iconRunner = null;
+	hidden var showSeconds, showHR, showNotification, dateFormat, colorMode;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -58,12 +58,17 @@ public class RootsJtbView extends Ui.WatchFace {
 	//lines
 	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	
+	
+	
+	function initialize (){
+		Ui.WatchFace.initialize();
+	}
+	
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
 		microFont = Ui.loadResource(Rez.Fonts.microFont);
 		
-		reloadBasicIcons();		
-		reloadBasicColors();
+		reloadBasics();
 		computeCoordinates(dc);
     }
     
@@ -122,7 +127,7 @@ public class RootsJtbView extends Ui.WatchFace {
     	loadColorModeColors();
     
     	dc.clearClip();
-    	dc.setColor(colorFontBasic, colorBackground);
+    	dc.setColor(colorForeground, colorBackground);
     	dc.clear();
     	
         displayBattery(dc);
@@ -130,24 +135,24 @@ public class RootsJtbView extends Ui.WatchFace {
        	displayBtAndAlarm(dc);
         displayDate(dc);
 		
-		if(!sleeping && Ph.getValue(Ph.PROP_SHOW_HR)){
+		if(!sleeping && showHR){
 		   displayHr(dc);
         }
         
       	displaySteps(dc);
       	
-      	if(Ph.getValue(Ph.PROP_SHOW_NOTIFICATION)){
+      	if(showNotification){
         	displayNotifications(dc);
         }
         
         // This is useful for Ui debugging
-        if(showLines){
+       if(showLines){
 		    drawGridLines(dc);
 	    }
     }
     
-    function drawGridLines(dc){
-		dc.setColor(colorFontBasic, colorBackground);
+    (:debug) function drawGridLines(dc){
+		dc.setColor(colorForeground, colorBackground);
         dc.drawLine(0, Y_L1, co_Screen_Width, Y_L1);
         dc.drawLine(0, Y_L2, co_Screen_Width, Y_L2);
         dc.drawLine(0, Y_L3, co_Screen_Width, Y_L3);
@@ -156,10 +161,9 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function onPartialUpdate(dc){
-    	var showHr = Ph.getValue(Ph.PROP_SHOW_HR);
-    	var keepDisp = Ph.getValue(Ph.PROP_HR_KEEP_DISPLAYED);
+    	var keepDisp = Helper.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
     
-  		if(sleeping && showHr && keepDisp){
+  		if(sleeping && showHR && keepDisp){
   			var clipWidth = ICON_HEARTH_WIDTH + ICON_PADDING+dc.getTextWidthInPixels("000", FONT_SMALL);
   			var clipHeight = ICON_HEARTH_HEIGHT;
   			var clipX = co_Screen_Width/2-clipWidth/2;
@@ -172,7 +176,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			var hrText = retrieveHeartrateText();	  		
 	  		var size = dc.getTextWidthInPixels(hrText.toString(), FONT_SMALL) + iconWidthAndPadding;
 			var start = co_Screen_Width/ 2.0 - size/2.0;
-	  		dc.setColor(colorFontBasic, colorBackground);
+	  		dc.setColor(colorForeground, colorBackground);
 		    dc.drawBitmap(start, co_HR_y, iconHeart);
 			dc.drawText(start+iconWidthAndPadding, co_HR_y-ICON_PADDING, FONT_SMALL, hrText, Gfx.TEXT_JUSTIFY_LEFT);
     	}
@@ -181,14 +185,23 @@ public class RootsJtbView extends Ui.WatchFace {
  	function reloadBasics(){
     	reloadBasicColors();
     	reloadBasicIcons();
+    	reloadOtherBasics();
+    }
+    
+    function reloadOtherBasics(){
+    	showSeconds = Helper.getPropertyValue(Cst.PROP_SHOW_SECONDS);
+    	showHR = Helper.getPropertyValue(Cst.PROP_SHOW_HR);
+    	showNotification = Helper.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
+    	colorMode = Helper.getPropertyValue(Cst.PROP_MODE_COLOR);
+    	dateFormat = Helper.getPropertyValue(Cst.PROP_DATE_FORMAT);
     }
     
     function reloadBasicIcons(){
-    	iconHeart = Ui.loadResource( Ih.getHeartIcon() );
-		iconBT = Ui.loadResource( Ih.getBluetoothIcon() );
-		iconAlarm = Ui.loadResource( Ih.getAlarmIcon() );
-		iconNotification = Ui.loadResource( Ih.getNotificationIcon() );
-		iconRunner = Ui.loadResource( Ih.getRunnerIcon() );
+    	iconHeart = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_HEART, Cst.PROP_ICON_COLOR_HEART) );
+		iconBT = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_BLUETOOTH, Cst.PROP_ICON_COLOR_BLUETOOTH) );
+		iconAlarm = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_ALARM, Cst.PROP_ICON_COLOR_ALARM) );
+		iconNotification = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_NOTIFICATION, Cst.PROP_ICON_COLOR_NOTIFICATION) );
+		iconRunner = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_RUNNER, Cst.PROP_ICON_COLOR_RUNNER) );
     }
 /**
 	------------------------
@@ -196,22 +209,29 @@ public class RootsJtbView extends Ui.WatchFace {
 	------------------------
 */
     function reloadBasicColors(){
-    	colorBackground = Ph.getValue(Ph.PROP_COLOR_BACKGROUND);
-	    colorHour =  Ph.getValue(Ph.PROP_COLOR_CLOCK_HOUR);
-    	colorMinute = Ph.getValue(Ph.PROP_COLOR_CLOCK_MIN);
-    	colorFontBasic=Ph.getValue(Ph.PROP_COLOR_FOREGROUND);
+    	colorBackground =  Helper.getPropertyValue(Cst.PROP_COLOR_BACKGROUND);
+	    colorHour =  Helper.getPropertyValue(Cst.PROP_COLOR_CLOCK_HOUR);
+    	colorMinute = Helper.getPropertyValue(Cst.PROP_COLOR_CLOCK_MIN);
+    	colorForeground = Helper.getPropertyValue(Cst.PROP_COLOR_FOREGROUND);
     }
     
 	function loadColorModeColors(){
-       	if(Ph.getValue(Ph.PROP_MODE_COLOR) == Ph.OPTION_MODE_COLOR_DISCO){
-    		var color = Ch.getRandomColor(colorBackground);
+       	if(colorMode == Cst.OPTION_MODE_COLOR_DISCO){
+    		var color = Helper.getRandomColor([colorBackground]);
     		colorHour = color;
     		colorMinute = color;
-    	}else if(Ph.getValue(Ph.PROP_MODE_COLOR) == Ph.OPTION_MODE_COLOR_LUCY){
-    		var color = Ch.getRandomColor(null);
+    	}else if(colorMode == Cst.OPTION_MODE_COLOR_LUCY){
+    		var color = Helper.getRandomColor([colorBackground]);
     		colorBackground = color;
-    		colorHour = Ch.getRandomColor(color);
-    		colorMinute = Ch.getRandomColor(color);
+    		colorForeground = Helper.getRandomColor([colorBackground]);
+    		colorHour = Helper.getRandomColor([colorBackground]);
+    		colorMinute = Helper.getRandomColor([colorBackground, colorMinute]);
+    		
+    		iconHeart = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_HEART, [colorBackground]) );
+			iconBT = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_BLUETOOTH, [colorBackground]) );
+			iconAlarm = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_ALARM, [colorBackground]) );
+			iconNotification = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_NOTIFICATION, [colorBackground]) );
+			iconRunner = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_RUNNER,  [colorBackground]) );
     	}
     }
     
@@ -251,7 +271,7 @@ public class RootsJtbView extends Ui.WatchFace {
    		var iconWidthAndPadding = ICON_RUNNER_WIDTH + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(stepsCount.toString(), FONT_SMALL) + iconWidthAndPadding;
 		var start = co_Screen_Width/ 2.0 - size/2.0;
-		dc.setColor(colorFontBasic,COLOR_TRANSPARENT);
+		dc.setColor(colorForeground,COLOR_TRANSPARENT);
 		dc.drawBitmap(start,co_StepsCount_y, iconRunner );
 	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y-ICON_PADDING,  FONT_SMALL, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT);
 	}
@@ -263,7 +283,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	------------------------
 */
     function displayNotifications(dc){
-    	dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
 		var notif = System.getDeviceSettings().notificationCount;
 		if(notif>0){
 		    dc.drawBitmap(co_IconNotif_x, co_IconNotif_y , iconNotification);
@@ -277,7 +297,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	------------------------
 */
 	function displayBtAndAlarm(dc){
-		dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+		dc.setColor(colorForeground, COLOR_TRANSPARENT);
 		
 		if(System.getDeviceSettings().phoneConnected){
 		    dc.drawBitmap(co_IconBT_x, co_IconBT_y , iconBT);	
@@ -300,7 +320,7 @@ public class RootsJtbView extends Ui.WatchFace {
    		var size = dc.getTextWidthInPixels(hrText.toString(), FONT_SMALL) + iconWidthAndPadding;
 		var start = co_Screen_Width/ 2.0 - size/2.0;
 
-    	dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
 		dc.drawBitmap(start, co_HR_y, iconHeart);
 		dc.drawText(start+iconWidthAndPadding, co_HR_y-ICON_PADDING, FONT_SMALL, hrText ,Gfx.TEXT_JUSTIFY_LEFT);
 	}
@@ -350,7 +370,7 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(dc.getWidth()/2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
         
         //draw sec
-        if(!sleeping && Ph.getValue(Ph.PROP_SHOW_SECONDS)){
+        if(!sleeping && showSeconds){
 			dc.drawText(co_Screen_Width-40,co_Seconds_y, FONT_SECONDS, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT|Gfx.TEXT_JUSTIFY_VCENTER);  
 		}
     }
@@ -367,12 +387,12 @@ public class RootsJtbView extends Ui.WatchFace {
 	
     function displayBatteryPercent(dc){
 	   	var battery = Sys.getSystemStats().battery;
-		dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+		dc.setColor(colorForeground, COLOR_TRANSPARENT);
 	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, FONT_SMALL, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT);
     }
     
     function displayBatteryIcon(dc, lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
-    	dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
         var battery = Sys.getSystemStats().battery;
       	
       	var fillColor = fullBatteryColor;
@@ -383,14 +403,14 @@ public class RootsJtbView extends Ui.WatchFace {
         	fillColor = mediumBatteryColor;
         }
 
-        dc.setColor(colorFontBasic,COLOR_TRANSPARENT);
+        dc.setColor(colorForeground,COLOR_TRANSPARENT);
         dc.drawRectangle(co_Battery_x, co_Battery_y, BATTERY_WIDTH, BATTERY_HEIGHT);
-        dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, COLOR_TRANSPARENT);
         dc.drawLine(co_BatteryDop_x-1, co_BatteryDop_y+1, co_BatteryDop_x-1, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
-        dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, COLOR_TRANSPARENT);
         dc.drawRectangle(co_BatteryDop_x, co_BatteryDop_y, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
-        dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, COLOR_TRANSPARENT);
         dc.drawLine(co_BatteryDop_x, co_BatteryDop_y+1, co_BatteryDop_x, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
 		var fillBar = ((BATTERY_WIDTH -2 ) * battery / 100);
@@ -408,17 +428,18 @@ public class RootsJtbView extends Ui.WatchFace {
 */
 	function displayDate(dc){
         var dateStr = formatDate();
-        dc.setColor(colorFontBasic, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, COLOR_TRANSPARENT);
         dc.drawText(co_Screen_Width - 35,co_Date_y, FONT_DATE, dateStr, Gfx.TEXT_JUSTIFY_RIGHT);
     }
 
+//TODO: THis must be reviewed to gain performance and not querying the properties every refresh
 	function formatDate(){
 		var now = Time.now();
 		
-		if (Ph.getValue(Ph.PROP_DATE_FORMAT) == Ph.OPTION_DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM){
+		if (dateFormat == Cst.OPTION_DATE_FORMAT_DAYNUM_MONTHNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	       return Lang.format("$1$/$2$/$3$", [info.day.format("%02d"), info.month.format("%02d"), info.year]);
-		}else if (Ph.getValue(Ph.PROP_DATE_FORMAT) == Ph.OPTION_DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM){
+		}else if (dateFormat == Cst.OPTION_DATE_FORMAT_MONTH_NUM_DAYNUM_YEARNUM){
 			var info = Calendar.info(now, Time.FORMAT_SHORT);
 	        return Lang.format("$1$/$2$/$3$", [info.month.format("%02d"), info.day.format("%02d"), info.year]);
 		}		

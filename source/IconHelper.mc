@@ -90,6 +90,11 @@ module IconHelper {
 		Ch.WHITE=>Rez.Drawables.icon_bluetooth_16_WHITE,
 		Ch.YELLOW=>Rez.Drawables.icon_bluetooth_16_YELLOW
 	};
+module JTBHelper {
+	
+	class IconHelper {
+		
+		var rez = {};
 	
 	function getIcon(dictionary, key){
 		var colorKey = Ph.getValue(key);
