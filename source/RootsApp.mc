@@ -1,7 +1,6 @@
 using Toybox.Application;
 using Toybox.System as Sys;
 using RootsConstants as Cst;
-using JTBHelper as Helper;
 
 class RootsApp extends Application.AppBase {
 
@@ -9,7 +8,7 @@ class RootsApp extends Application.AppBase {
 	
     function initialize() {
         AppBase.initialize();
-        JTBHelper.loadColoredIconRez(Cst.iconsDictionary);
+        JTBUtils.loadColoredIconRez(Cst.iconsDictionary);
     }
 
     // onStart() is called on application start up

@@ -1,5 +1,5 @@
 using Toybox.Graphics as Gfx;
-using JTBHelper as Helper;
+using JTBUtils as Helper;
 
 module RootsConstants {
 

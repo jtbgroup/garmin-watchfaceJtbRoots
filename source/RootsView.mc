@@ -5,7 +5,7 @@ using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
 using Toybox.ActivityMonitor as Mon;
 using RootsConstants as Cst;
-using JTBHelper as Helper;
+using JTBUtils as Helper;
 
 public class RootsJtbView extends Ui.WatchFace {
 
