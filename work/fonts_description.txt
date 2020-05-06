@@ -1,0 +1,21 @@
+font_heart_16
+-------------
+* based on font webdings
+* in BMF : size = 26px + export as png
+* adapt .fnt to fit height 16 + adapt 'size' and 'lineHeight' to 16
+* in font.xml, filter the font to 'Y'
+
+font_notification_16
+--------------------
+* based on font webdings
+* in BMF : size = 26px + export as png
+* adapt .fnt to fit height 13 + adapt 'size' and 'lineHeight' to 13
+* in font.xml, filter the font to '('
+
+
+font_text_small
+--------------------
+* based on font Arial narow
+* in BMF : size = 20px + export as png
+* adapt .fnt to fit height 11 + adapt 'size' and 'lineHeight' to 11
+* in font.xml, filter the font to '0123456789%'
