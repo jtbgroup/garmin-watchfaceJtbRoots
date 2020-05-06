@@ -8,7 +8,6 @@ class RootsApp extends Application.AppBase {
 	
     function initialize() {
         AppBase.initialize();
-        JTBUtils.loadColoredIconRez(Cst.iconsDictionary);
     }
 
     // onStart() is called on application start up

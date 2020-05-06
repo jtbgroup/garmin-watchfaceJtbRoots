@@ -1,16 +1,8 @@
-font_heart_16
--------------
-* based on font webdings
-* in BMF : size = 26px + export as png
-* adapt .fnt to fit height 16 + adapt 'size' and 'lineHeight' to 16
-* in font.xml, filter the font to 'Y'
-
-font_notification_16
+font_icons
 --------------------
-* based on font webdings
-* in BMF : size = 26px + export as png
-* adapt .fnt to fit height 13 + adapt 'size' and 'lineHeight' to 13
-* in font.xml, filter the font to '('
+* based on font icomoon
+* in BMF : size = 16px + export as png
+* in font.xml, filter the font to '01234'
 
 
 font_text_small

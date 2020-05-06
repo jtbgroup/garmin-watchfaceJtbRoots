@@ -1,6 +1,5 @@
 <fonts>
 	<font id="customFont" filename="paranoid_150.fnt" filter="0123456789"/>
 	<font id="fontTextSmall" filename="font_text_small.fnt" filter="%0123456789"/>
-	<font id="fontIconHeart" filename="font_heart.fnt" filter="Y"/>
-	<font id="fontIconNotification" filename="font_notification.fnt" filter="("/>
+	<font id="fontIcons" filename="font_icons.fnt" filter="01234"/>
 </fonts>

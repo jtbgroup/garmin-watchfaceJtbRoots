@@ -10,7 +10,7 @@ using JTBUtils as Helper;
 public class RootsJtbView extends Ui.WatchFace {
 
 	//DEBUG
-	hidden var showLines = true;
+	hidden var showLines = false;
 	
 	//CONSTANTS	
 	hidden const COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
@@ -22,39 +22,32 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const COLOR_STEPSBAR_75=0xAA55FF;
     hidden const COLOR_STEPSBAR_100=0x00FF00;
 	hidden const LEFT_X = 35;
-	hidden const ICON_BT_WIDTH = 10;
-	hidden const ICON_BT_HEIGHT = 20;
 	hidden const ICON_PADDING = 3;
-	hidden const ICON_NOTIFICATION_WIDTH = 29;
-	hidden const ICON_HEARTH_WIDTH = 18;
-	hidden const ICON_HEARTH_HEIGHT = 16;
-	hidden const ICON_RUNNER_WIDTH = 11.0;
 	hidden const STEPSBAR_WIDTH = 80;
 	hidden const STEPSBAR_HEIGHT = 8;
-	hidden const BATTERY_WIDTH = 22;
-	hidden const BATTERY_HEIGHT = 10;
-	hidden const BATTERY_DOP_WIDTH = 2;
-	hidden const BATTERY_DOP_HEIGHT = 5;
-	hidden const ICON_CHAR_NOTIFICATION = "(";
-	hidden const ICON_CHAR_HEART = "Y";
+	hidden const ICON_FONT_CHAR_BLUETOOTH = "0";
+	hidden const ICON_FONT_CHAR_ALARM = "1";
+	hidden const ICON_FONT_CHAR_NOTIFICATION = "2";
+	hidden const ICON_FONT_CHAR_RUNNER = "3";
+	hidden const ICON_FONT_CHAR_HEART = "4";
 	
 	//IINSTANCE VARIABLES 
 	//general
-	hidden var customFont, fontTextSmall, fontTextMedium, fontIconHeart, fontIconNotification = null;
-	hidden var colorBackground, colorHour, colorMinute, colorForeground, colorIconNotification, colorIconHeart;
-	hidden var iconBT, iconAlarm, iconRunner = null;
+	hidden var customFont, fontTextSmall, fontTextMedium, fontIcons = null;
+	hidden var colorBackground, colorHour, colorMinute, colorForeground, colorIconNotification, colorIconHeart,colorIconBluetooth, colorIconRunner, colorIconAlarm;
+	hidden var icon_heart_width, icon_runner_width;
 	hidden var showSeconds, showHR, showNotification, dateFormat, colorMode;
 	hidden var sleeping=false;
 	hidden var batteryComponent;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
+	hidden var co_Battery_y;
 	hidden var co_Date_y, co_Clock_x, co_Clock_y, co_Seconds_y;
 	hidden var co_IconBT_x,co_IconBT_y;
 	hidden var co_IconAlarm_x, co_IconAlarm_y;
 	hidden var co_HR_y;
 	hidden var co_StepsBar_x,co_StepsBar_y, co_StepsCount_y;
 	hidden var co_IconNotif_x, co_IconNotif_y, co_IconNotifText_x;
-	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	//lines
 	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6,Y_LCLOCK_BOTTOM, Y_LCLOCK_TOP;
 	
@@ -64,10 +57,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
-		fontTextSmall = Ui.loadResource(Rez.Fonts.fontTextSmall);
+		fontTextSmall = Gfx.FONT_SYSTEM_XTINY;
 		fontTextMedium = Gfx.FONT_SYSTEM_SMALL;
-		fontIconHeart = Ui.loadResource(Rez.Fonts.fontIconHeart);
-		fontIconNotification = Ui.loadResource(Rez.Fonts.fontIconNotification);
+		fontIcons = Ui.loadResource(Rez.Fonts.fontIcons);
 		
 		reloadBasics();
 		computeCoordinates(dc);
@@ -78,6 +70,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:locY => co_Battery_y,
 			:fgc => colorForeground,
 			:dc => dc,
+			:font => fontTextSmall
 		});
     }
     
@@ -87,25 +80,20 @@ public class RootsJtbView extends Ui.WatchFace {
         co_Screen_Height = dc.getHeight();
         
 		Y_L1=15;
-		Y_L2=co_Screen_Height*0.15;
+		Y_L2=co_Screen_Height*0.20;
 		Y_L3=co_Screen_Height/2;
 		Y_L4=co_Screen_Height*0.78;
-		Y_L6=co_Screen_Height-38;
+		Y_L6=co_Screen_Height-30;
 		Y_LCLOCK_TOP=co_Screen_Height/2-dc.getFontHeight(customFont)/2;
 		Y_LCLOCK_BOTTOM=co_Screen_Height/2+dc.getFontHeight(customFont)/2;
 		
-		co_Battery_x = (co_Screen_Width/ 2)  - (BATTERY_WIDTH) - (BATTERY_DOP_WIDTH) - ICON_PADDING;
-    	co_Battery_y = Y_L1;
-    	co_BatteryDop_x = co_Battery_x + BATTERY_WIDTH;
-		co_BatteryDop_y = co_Battery_y + ((BATTERY_HEIGHT - BATTERY_DOP_HEIGHT) / 2);
+		co_Battery_y = Y_L1;
 		
-		co_Battery_text_x = (co_Screen_Width/ 2) + ICON_PADDING;
-		co_Battery_text_y = Y_L1 - 6;
-
     	co_IconBT_x = LEFT_X;
     	co_IconBT_y = Y_L2;
     	
-    	co_IconAlarm_x = LEFT_X + ICON_BT_WIDTH + ICON_PADDING;
+    	var icon_bt_width = dc.getTextWidthInPixels(ICON_FONT_CHAR_BLUETOOTH, fontIcons);
+    	co_IconAlarm_x = LEFT_X + icon_bt_width + ICON_PADDING;
     	co_IconAlarm_y = Y_L2;
 
     	co_Date_y = Y_LCLOCK_TOP - dc.getFontHeight(fontTextMedium) ;
@@ -114,15 +102,18 @@ public class RootsJtbView extends Ui.WatchFace {
     	co_Clock_y = Y_L3;
     	co_Seconds_y = Y_LCLOCK_BOTTOM;
     	
+    	var icon_notification_width = dc.getTextWidthInPixels(ICON_FONT_CHAR_NOTIFICATION, fontIcons);
     	co_IconNotif_x = LEFT_X;
     	co_IconNotif_y = Y_L4;
-    	co_IconNotifText_x = co_IconNotif_x + dc.getTextWidthInPixels(ICON_CHAR_NOTIFICATION, fontIconNotification) + ICON_PADDING;
+    	co_IconNotifText_x = co_IconNotif_x + icon_notification_width + ICON_PADDING;
     	
     	co_HR_y=Y_L4;
+    	icon_heart_width = dc.getTextWidthInPixels(ICON_FONT_CHAR_HEART, fontIcons);
     	
+    	icon_runner_width = dc.getTextWidthInPixels(ICON_FONT_CHAR_RUNNER, fontIcons);
 		co_StepsBar_x = co_Screen_Width/2 - STEPSBAR_WIDTH/2;
     	co_StepsBar_y = Y_L6;
-    	co_StepsCount_y = co_StepsBar_y+20;
+    	co_StepsCount_y = co_StepsBar_y + 3 + dc.getFontHeight(fontIcons);
     	
     	// This is only to make UI debugging easier
 		if(showLines){
@@ -178,32 +169,29 @@ public class RootsJtbView extends Ui.WatchFace {
     	var keepDisp = Helper.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
     
   		if(sleeping && showHR && keepDisp){
-  			var clipWidth = ICON_HEARTH_WIDTH + ICON_PADDING+dc.getTextWidthInPixels("000", fontTextSmall);
-  			var clipHeight = ICON_HEARTH_HEIGHT;
+  			var clipWidth = icon_heart_width + ICON_PADDING+dc.getTextWidthInPixels("000", fontTextSmall);
+  			var clipHeight = dc.getFontHeight(fontIcons);
   			var clipX = co_Screen_Width/2-clipWidth/2;
   			var clipY = co_HR_y;
 	  		dc.setClip(clipX, clipY, clipWidth, clipHeight);
 	  		dc.setColor(colorBackground, colorBackground);
 	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
 	  		
-		    var iconWidthAndPadding = ICON_HEARTH_WIDTH + ICON_PADDING;
+		    var iconWidthAndPadding = icon_heart_width + ICON_PADDING;
 			var hrText = retrieveHeartrateText();	  		
 	  		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextSmall) + iconWidthAndPadding;
 			var start = co_Screen_Width/ 2.0 - size/2.0;
 	  	
 			dc.setColor(colorIconHeart, COLOR_TRANSPARENT);
-		//  dc.drawBitmap(start, co_HR_y, iconHeart);
-			dc.drawText(start, co_HR_y, fontIconHeart, ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+			dc.drawText(start, co_HR_y, fontIcons, ICON_FONT_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 			
 	  		dc.setColor(colorForeground, colorBackground);
-			//dc.drawText(start+iconWidthAndPadding, co_HR_y-ICON_PADDING, fontTextSmall, hrText, Gfx.TEXT_JUSTIFY_LEFT);
 			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextSmall, hrText ,Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     	}
     }
     
  	function reloadBasics(){
     	reloadBasicColors();
-    	reloadBasicIcons();
     	reloadOtherBasics();
     }
     
@@ -213,12 +201,6 @@ public class RootsJtbView extends Ui.WatchFace {
     	showNotification = Helper.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
     	colorMode = Helper.getPropertyValue(Cst.PROP_MODE_COLOR);
     	dateFormat = Helper.getPropertyValue(Cst.PROP_DATE_FORMAT);
-    }
-    
-    function reloadBasicIcons(){
-		iconBT = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_BLUETOOTH, Cst.PROP_ICON_COLOR_BLUETOOTH) );
-		iconAlarm = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_ALARM, Cst.PROP_ICON_COLOR_ALARM) );
-		iconRunner = Ui.loadResource( Helper.getColoredIcon(Cst.DICT_ICON_RUNNER, Cst.PROP_ICON_COLOR_RUNNER) );
     }
 /**
 	------------------------
@@ -232,6 +214,9 @@ public class RootsJtbView extends Ui.WatchFace {
     	colorForeground = Helper.getPropertyValue(Cst.PROP_COLOR_FOREGROUND);
     	colorIconHeart = Helper.getColorById(Helper.getPropertyValue(Cst.PROP_ICON_COLOR_HEART));
     	colorIconNotification = Helper.getColorById(Helper.getPropertyValue(Cst.PROP_ICON_COLOR_NOTIFICATION));
+    	colorIconBluetooth = Helper.getColorById(Helper.getPropertyValue(Cst.PROP_ICON_COLOR_BLUETOOTH));
+    	colorIconAlarm = Helper.getColorById(Helper.getPropertyValue(Cst.PROP_ICON_COLOR_ALARM));
+    	colorIconRunner = Helper.getColorById(Helper.getPropertyValue(Cst.PROP_ICON_COLOR_RUNNER));
     }
     
 	function loadColorModeColors(){
@@ -248,10 +233,9 @@ public class RootsJtbView extends Ui.WatchFace {
     		
     		colorIconHeart = Helper.getRandomColor([colorBackground]);
     		colorIconNotification = Helper.getRandomColor([colorBackground]);
-    		
-			iconBT = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_BLUETOOTH, [colorBackground]) );
-			iconAlarm = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_ALARM, [colorBackground]) );
-			iconRunner = Ui.loadResource( Helper.getRandomColoredIcon(Cst.DICT_ICON_RUNNER,  [colorBackground]) );
+    		colorIconBluetooth = Helper.getRandomColor([colorBackground]);
+    		colorIconAlarm = Helper.getRandomColor([colorBackground]);
+    		colorIconRunner = Helper.getRandomColor([colorBackground]);
     	}
     }
     
@@ -288,15 +272,15 @@ public class RootsJtbView extends Ui.WatchFace {
    }
    
    function displayStepsCounter(dc, stepsCount){
-   		var iconWidthAndPadding = ICON_RUNNER_WIDTH + ICON_PADDING;
+   		var iconWidthAndPadding = icon_runner_width + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(stepsCount.toString(), fontTextSmall) + iconWidthAndPadding;
 		var start = co_Screen_Width/ 2.0 - size/2.0;
 		dc.setColor(colorForeground,COLOR_TRANSPARENT);
-		dc.drawBitmap(start,co_StepsCount_y-5, iconRunner );
 	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y,  fontTextSmall, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+	  	dc.setColor(colorIconRunner, COLOR_TRANSPARENT);
+		dc.drawText(start, co_StepsCount_y, fontIcons, ICON_FONT_CHAR_RUNNER ,Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 	}
     
-
 /**
 	------------------------
 	NOTIFICATIONS
@@ -305,9 +289,8 @@ public class RootsJtbView extends Ui.WatchFace {
     function displayNotifications(dc){
 		var notif = System.getDeviceSettings().notificationCount;
 		if(notif>0){
-//		    dc.drawBitmap(co_IconNotif_x, co_IconNotif_y , iconNotification);
 			dc.setColor(colorIconNotification, COLOR_TRANSPARENT);
-			dc.drawText(co_IconNotif_x, co_IconNotif_y, fontIconNotification, ICON_CHAR_NOTIFICATION, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+			dc.drawText(co_IconNotif_x, co_IconNotif_y, fontIcons, ICON_FONT_CHAR_NOTIFICATION, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 	    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
 			dc.drawText(co_IconNotifText_x, co_IconNotif_y, fontTextSmall, notif.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);	    	
 		}
@@ -322,30 +305,30 @@ public class RootsJtbView extends Ui.WatchFace {
 		dc.setColor(colorForeground, COLOR_TRANSPARENT);
 		
 		if(System.getDeviceSettings().phoneConnected){
-		    dc.drawBitmap(co_IconBT_x, co_IconBT_y , iconBT);	
+			dc.setColor(colorIconBluetooth, COLOR_TRANSPARENT);
+			dc.drawText(co_IconBT_x, co_IconBT_y, fontIcons, ICON_FONT_CHAR_BLUETOOTH, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 		}
 	    
 	    if(System.getDeviceSettings().alarmCount >= 1){
-		    dc.drawBitmap(co_IconAlarm_x, co_IconAlarm_y , iconAlarm);	
+		    dc.setColor(colorIconAlarm, COLOR_TRANSPARENT);
+			dc.drawText(co_IconAlarm_x, co_IconAlarm_y, fontIcons, ICON_FONT_CHAR_ALARM, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);	
 		}
 	}
 
 
 /**
 	------------------------
-	HEARTH RATE
+	HEART RATE
 	------------------------
 */
     function displayHr(dc){
 		var hrText = retrieveHeartrateText();
-	    var iconWidthAndPadding = ICON_HEARTH_WIDTH + ICON_PADDING;
+	    var iconWidthAndPadding = icon_heart_width + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextSmall) + iconWidthAndPadding;
 		var start = co_Screen_Width/ 2.0 - size/2.0;
 
     	dc.setColor(colorIconHeart, COLOR_TRANSPARENT);
-//		dc.drawBitmap(start, co_HR_y, iconHeart);
-		dc.drawText(start, co_HR_y, fontIconHeart, ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//		Sys.println("height: " + dc.getFontHeight(webdingFont) + " - width: "+dc.getTextWidthInPixels("Y", webdingFont) );
+		dc.drawText(start, co_HR_y, fontIcons, ICON_FONT_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 		
 		dc.setColor(colorForeground, COLOR_TRANSPARENT);
 		dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextSmall, hrText ,Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
@@ -407,8 +390,6 @@ public class RootsJtbView extends Ui.WatchFace {
 	------------------------
 */
 	function displayBattery(){
-//		displayBatteryIcon(dc, COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
-//       	displayBatteryPercent(dc);
 		batteryComponent.draw();
 	}
 	
