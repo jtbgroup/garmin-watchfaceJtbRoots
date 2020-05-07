@@ -25,8 +25,8 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const ICON_PADDING = 3;
 	hidden const STEPSBAR_WIDTH = 80;
 	hidden const STEPSBAR_HEIGHT = 8;
-	hidden const ICON_FONT_CHAR_BLUETOOTH = "0";
-	hidden const ICON_FONT_CHAR_ALARM = "1";
+	hidden const ICON_FONT_CHAR_ALARM = "0";
+	hidden const ICON_FONT_CHAR_BLUETOOTH = "1";
 	hidden const ICON_FONT_CHAR_NOTIFICATION = "2";
 	hidden const ICON_FONT_CHAR_RUNNER = "3";
 	hidden const ICON_FONT_CHAR_HEART = "4";
@@ -381,11 +381,13 @@ public class RootsJtbView extends Ui.WatchFace {
 			dc.drawText(dc.getWidth()/2-hourWidth, (co_Screen_Height/2)-aOrPHeight, Gfx.FONT_SYSTEM_XTINY, aOrP, Gfx.TEXT_JUSTIFY_RIGHT);
 			dc.drawText(dc.getWidth()/2-hourWidth, (co_Screen_Height/2), Gfx.FONT_SYSTEM_XTINY, "M", Gfx.TEXT_JUSTIFY_RIGHT);
 		}
-		dc.drawText(co_Clock_x, co_Clock_y, customFont, hourToString ,Gfx.TEXT_JUSTIFY_RIGHT|Gfx.TEXT_JUSTIFY_VCENTER);
+		dc.drawText(co_Clock_x-ICON_PADDING*3, co_Clock_y, customFont, hourToString ,Gfx.TEXT_JUSTIFY_RIGHT|Gfx.TEXT_JUSTIFY_VCENTER);
+		var dims = dc.getTextDimensions(hourToString, customFont); 
+		//dc.drawRectangle(co_Clock_x-dims[0], co_Clock_y-dims[1]/2, dims[0], dims[1]);
 		
 		//draw min
         dc.setColor(colorMinute, COLOR_TRANSPARENT);
-        dc.drawText(dc.getWidth()/2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(co_Clock_x + ICON_PADDING*3, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
         
         //draw sec
         if(!sleeping && showSeconds){
