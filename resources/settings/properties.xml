@@ -10,6 +10,8 @@
 	<property id="PROP_ICON_COLOR_HEART" type="number">4</property> 
 	<property id="PROP_ICON_COLOR_RUNNER" type="number">0</property> 
 	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">11</property> 
+	<property id="PROP_FONT_SIZE_TXT01" type="number">0</property>
+	<property id="PROP_FONT_SIZE_TXT02" type="number">2</property>
 	<property id="PROP_DATE_FORMAT" type="number">0</property> 
 	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
 	<property id="PROP_SHOW_NOTIFICATION" type="boolean">true</property>
