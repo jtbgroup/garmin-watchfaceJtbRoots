@@ -42,8 +42,8 @@
 	<string id="propertyIconColorRunner">Color for the steps icon</string>
 	<string id="propertyIconColorNotification">Color for the notification icon</string>
 	
-	<string id="propertyFontSizeText01">Font size of the monitor data</string>
-	<string id="propertyFontSizeText02">Font size of date &amp; seconds</string>
+	<string id="propertyFontSizeText01">Font size for monitoring data</string>
+	<string id="propertyFontSizeText02">Font size for date &amp; seconds</string>
 	<string id="xtiny">Extremely tiny</string>
 	<string id="tiny">Tiny</string>
 	<string id="small">Small</string>
