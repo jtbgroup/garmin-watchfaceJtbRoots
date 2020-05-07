@@ -1,53 +1,54 @@
 using Toybox.Graphics as Gfx;
-using Toybox.System;
-using Toybox.Lang as Lang;
+using Toybox.System as Sys;
 using Toybox.Math as Mt;
-using Toybox.Application;
 
-module ColorHelper {
+module JTBUtils {
 
-	var WHITE=0; 
-	var LT_GRAY=1;
-	var DK_GRAY= 2;
-	var BLACK= 3;
-	var RED= 4;
-	var DK_RED= 5;
-	var ORANGE= 6;
-	var YELLOW= 7;
-	var GREEN= 8;
-	var DK_GREEN= 9;
-	var BLUE= 10;
-	var DK_BLUE= 11;
-	var PURPLE=12 ;
-	var PINK=13;
+	class ColorHelper {
 	
-	var COLORS_D={
-		WHITE=>Gfx.COLOR_WHITE, 
-		LT_GRAY=>Gfx.COLOR_LT_GRAY, 
-		DK_GRAY=>Gfx.COLOR_DK_GRAY, 
-		BLACK=>Gfx.COLOR_BLACK, 
-		RED=>Gfx.COLOR_RED,
-		DK_RED=>Gfx.COLOR_DK_RED,
-		ORANGE=>Gfx.COLOR_ORANGE, 
-		YELLOW=>Gfx.COLOR_YELLOW, 
-		GREEN=>Gfx.COLOR_GREEN, 
-		DK_GREEN=>Gfx.COLOR_DK_GREEN, 
-		BLUE=>Gfx.COLOR_BLUE, 
-		DK_BLUE=>Gfx.COLOR_DK_BLUE,
-		PURPLE=>Gfx.COLOR_PURPLE, 
-		PINK=>Gfx.COLOR_PINK
-	};
+		protected var COLORS_D={
+			OPTION_COLOR_WHITE=>Gfx.COLOR_WHITE, 
+			OPTION_COLOR_LT_GRAY=>Gfx.COLOR_LT_GRAY, 
+			OPTION_COLOR_DK_GRAY=>Gfx.COLOR_DK_GRAY, 
+			OPTION_COLOR_BLACK=>Gfx.COLOR_BLACK, 
+			OPTION_COLOR_RED=>Gfx.COLOR_RED,
+			OPTION_COLOR_DK_RED=>Gfx.COLOR_DK_RED,
+			OPTION_COLOR_ORANGE=>Gfx.COLOR_ORANGE, 
+			OPTION_COLOR_YELLOW=>Gfx.COLOR_YELLOW, 
+			OPTION_COLOR_GREEN=>Gfx.COLOR_GREEN, 
+			OPTION_COLOR_DK_GREEN=>Gfx.COLOR_DK_GREEN, 
+			OPTION_COLOR_BLUE=>Gfx.COLOR_BLUE, 
+			OPTION_COLOR_DK_BLUE=>Gfx.COLOR_DK_BLUE,
+			OPTION_COLOR_PURPLE=>Gfx.COLOR_PURPLE, 
+			OPTION_COLOR_PINK=>Gfx.COLOR_PINK
+		};
+	    
+	   public function getColorById(colorId){
+	    	return COLORS_D.get(colorId);
+	    }
+	
+		/**
+		* @param colorToAvoid is an array of colors that can't be returned as random color.
+		*/
+		public function getRandomColor(colorsToAvoid){
+		    return getRandom(colorsToAvoid, false);
+		}
 		
-	function getRandomColor(colorToAvoid){
-    	var r = Mt.rand() % COLORS_D.size();
-    	var color = COLORS_D.get(r);
-    	if(null != colorToAvoid && colorToAvoid == color){
-    		return getRandomColor(colorToAvoid);
-    	}
-    	return color;
-    }
-    
-    function getColorByIndex(colorIndex){
-    	return COLORS_D.get(colorIndex);
-    }
+		public function getRandomColorId(colorsToAvoid){
+		    return getRandom(colorsToAvoid, true);
+		}
+		
+		private function getRandom(colorsToAvoid, returnId){
+	    	var r = Mt.rand() % COLORS_D.size();
+			var color = COLORS_D.get(r);
+	    	if(null != colorsToAvoid && colorsToAvoid.indexOf(color) > -1){
+	    		return getRandom(colorsToAvoid, returnId);
+	    	}
+	    	
+	    	if(returnId){
+	    		return r;
+	    	}
+	    	return color;
+		}
+	}
 }
