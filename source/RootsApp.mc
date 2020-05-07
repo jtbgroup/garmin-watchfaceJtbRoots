@@ -25,7 +25,7 @@ class RootsApp extends Application.AppBase {
     }
 	
 	function onSettingsChanged(){
-		view.reloadBasics();
+		view.reloadBasics(false);
 	}
 
 }

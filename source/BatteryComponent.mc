@@ -7,7 +7,6 @@ class BatteryComponent extends Ui.Drawable {
 	hidden const COLOR_BATTERY_LOW = Gfx.COLOR_RED;
 	hidden const COLOR_BATTERY_MEDIUM = Gfx.COLOR_YELLOW;
 	hidden const COLOR_BATTERY_HIGH = Gfx.COLOR_GREEN;
-	hidden const COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
 	
 	hidden const BATTERY_WIDTH = 22;
 	hidden const BATTERY_HEIGHT = 10;
@@ -16,7 +15,7 @@ class BatteryComponent extends Ui.Drawable {
 	
 	hidden const ICON_PADDING = 3;
 		
-	hidden var colorForeground,backgroundColor;
+	hidden var colorForeground,colorBackground;
 	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var x, y, dc, font;
 	 
@@ -25,7 +24,7 @@ class BatteryComponent extends Ui.Drawable {
         me.x=locX;
         me.y=locY;
       	me.colorForeground=params.get(:fgc);
-		me.backgroundColor=params.get(:bgc);
+		me.colorBackground=params.get(:bgc);
 		me.dc=params.get(:dc);
 		me.font=params.get(:font);
 		
@@ -60,12 +59,12 @@ class BatteryComponent extends Ui.Drawable {
 	
     function displayBatteryPercent(){
 	   	var battery = Sys.getSystemStats().battery;
-		dc.setColor(colorForeground, COLOR_TRANSPARENT);
+		dc.setColor(colorForeground, colorBackground);
 	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
     function displayBatteryIcon(lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
+    	dc.setColor(colorForeground, colorBackground);
         var battery = Sys.getSystemStats().battery;
       	
       	var fillColor = fullBatteryColor;
@@ -76,21 +75,29 @@ class BatteryComponent extends Ui.Drawable {
         	fillColor = mediumBatteryColor;
         }
 
-        dc.setColor(colorForeground,COLOR_TRANSPARENT);
+        dc.setColor(colorForeground,colorBackground);
         dc.drawRectangle(co_Battery_x, co_Battery_y, BATTERY_WIDTH, BATTERY_HEIGHT);
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, colorBackground);
         dc.drawLine(co_BatteryDop_x-1, co_BatteryDop_y+1, co_BatteryDop_x-1, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, colorBackground);
         dc.drawRectangle(co_BatteryDop_x, co_BatteryDop_y, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
+        dc.setColor(colorForeground, colorBackground);
         dc.drawLine(co_BatteryDop_x, co_BatteryDop_y+1, co_BatteryDop_x, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
 		var fillBar = ((BATTERY_WIDTH -2 ) * battery / 100);
 		var fillBar2 = Math.round(fillBar);
 		//System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
 		
-        dc.setColor(fillColor, COLOR_TRANSPARENT);
+        dc.setColor(fillColor, colorBackground);
         dc.fillRectangle(co_Battery_x +1 , co_Battery_y+1, fillBar2, BATTERY_HEIGHT-2);
+    }
+    
+    function setFont(font){
+    	me.font=font;
+    }
+    
+    function setForegroundColor(colorForeground){
+    	me.colorForeground=colorForeground;
     }
 }

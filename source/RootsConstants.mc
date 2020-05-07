@@ -38,11 +38,7 @@ module RootsConstants {
 	const PROP_ICON_COLOR_RUNNER="PROP_ICON_COLOR_RUNNER";
 	const PROP_ICON_COLOR_ALARM="PROP_ICON_COLOR_ALARM";
 
-	const DICT_ICON_RUNNER = "runner";
-	const DICT_ICON_NOTIFICATION = "notification";
-	const DICT_ICON_HEART = "heart";
-	const DICT_ICON_ALARM = "alarm";
-	const DICT_ICON_BLUETOOTH = "bluetooth";
-
+	const PROP_FONT_SIZE_TXT01 = "PROP_FONT_SIZE_TXT01";
+	const PROP_FONT_SIZE_TXT02 = "PROP_FONT_SIZE_TXT02";
 	
 }
