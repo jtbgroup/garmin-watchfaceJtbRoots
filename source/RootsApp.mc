@@ -6,7 +6,6 @@ class RootsApp extends Application.AppBase {
 	
     function initialize() {
         AppBase.initialize();
-        PropertiesHelper.loadProperties();
     }
 
     // onStart() is called on application start up
@@ -24,7 +23,6 @@ class RootsApp extends Application.AppBase {
     }
 	
 	function onSettingsChanged(){
-		PropertiesHelper.loadProperties();
 		view.reloadBasics();
 	}
 
