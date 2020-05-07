@@ -200,6 +200,25 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_TXT01"
+		title="@Strings.propertyFontSizeText01">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_TXT02"
+		title="@Strings.propertyFontSizeText02">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
 	
 	<setting propertyKey="@Properties.PROP_DATE_FORMAT"
 		title="@Strings.propertyDateFormat">
