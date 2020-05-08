@@ -14,10 +14,11 @@ class BatteryComponent extends Ui.Drawable {
 	hidden const BATTERY_DOP_HEIGHT = 5;
 	
 	hidden const ICON_PADDING = 3;
-		
+	
 	hidden var colorForeground,colorBackground;
 	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var x, y, font;
+	hidden var lastBatteryValue;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -25,30 +26,27 @@ class BatteryComponent extends Ui.Drawable {
         me.y=locY;
       	me.colorForeground=params.get(:fgc);
 		me.colorBackground=params.get(:bgc);
-//		me.dc=params.get(:dc);
 		me.font=params.get(:font);
 		
-		computeCoordinates(params.get(:dc));
+		computeCoordinatesX(params.get(:dc), "100%");
+		computeCoordinatesY();
     }
     
-    private function computeCoordinates(dc){
-    	//get screen dimensions
-    	var textSize = dc.getTextWidthInPixels("99%", font);
-        var totalWidth = BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING + textSize;
-        
-		co_Battery_x =  x - totalWidth/2;
+    private function computeCoordinatesY(){
     	co_Battery_y = y - BATTERY_HEIGHT/2;
-    	co_BatteryDop_x = x - totalWidth/2 + BATTERY_WIDTH;
 		co_BatteryDop_y = y - BATTERY_DOP_HEIGHT/2;
-		
-		co_Battery_text_x = x - totalWidth/2 + BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING;
 		co_Battery_text_y = y;
+    }
+    
+    private function computeCoordinatesX(dc, textPercent){
+    	var textSize = dc.getTextWidthInPixels(textPercent, font);
+        var totalWidth = BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING + textSize;
+		co_Battery_x =  x - totalWidth/2;
+    	co_BatteryDop_x = x - totalWidth/2 + BATTERY_WIDTH;
+		co_Battery_text_x = x - totalWidth/2 + BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING;
     }
 
 	function draw(dc){
-//		dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//		dc.drawLine(x-100, y, x+100, y);
-//		dc.drawLine(x, y-10, x, y+10);
 		displayBattery(dc);	
 	}
 	
@@ -59,8 +57,13 @@ class BatteryComponent extends Ui.Drawable {
 	
     private function displayBatteryPercent(dc){
 	   	var battery = Sys.getSystemStats().battery;
+		var batteryTxt = battery.format("%d")+"%";
+		if(lastBatteryValue != battery){
+	   		lastBatteryValue = battery;
+			computeCoordinatesX(dc, batteryTxt);
+		}
 		dc.setColor(colorForeground, colorBackground);
-	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, batteryTxt, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
     private function displayBatteryIcon(dc, lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
