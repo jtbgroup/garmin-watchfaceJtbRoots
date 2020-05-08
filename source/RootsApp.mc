@@ -25,11 +25,7 @@ class RootsApp extends Application.AppBase {
     }
 	
 	function onSettingsChanged(){
-<<<<<<< HEAD
-		view.reloadBasics(false);
-=======
 		view.reloadBasics(true);
->>>>>>> refs/heads/version_1.6.2
 	}
 
 }
