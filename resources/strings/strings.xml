@@ -31,10 +31,14 @@
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
+	<string id="propertyShowBatteryText">Show value of the battery</string>
 	<string id="propertyShowSeconds">Show seconds</string>
-	<string id="propertyShowNotification">Show notifications</string>
+	<string id="propertyShowNotification">Show notifications icon where there are some</string>
+	<string id="propertyShowAlarm">Show alarm icon when active alarm is set</string>
+	<string id="propertyShowDate">Show date</string>
+	<string id="propertyShowBluetooth">Show bluetooth icon when connection is up</string>
 	<string id="propertyShowHr">Show heart rate</string>
-	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping</string>
+	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping (if heart rate is asked to be visible)</string>
 	
 	<string id="propertyIconColorBluetooth">Color for the bluetooth connection icon</string>
 	<string id="propertyIconColorHeart">Color for the heart rate icon</string>
@@ -42,8 +46,12 @@
 	<string id="propertyIconColorRunner">Color for the steps icon</string>
 	<string id="propertyIconColorNotification">Color for the notification icon</string>
 	
-	<string id="propertyFontSizeText01">Font size of the monitor data</string>
-	<string id="propertyFontSizeText02">Font size of date &amp; seconds</string>
+	<string id="propertyFontSizeHR">Font size for heart rate value (if displayed)</string>
+	<string id="propertyFontSizeNotification">Font size for notification count (if displayed)</string>
+	<string id="propertyFontSizeBattery">Font size for battery text</string>
+	<string id="propertyFontSizeDate">Font size for date</string>
+	<string id="propertyFontSizeSeconds">Font size for seconds (if displayed)</string>
+	<string id="propertyFontSizeSteps">Font size for steps count</string>
 	<string id="xtiny">Extremely tiny</string>
 	<string id="tiny">Tiny</string>
 	<string id="small">Small</string>

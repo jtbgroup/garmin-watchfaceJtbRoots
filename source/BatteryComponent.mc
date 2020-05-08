@@ -14,10 +14,11 @@ class BatteryComponent extends Ui.Drawable {
 	hidden const BATTERY_DOP_HEIGHT = 5;
 	
 	hidden const ICON_PADDING = 3;
-		
+	
 	hidden var colorForeground,colorBackground;
 	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
-	hidden var x, y, dc, font;
+	hidden var x, y, font, showText;
+	hidden var lastBatteryValue;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -25,47 +26,59 @@ class BatteryComponent extends Ui.Drawable {
         me.y=locY;
       	me.colorForeground=params.get(:fgc);
 		me.colorBackground=params.get(:bgc);
-		me.dc=params.get(:dc);
 		me.font=params.get(:font);
+		me.showText=params.get(:showText);
 		
-		computeCoordinates();
+		computeCoordinatesX(params.get(:dc), "100%");
+		computeCoordinatesY();
     }
     
-    function computeCoordinates(){
-    	//get screen dimensions
-    	var textSize = dc.getTextWidthInPixels("99%", font);
-        var totalWidth = BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING + textSize;
-        
-		co_Battery_x =  x - totalWidth/2;
+    private function computeCoordinatesY(){
     	co_Battery_y = y - BATTERY_HEIGHT/2;
-    	co_BatteryDop_x = x - totalWidth/2 + BATTERY_WIDTH;
 		co_BatteryDop_y = y - BATTERY_DOP_HEIGHT/2;
-		
-		co_Battery_text_x = x - totalWidth/2 + BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING;
 		co_Battery_text_y = y;
     }
+    
+    private function computeCoordinatesX(dc, textPercent){
+    	var textSize = 0;
+    	var totalWidth = 0;
+    	if(showText){
+    		textSize = dc.getTextWidthInPixels(textPercent, font);
+			totalWidth = BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING*2 + textSize;
+        }else{
+        	totalWidth = BATTERY_WIDTH;
+        }
+		co_Battery_x = x - totalWidth/2;
+    	co_BatteryDop_x = co_Battery_x + BATTERY_WIDTH;
+		co_Battery_text_x = co_BatteryDop_x + ICON_PADDING*2;
+    }
 
-	function draw(){
-//		dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//		dc.drawLine(x-100, y, x+100, y);
-//		dc.drawLine(x, y-10, x, y+10);
-		displayBattery();	
+	function draw(dc){
+		displayBattery(dc);	
 	}
 	
-	function displayBattery(){
-		displayBatteryIcon(COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
-       	displayBatteryPercent();
+	private function displayBattery(dc){
+		var battery = Sys.getSystemStats().battery;
+		var batteryTxt = battery.format("%d")+"%";
+		if(lastBatteryValue != battery){
+	   		lastBatteryValue = battery;
+			computeCoordinatesX(dc, batteryTxt);
+		}
+		
+		displayBatteryIcon(dc, battery, COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
+		if(showText){
+	       	displayBatteryPercent(dc, battery);
+		}
 	}
 	
-    function displayBatteryPercent(){
-	   	var battery = Sys.getSystemStats().battery;
+    private function displayBatteryPercent(dc, battery){
+		var batteryTxt = battery.format("%d")+"%";
 		dc.setColor(colorForeground, colorBackground);
-	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, batteryTxt, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
-    function displayBatteryIcon(lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
+    private function displayBatteryIcon(dc, battery, lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
     	dc.setColor(colorForeground, colorBackground);
-        var battery = Sys.getSystemStats().battery;
       	
       	var fillColor = fullBatteryColor;
       
@@ -77,17 +90,12 @@ class BatteryComponent extends Ui.Drawable {
 
         dc.setColor(colorForeground,colorBackground);
         dc.drawRectangle(co_Battery_x, co_Battery_y, BATTERY_WIDTH, BATTERY_HEIGHT);
-        dc.setColor(colorForeground, colorBackground);
-        dc.drawLine(co_BatteryDop_x-1, co_BatteryDop_y+1, co_BatteryDop_x-1, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
         dc.setColor(colorForeground, colorBackground);
-        dc.drawRectangle(co_BatteryDop_x, co_BatteryDop_y, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
-        dc.setColor(colorForeground, colorBackground);
-        dc.drawLine(co_BatteryDop_x, co_BatteryDop_y+1, co_BatteryDop_x, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
+        dc.fillRectangle(co_BatteryDop_x, co_BatteryDop_y, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
 
 		var fillBar = ((BATTERY_WIDTH -2 ) * battery / 100);
 		var fillBar2 = Math.round(fillBar);
-		//System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
 		
         dc.setColor(fillColor, colorBackground);
         dc.fillRectangle(co_Battery_x +1 , co_Battery_y+1, fillBar2, BATTERY_HEIGHT-2);
@@ -99,5 +107,10 @@ class BatteryComponent extends Ui.Drawable {
     
     function setForegroundColor(colorForeground){
     	me.colorForeground=colorForeground;
+    }
+    
+     function setShowText(showText){
+    	me.showText=showText;
+    	lastBatteryValue=-1;
     }
 }
