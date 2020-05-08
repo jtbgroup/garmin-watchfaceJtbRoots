@@ -252,7 +252,7 @@ public class RootsJtbView extends Ui.WatchFace {
     
 	function loadColorModeColors(){
        	if(Utils.getPropertyValue(Cst.PROP_MODE_COLOR) == Cst.OPTION_MODE_COLOR_DISCO){
-    		var color = Utils.getRandomColor(colorBackground);
+    		var color = Utils.getRandomColor([colorBackground]);
     		colorHour = color;
     		colorMinute = color;
     	}else if(Utils.getPropertyValue(Cst.PROP_MODE_COLOR) == Cst.OPTION_MODE_COLOR_LUCY){
