@@ -263,6 +263,11 @@
 			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
 		</settingConfig>
 	</setting>
+
+	<setting propertyKey="@Properties.PROP_SHOW_BATTERY_TEXT"
+		title="@Strings.propertyShowBatteryText">
+		<settingConfig type="boolean" />
+	</setting>
 	
 	<setting propertyKey="@Properties.PROP_SHOW_BLUETOOTH"
 		title="@Strings.propertyShowBluetooth">

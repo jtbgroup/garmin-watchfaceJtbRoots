@@ -42,7 +42,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth;
-	hidden var showAlarm, showDate, showBluetooth, showHR, showNotification;
+	hidden var showAlarm, showDate, showBluetooth, showHR, showNotification, showBatteryText;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -75,6 +75,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:fgc=>colorForeground,
 			:dc=>dc,
 			:font=>fontTextBattery,
+			:showText=>showBatteryText
 		});
     }
     
@@ -208,6 +209,7 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function reloadShows(){
+    	showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
   		showAlarm = Utils.getPropertyValue(Cst.PROP_SHOW_ALARM);
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
@@ -218,6 +220,7 @@ public class RootsJtbView extends Ui.WatchFace {
     function reloadComponents(){
   		batteryComponent.setFont(fontTextBattery);
 		batteryComponent.setForegroundColor(colorForeground);
+		batteryComponent.setShowText(showBatteryText);
     }
     
     function reloadFonts(){
