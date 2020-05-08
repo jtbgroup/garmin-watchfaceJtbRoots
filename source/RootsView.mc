@@ -190,7 +190,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	  		dc.setColor(iconColorHeart, colorBackground);
 		    dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 			dc.setColor(colorForeground, colorBackground);
-			dc.drawText(start+iconWidthAndPadding, co_HR_y-ICON_PADDING, fontTextSmall, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextSmall, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     	}
     }
     
