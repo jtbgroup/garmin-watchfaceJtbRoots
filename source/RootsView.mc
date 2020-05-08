@@ -16,26 +16,19 @@ public class RootsJtbView extends Ui.WatchFace {
 	//positions
 	hidden const LEFT_X = 35;
 	hidden const RIGHT_X = 35;
-	hidden const L1 = 13;
+	hidden const L1 = 15;
 	hidden const L2p = 0.20;
 	hidden const L4p = 0.78;
 	hidden const L6 = 35;
 	
 	//colors
 	hidden const COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
-	hidden const COLOR_BATTERY_LOW = Gfx.COLOR_RED;
-	hidden const COLOR_BATTERY_MEDIUM = Gfx.COLOR_YELLOW;
-	hidden const COLOR_BATTERY_HIGH = Gfx.COLOR_GREEN;
     hidden const COLOR_STEPSBAR_0=0xFF0000;
 	hidden const COLOR_STEPSBAR_25=0xFFAA00;
 	hidden const COLOR_STEPSBAR_75=0xAA55FF;
     hidden const COLOR_STEPSBAR_100=0x00FF00;
 	hidden const STEPSBAR_WIDTH = 80;
 	hidden const STEPSBAR_HEIGHT = 8;
-	hidden const BATTERY_WIDTH = 22;
-	hidden const BATTERY_HEIGHT = 10;
-	hidden const BATTERY_DOP_WIDTH = 2;
-	hidden const BATTERY_DOP_HEIGHT = 5;
 	hidden const ICON_PADDING = 3;
 	
 	hidden const FONT_ICON_CHAR_ALARM="0";
@@ -58,18 +51,30 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var co_HR_y;
 	hidden var co_StepsBar_x,co_StepsBar_y, co_StepsCount_y;
 	hidden var co_IconNotif_x, co_IconNotif_y;
-	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var co_ClockBottom_y, co_ClockTop_y;
+	hidden var co_Battery_y;
 	hidden var fontCustomHeight, fontTextMediumHeight;
 	//lines
 	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
+	//components
+	hidden var batteryComponent;
+	
 	
     function onLayout(dc) {
 		customFont = Ui.loadResource(Rez.Fonts.customFont);
 		fontIcons = Ui.loadResource(Rez.Fonts.fontIcons);
 		
-		reloadBasics();
+		reloadBasics(false);
 		computeCoordinates(dc);
+		
+		batteryComponent = new BatteryComponent({
+			:locX=>co_Screen_Width/2,
+			:locY=>co_Battery_y,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:dc=>dc,
+			:font=>fontTextSmall,
+		});
     }
     
     function computeCoordinates(dc){
@@ -83,12 +88,8 @@ public class RootsJtbView extends Ui.WatchFace {
 		Y_L4=co_Screen_Height*L4p;
 		Y_L6=co_Screen_Height-L6;
 		
-		co_Battery_x = co_Screen_Width / 2 ;
     	co_Battery_y = Y_L1;
 		
-		co_Battery_text_x = co_Screen_Width/2;
-		co_Battery_text_y = Y_L1;
-
     	co_IconBT_x = LEFT_X;
     	co_IconBT_y = Y_L2;
     	
@@ -132,7 +133,7 @@ public class RootsJtbView extends Ui.WatchFace {
     	dc.setColor(colorForeground, colorBackground);
     	dc.clear();
     	
-        displayBattery(dc);
+		batteryComponent.draw(dc);
    		displayClock(dc);
        	displayBtAndAlarm(dc);
         displayDate(dc);
@@ -193,9 +194,17 @@ public class RootsJtbView extends Ui.WatchFace {
     	}
     }
     
- 	function reloadBasics(){
+ 	function reloadBasics(reloadComponents){
     	reloadBasicColors();
     	reloadFonts();
+    	if(reloadComponents){
+	    	reloadComponents();
+    	}
+    }
+    
+    function reloadComponents(){
+  		batteryComponent.setFont(fontTextSmall);
+		batteryComponent.setForegroundColor(colorForeground);
     }
     
     function reloadFonts(){
@@ -381,53 +390,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		}
     }
 
-/**
-	------------------------
-	BATTERY
-	------------------------
-*/
-	function displayBattery(dc){
-		displayBatteryIcon(dc, COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
-       	displayBatteryPercent(dc);
-	}
-	
-    function displayBatteryPercent(dc){
-	   	var battery = Sys.getSystemStats().battery;
-		dc.setColor(colorForeground, COLOR_TRANSPARENT);
-	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, fontTextSmall, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-    }
-    
-    function displayBatteryIcon(dc, lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        var battery = Sys.getSystemStats().battery;
-      	
-      	var fillColor = fullBatteryColor;
-      
-        if(battery < 25.0){
-            fillColor = lowBatteryColor;
-        }else if(battery < 50.0){
-        	fillColor = mediumBatteryColor;
-        }
-
-        dc.setColor(colorForeground,COLOR_TRANSPARENT);
-        var startX = co_Battery_x - BATTERY_WIDTH - BATTERY_DOP_WIDTH - ICON_PADDING;
-        var startY = co_Battery_y - BATTERY_HEIGHT / 2;
-        dc.drawRectangle(startX, startY, BATTERY_WIDTH, BATTERY_HEIGHT);
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//        dc.drawLine(co_BatteryDop_x-1, co_BatteryDop_y+1, co_BatteryDop_x-1, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
-
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.fillRectangle(startX + BATTERY_WIDTH, co_Battery_y - BATTERY_DOP_HEIGHT / 2, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
-        dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//        dc.drawLine(co_BatteryDop_x, co_BatteryDop_y+1, co_BatteryDop_x, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
-
-		var fillBar = ((BATTERY_WIDTH -2 ) * battery / 100);
-		var fillBar2 = Math.round(fillBar);
-		//System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
-		
-        dc.setColor(fillColor, COLOR_TRANSPARENT);
-        dc.fillRectangle(startX + 1, startY + 1, fillBar2, BATTERY_HEIGHT-2);
-    }
 
 /**
 	------------------------
@@ -453,7 +415,6 @@ public class RootsJtbView extends Ui.WatchFace {
 	    var info = Calendar.info(now, Time.FORMAT_MEDIUM);
 	   	return  Lang.format("$1$ $2$ $3$", [info.day_of_week,info.day, info.month]);
 	}
-
 
 
 /**

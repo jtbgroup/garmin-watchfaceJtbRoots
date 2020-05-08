@@ -17,7 +17,7 @@ class BatteryComponent extends Ui.Drawable {
 		
 	hidden var colorForeground,colorBackground;
 	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
-	hidden var x, y, dc, font;
+	hidden var x, y, font;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -25,13 +25,13 @@ class BatteryComponent extends Ui.Drawable {
         me.y=locY;
       	me.colorForeground=params.get(:fgc);
 		me.colorBackground=params.get(:bgc);
-		me.dc=params.get(:dc);
+//		me.dc=params.get(:dc);
 		me.font=params.get(:font);
 		
-		computeCoordinates();
+		computeCoordinates(params.get(:dc));
     }
     
-    function computeCoordinates(){
+    private function computeCoordinates(dc){
     	//get screen dimensions
     	var textSize = dc.getTextWidthInPixels("99%", font);
         var totalWidth = BATTERY_WIDTH + BATTERY_DOP_WIDTH + ICON_PADDING + textSize;
@@ -45,25 +45,25 @@ class BatteryComponent extends Ui.Drawable {
 		co_Battery_text_y = y;
     }
 
-	function draw(){
+	function draw(dc){
 //		dc.setColor(colorForeground, COLOR_TRANSPARENT);
 //		dc.drawLine(x-100, y, x+100, y);
 //		dc.drawLine(x, y-10, x, y+10);
-		displayBattery();	
+		displayBattery(dc);	
 	}
 	
-	function displayBattery(){
-		displayBatteryIcon(COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
-       	displayBatteryPercent();
+	private function displayBattery(dc){
+		displayBatteryIcon(dc, COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
+       	displayBatteryPercent(dc);
 	}
 	
-    function displayBatteryPercent(){
+    private function displayBatteryPercent(dc){
 	   	var battery = Sys.getSystemStats().battery;
 		dc.setColor(colorForeground, colorBackground);
 	   	dc.drawText(co_Battery_text_x, co_Battery_text_y, font, battery.format("%d")+"%", Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
-    function displayBatteryIcon(lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
+    private function displayBatteryIcon(dc, lowBatteryColor, mediumBatteryColor, fullBatteryColor) {
     	dc.setColor(colorForeground, colorBackground);
         var battery = Sys.getSystemStats().battery;
       	
