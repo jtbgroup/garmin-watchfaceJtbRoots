@@ -42,7 +42,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth;
-	hidden var showAlarm, showDate;
+	hidden var showAlarm, showDate, showBluetooth, showHR, showNotification;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -142,13 +142,13 @@ public class RootsJtbView extends Ui.WatchFace {
 	        displayDate(dc);
        	}
 		
-		if(!sleeping && Utils.getPropertyValue(Cst.PROP_SHOW_HR)){
+		if(!sleeping && showHR){
 		   displayHr(dc);
         }
         
       	displaySteps(dc);
       	
-      	if(Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION)){
+      	if(showNotification){
         	displayNotifications(dc);
         }
         
@@ -210,6 +210,9 @@ public class RootsJtbView extends Ui.WatchFace {
     function reloadShows(){
   		showAlarm = Utils.getPropertyValue(Cst.PROP_SHOW_ALARM);
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
+  		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
+  		showNotification = Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
+  		showHR = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
     }
     
     function reloadComponents(){
@@ -252,8 +255,16 @@ public class RootsJtbView extends Ui.WatchFace {
     	}else if(Utils.getPropertyValue(Cst.PROP_MODE_COLOR) == Cst.OPTION_MODE_COLOR_LUCY){
     		var color = Utils.getRandomColor(null);
     		colorBackground = color;
-    		colorHour = Utils.getRandomColor(color);
-    		colorMinute = Utils.getRandomColor(color);
+    		colorHour = Utils.getRandomColor([colorBackground]);
+    		colorMinute = Utils.getRandomColor([colorBackground, colorHour]);
+    		colorForeground = Utils.getRandomColor([colorBackground]);
+    		iconColorHeart = Utils.getRandomColor([colorBackground]);
+    		iconColorNotification = Utils.getRandomColor([colorBackground]);
+    		iconColorAlarm = Utils.getRandomColor([colorBackground]);
+    		iconColorRunner = Utils.getRandomColor([colorBackground]);
+    		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
+    		
+    		batteryComponent.setForegroundColor(colorForeground);
     	}
     }
     
@@ -269,6 +280,7 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function displayStepsBar(dc, stepsCount){
+    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
         dc.drawRectangle(co_StepsBar_x, co_StepsBar_y, STEPSBAR_WIDTH, STEPSBAR_HEIGHT);
         
         var stepsCountGoal = Mon.getInfo().stepGoal;
@@ -323,7 +335,7 @@ public class RootsJtbView extends Ui.WatchFace {
 */
 	function displayBtAndAlarm(dc){
 		
-		if(System.getDeviceSettings().phoneConnected){
+		if(showBluetooth && System.getDeviceSettings().phoneConnected){
 			dc.setColor(iconColorBluetooth,COLOR_TRANSPARENT);
 		    dc.drawText(co_IconBT_x, co_IconBT_y, fontIcons, FONT_ICON_CHAR_BLUETOOTH, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 		}
