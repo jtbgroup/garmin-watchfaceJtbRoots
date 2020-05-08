@@ -9,7 +9,6 @@
 	<property id="PROP_ICON_COLOR_NOTIFICATION" type="number">12</property> 
 	<property id="PROP_ICON_COLOR_HEART" type="number">4</property> 
 	<property id="PROP_ICON_COLOR_RUNNER" type="number">0</property> 
-	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">11</property> 
 	<property id="PROP_FONT_SIZE_DATE" type="number">2</property>
 	<property id="PROP_FONT_SIZE_SECONDS" type="number">2</property>
 	<property id="PROP_FONT_SIZE_HR" type="number">0</property>
