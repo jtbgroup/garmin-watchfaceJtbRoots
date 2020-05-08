@@ -80,8 +80,6 @@ class BatteryComponent extends Ui.Drawable {
 
         dc.setColor(colorForeground,colorBackground);
         dc.drawRectangle(co_Battery_x, co_Battery_y, BATTERY_WIDTH, BATTERY_HEIGHT);
-        dc.setColor(colorForeground, colorBackground);
-        dc.drawLine(co_BatteryDop_x-1, co_BatteryDop_y+1, co_BatteryDop_x-1, co_BatteryDop_y + BATTERY_DOP_HEIGHT-1);
 
         dc.setColor(colorForeground, colorBackground);
         dc.drawRectangle(co_BatteryDop_x, co_BatteryDop_y, BATTERY_DOP_WIDTH, BATTERY_DOP_HEIGHT);
@@ -90,7 +88,6 @@ class BatteryComponent extends Ui.Drawable {
 
 		var fillBar = ((BATTERY_WIDTH -2 ) * battery / 100);
 		var fillBar2 = Math.round(fillBar);
-		//System.println("battery=" + battery + " --- prog=" + fillBar +" or "+ fillBar2 );
 		
         dc.setColor(fillColor, colorBackground);
         dc.fillRectangle(co_Battery_x +1 , co_Battery_y+1, fillBar2, BATTERY_HEIGHT-2);
