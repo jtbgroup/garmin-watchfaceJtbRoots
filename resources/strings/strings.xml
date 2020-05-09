@@ -33,7 +33,7 @@
 	
 	<string id="propertyShowBatteryText">Show value of the battery</string>
 	<string id="propertyShowSeconds">Show seconds</string>
-	<string id="propertyShowNotification">Show notifications icon where there are some</string>
+	<string id="propertyShowNotification">Show notifications icon when there are some</string>
 	<string id="propertyShowAlarm">Show alarm icon when active alarm is set</string>
 	<string id="propertyShowDate">Show date</string>
 	<string id="propertyShowBluetooth">Show bluetooth icon when connection is up</string>
