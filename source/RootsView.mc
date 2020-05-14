@@ -42,7 +42,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth;
-	hidden var showAlarm, showDate, showBluetooth, showHR, showNotification, showBatteryText;
+	hidden var showAlarm, showDate, showBluetooth, showHR, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	hidden var sleeping=false;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -208,24 +208,31 @@ public class RootsJtbView extends Ui.WatchFace {
 
 		dc.clearClip();
   		
-  		if(Utils.getPropertyValue(Cst.PROP_SHOW_HR)){
-  			var clipX = heartR_x;
-  			var clipY = heartR_y;
-  			var clipWidth = 22+dc.getTextWidthInPixels("000", FONT_SMALL);
-  			var clipHeight = dc.getFontHeight(FONT_SMALL);
+  		if(showHR && keepHRDisplayed){
+  			var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
+  			var clipWidth = width + ICON_PADDING+dc.getTextWidthInPixels("0000", fontTextHR);
+  			var clipHeight = dc.getFontHeight(fontIcons);
+			if(fontTextMediumHeight > clipHeight){
+	  			clipHeight = fontTextMediumHeight;
+			}
+  			var clipX = co_Screen_Width/2-clipWidth/2;
+  			var clipY = co_HR_y - clipHeight/2;
 	  		dc.setClip(clipX, clipY, clipWidth, clipHeight);
-	  		dc.setColor(PROP_COLOR_BACKGROUND, PROP_COLOR_BACKGROUND);
+	  		dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_GREEN);
 	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
-	  		dc.setColor(COLOR_FOREGROUND, PROP_COLOR_BACKGROUND);
-		    dc.drawBitmap(heartR_x, heartR_y + iconAdjustment, iconHeart );
-			dc.drawText(screen_width/2 + icon_components_padding, heartR_y, FONT_SMALL, retrieveHeartrateText() ,Gfx.TEXT_JUSTIFY_LEFT);
+	  		
+	  		var start = co_Screen_Width/ 2.0 - size/2.0;
+	  		var iconWidthAndPadding = width + ICON_PADDING;
+	  		var hrText = retrieveHeartrateText();	
+	  		dc.setColor(colorForeground, colorBackground);
+			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     	}
     	
-    	if(PROP_SECONDS_KEEP_DISPLAYED){
+    	if(showSeconds && keepSecondsDisplayed){
 	    	var clockTime = System.getClockTime();
-    		dc.setClip(screen_width-40,seconds_y, 40, dc.getFontHeight(Gfx.FONT_SYSTEM_SMALL));
-    		dc.setColor(PROP_COLOR_CLOCK_MIN, PROP_COLOR_BACKGROUND);
-			dc.drawText(screen_width-40,seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
+    		dc.setClip(co_Screen_Width-40,co_Seconds_y, 40, dc.getFontHeight(Gfx.FONT_SYSTEM_SMALL));
+    		dc.setColor(colorForeground, colorBackground);
+			dc.drawText(co_Screen_Width-40,co_Seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
 		}
     }
     
@@ -245,6 +252,10 @@ public class RootsJtbView extends Ui.WatchFace {
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
   		showNotification = Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
   		showHR = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
+  		showSeconds = Utils.getPropertyValue(Cst.PROP_SHOW_SECONDS);
+  		
+  		keepHRDisplayed = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
+  		keepSecondsDisplayed = Utils.getPropertyValue(Cst.PROP_SECONDS_KEEP_DISPLAYED);
     }
     
     function reloadComponents(){
