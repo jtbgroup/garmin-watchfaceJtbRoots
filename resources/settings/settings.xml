@@ -201,8 +201,7 @@
 		</settingConfig>
 	</setting>
 
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_BATTERY"
-		title="@Strings.propertyFontSizeBattery">
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_BATTERY" title="@Strings.propertyFontSizeBattery">
 		<settingConfig type="list">
 			<listEntry value="0">@Strings.xtiny</listEntry>
 			<listEntry value="1">@Strings.tiny</listEntry>

@@ -1,0 +1,29 @@
+version 1.70
+* Added setting to keep seconds always displayed (thank you Amanda for the request)
+* BugFix related to the display of the heart rate when constant monitoring (thank you John for reporting)
+
+version 1.6.2
+* Setting to change the color of each icon
+* Setting to change the font size of each label (except the Clock)
+* Improvement to reduce the used memory (icon's footprint)
+* Setting to show / hide the battery value
+* Code rework to use a garmin barrel
+* All Icons added to the Lucy mode
+* Better vertical alignment for icons linked to labels*
+* Battery fully centered (depending on text)
+
+version 1.5.1
+* Added color setting option for the foreground
+* Added color setting option for icons
+* Added the "Show Notification" option
+* Better alignment management
+* Code cleaning
+
+version 1.4.0
+* Hour is displayed in 12h or 24h format depending on the System settings of the watch
+* Better accuracy in the battery component
+
+version 1.3.1
+* Seconds are only shown if requested
+* Heart rate is only shown if requested
+* Heart rate can keep monitoring when screen enters sleep mode

@@ -38,8 +38,8 @@
 	<string id="propertyShowDate">Show date</string>
 	<string id="propertyShowBluetooth">Show bluetooth icon when connection is up</string>
 	<string id="propertyShowHr">Show heart rate</string>
-	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen is sleeping (if heart rate is asked to be visible)</string>
-	<string id="propertySecondsKeepDisplayed">Keep seconds displayed when screen is sleeping (if seconds are asked to be visible)</string>
+	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen enters in sleep mode (if heart rate is asked to be visible)</string>
+	<string id="propertySecondsKeepDisplayed">Keep seconds displayed when screen enters in sleep mode (if seconds are asked to be visible)</string>
 	
 	<string id="propertyIconColorBluetooth">Color for the bluetooth connection icon</string>
 	<string id="propertyIconColorHeart">Color for the heart rate icon</string>
@@ -56,4 +56,5 @@
 	<string id="xtiny">Extremely tiny</string>
 	<string id="tiny">Tiny</string>
 	<string id="small">Small</string>
+	
 </strings>
