@@ -172,6 +172,8 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function onPartialUpdate(dc){
+    	dc.clearClip();
+    	
     	var showHr = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
     	var keepDisp = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
     	var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
@@ -200,6 +202,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			var clipY = 150;
 			dc.setClip(clipX, clipY, 50, 30);
 			dc.setColor(Gfx.COLOR_GREEN, COLOR_GREEN);
+			dc.clear();
 	  		dc.fillRectangle(clipX, clipY, 50, 30);
 //    	}
     }
