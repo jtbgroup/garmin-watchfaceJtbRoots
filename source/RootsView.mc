@@ -172,11 +172,11 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function onPartialUpdate(dc){
-    	dc.clearClip();
+//    	dc.clearClip();
     	
-    	var showHr = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
-    	var keepDisp = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
-    	var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
+//    	var showHr = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
+//    	var keepDisp = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
+//    	var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
     
 //  		if(sleeping && showHr && keepDisp){
 //  			var clipWidth = width + ICON_PADDING+dc.getTextWidthInPixels("0000", fontTextHR);
@@ -198,13 +198,35 @@ public class RootsJtbView extends Ui.WatchFace {
 //		    dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 //			dc.setColor(colorForeground, colorBackground);
 //			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-			var clipX = 110;
-			var clipY = 150;
-			dc.setClip(clipX, clipY, 50, 30);
-			dc.setColor(Gfx.COLOR_GREEN, COLOR_GREEN);
-			dc.clear();
-	  		dc.fillRectangle(clipX, clipY, 50, 30);
+//			var clipX = 110;
+//			var clipY = 150;
+//			dc.setClip(clipX, clipY, 50, 30);
+//			dc.setColor(Gfx.COLOR_GREEN, COLOR_GREEN);
+//			dc.clear();
+//	  		dc.fillRectangle(clipX, clipY, 50, 30);
 //    	}
+
+		dc.clearClip();
+  		
+  		if(Utils.getPropertyValue(Cst.PROP_SHOW_HR)){
+  			var clipX = heartR_x;
+  			var clipY = heartR_y;
+  			var clipWidth = 22+dc.getTextWidthInPixels("000", FONT_SMALL);
+  			var clipHeight = dc.getFontHeight(FONT_SMALL);
+	  		dc.setClip(clipX, clipY, clipWidth, clipHeight);
+	  		dc.setColor(PROP_COLOR_BACKGROUND, PROP_COLOR_BACKGROUND);
+	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
+	  		dc.setColor(COLOR_FOREGROUND, PROP_COLOR_BACKGROUND);
+		    dc.drawBitmap(heartR_x, heartR_y + iconAdjustment, iconHeart );
+			dc.drawText(screen_width/2 + icon_components_padding, heartR_y, FONT_SMALL, retrieveHeartrateText() ,Gfx.TEXT_JUSTIFY_LEFT);
+    	}
+    	
+    	if(PROP_SECONDS_KEEP_DISPLAYED){
+	    	var clockTime = System.getClockTime();
+    		dc.setClip(screen_width-40,seconds_y, 40, dc.getFontHeight(Gfx.FONT_SYSTEM_SMALL));
+    		dc.setColor(PROP_COLOR_CLOCK_MIN, PROP_COLOR_BACKGROUND);
+			dc.drawText(screen_width-40,seconds_y, Gfx.FONT_SYSTEM_SMALL, clockTime.sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT);  
+		}
     }
     
  	function reloadBasics(reloadComponents){
