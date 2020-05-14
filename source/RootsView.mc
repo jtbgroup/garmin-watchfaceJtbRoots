@@ -177,25 +177,30 @@ public class RootsJtbView extends Ui.WatchFace {
     	var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
     
   		if(sleeping && showHr && keepDisp){
-  			var clipWidth = width + ICON_PADDING+dc.getTextWidthInPixels("0000", fontTextHR);
-  			var clipHeight = dc.getFontHeight(fontIcons);
-			if(fontTextMediumHeight > clipHeight){
-	  			clipHeight = fontTextMediumHeight;
-			}
-  			var clipX = co_Screen_Width/2-clipWidth/2;
-  			var clipY = co_HR_y - clipHeight/2;
-	  		dc.setClip(clipX, clipY, clipWidth, clipHeight);
-	  		dc.setColor(colorBackground, colorBackground);
-	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
-	  		
-		    var iconWidthAndPadding = width + ICON_PADDING;
-			var hrText = retrieveHeartrateText();	  		
-	  		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
-			var start = co_Screen_Width/ 2.0 - size/2.0;
-	  		dc.setColor(iconColorHeart, colorBackground);
-		    dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-			dc.setColor(colorForeground, colorBackground);
-			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//  			var clipWidth = width + ICON_PADDING+dc.getTextWidthInPixels("0000", fontTextHR);
+//  			var clipHeight = dc.getFontHeight(fontIcons);
+//			if(fontTextMediumHeight > clipHeight){
+//	  			clipHeight = fontTextMediumHeight;
+//			}
+//  			var clipX = co_Screen_Width/2-clipWidth/2;
+//  			var clipY = co_HR_y - clipHeight/2;
+//	  		dc.setClip(clipX, clipY, clipWidth, clipHeight);
+//	  		dc.setColor(colorBackground, colorBackground);
+//	  		dc.fillRectangle(clipX, clipY, clipWidth, clipHeight);
+//	  		
+//		    var iconWidthAndPadding = width + ICON_PADDING;
+//			var hrText = retrieveHeartrateText();	  		
+//	  		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
+//			var start = co_Screen_Width/ 2.0 - size/2.0;
+//	  		dc.setColor(iconColorHeart, colorBackground);
+//		    dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//			dc.setColor(colorForeground, colorBackground);
+//			dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+			var clipX = 110;
+			var clipY = 150;
+			dc.setClip(clipX, clipY, 50, 30);
+			dc.setColor(Gfx.COLOR_GREEN, COLOR_GREEN);
+	  		dc.fillRectangle(clipX, clipY, 50, 30);
     	}
     }
     
