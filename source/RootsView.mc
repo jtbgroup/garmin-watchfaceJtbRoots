@@ -3,14 +3,14 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
-using Toybox.ActivityMonitor as Mon;
+//using Toybox.ActivityMonitor as Mon;
 using JTBUtils as Utils;
 using RootsConstants as Cst;
 
 public class RootsJtbView extends Ui.WatchFace {
 
 	//DEBUG
-	hidden var showLines = false;
+	hidden var showLines = true;
 	
 	//CONSTANTS
 	//positions
@@ -20,15 +20,16 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const L2p = 0.20;
 	hidden const L4p = 0.78;
 	hidden const L6 = 35;
+	hidden const HOUR_H_PERCENT = 0.50;
 	
 	//colors
 	hidden const COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
-    hidden const COLOR_STEPSBAR_0=0xFF0000;
-	hidden const COLOR_STEPSBAR_25=0xFFAA00;
-	hidden const COLOR_STEPSBAR_75=0xAA55FF;
-    hidden const COLOR_STEPSBAR_100=0x00FF00;
-	hidden const STEPSBAR_WIDTH = 80;
-	hidden const STEPSBAR_HEIGHT = 8;
+//    hidden const COLOR_STEPSBAR_0=0xFF0000;
+//	hidden const COLOR_STEPSBAR_25=0xFFAA00;
+//	hidden const COLOR_STEPSBAR_75=0xAA55FF;
+//    hidden const COLOR_STEPSBAR_100=0x00FF00;
+//	hidden const STEPSBAR_WIDTH = 80;
+//	hidden const STEPSBAR_HEIGHT = 8;
 
 	hidden const ICON_PADDING = 3;
 	hidden const FONT_ICON_CHAR_ALARM="0";
@@ -55,10 +56,20 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var co_ClockBottom_y, co_ClockTop_y;
 	hidden var co_Battery_y;
 	hidden var fontCustomHeight;
+	hidden var zone01_x, zone01_y, zone01_w, zone01_h, zone01_cy;
+	hidden var zone02_x, zone02_y, zone02_w, zone02_h, zone02_cy;
+	hidden var zone03_x, zone03_y, zone03_w, zone03_h, zone03_cy;
+	hidden var zone04_x, zone04_y, zone04_w, zone04_h, zone04_cy;
+	hidden var zone05_x, zone05_y, zone05_w, zone05_h, zone05_cy;
+	hidden var zone06_x, zone06_y, zone06_w, zone06_h, zone06_cy;
+	hidden var zone07_x, zone07_y, zone07_w, zone07_h, zone07_cy;
+	hidden var zone08_x, zone08_y, zone08_w, zone08_h, zone08_cy;
+	hidden var row01_h, row02_h, row04_h, row05_h;
+	
 	//lines
-	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
+//	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	//components
-	hidden var batteryComponent;
+	hidden var batteryComponent, stepsComponent;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -80,6 +91,17 @@ public class RootsJtbView extends Ui.WatchFace {
 			:font=>fontTextBattery,
 			:showText=>showBatteryText
 		});
+		
+		stepsComponent = new StepsComponent({
+			:locX=>zone08_x,
+			:locY=>zone08_y,
+			:height=>zone08_h,
+			:width=>zone08_w,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:dc=>dc,
+			:font=>fontTextBattery
+		});
     }
     
     function computeCoordinates(dc){
@@ -87,25 +109,78 @@ public class RootsJtbView extends Ui.WatchFace {
 		co_Screen_Width = dc.getWidth();
         co_Screen_Height = dc.getHeight();
         
-		Y_L1=L1;
-		Y_L2=co_Screen_Height*L2p;
-		Y_L3=co_Screen_Height/2;
-		Y_L4=co_Screen_Height*L4p;
-		Y_L6=co_Screen_Height-L6;
+          //row 3
+        zone04_cy = co_Screen_Height / 2;
+        zone04_x = 0;
+        zone04_y = zone04_cy - co_Screen_Height * HOUR_H_PERCENT / 2;
+        zone04_w = co_Screen_Width;
+        zone04_h = co_Screen_Height * HOUR_H_PERCENT;
+        
+        
+        row01_h = zone04_y * 0.30;
+        row02_h = zone04_y * 0.70;
+        row04_h = (co_Screen_Height / 2 - zone04_h/2) * 0.40;
+        row05_h = (co_Screen_Height / 2 - zone04_h/2) * 0.60;
+        //row 1
+        zone01_x = 0;
+        zone01_y = 0;
+        zone01_w = co_Screen_Width;
+        zone01_h = row01_h;
+        zone01_cy = zone01_y + zone01_h/2;
+        
+        //row 2
+        zone02_x = 0;
+        zone02_y = zone01_h;
+        zone02_w = co_Screen_Width * 0.33;
+        zone02_h = row02_h;
+        zone02_cy = zone02_y + zone02_h / 2;
+        
+        zone03_x = zone02_w;
+        zone03_y = zone01_h;
+        zone03_w = co_Screen_Width * 0.67;
+        zone03_h = row02_h;
+        zone03_cy = zone03_y + zone03_h / 2;
+              
+        
+        //row 4 
+        zone05_x = 0;
+        zone05_y = zone04_y + zone04_h;
+        zone05_w = co_Screen_Width * 0.32;
+        zone05_h = row04_h;
+        zone05_cy = zone05_y + zone05_h / 2;
+        
+        zone06_x = zone05_w;
+        zone06_y = zone05_y;
+        zone06_w = co_Screen_Width * 0.36;
+        zone06_h = row04_h;
+        zone06_cy = zone06_y + zone06_h / 2;
+        
+        zone07_x = zone05_w + zone06_w;
+        zone07_y = zone05_y;
+        zone07_w = co_Screen_Width * 0.32;
+        zone07_h = row04_h;
+        zone07_cy = zone07_y + zone07_h / 2;
+        
+        //row 5
+        zone08_x = 0;
+        zone08_y = zone05_y + row04_h;
+        zone08_w = co_Screen_Width;
+        zone08_h = row05_h;
+        zone08_cy = zone08_y + zone08_h / 2;
 		
-    	co_Battery_y = Y_L1;
+    	co_Battery_y = zone01_cy;
 		
     	co_IconBT_x = LEFT_x;
-    	co_IconBT_y = Y_L2;
+    	co_IconBT_y = zone02_cy;
     	
     	var w = dc.getTextWidthInPixels(FONT_ICON_CHAR_BLUETOOTH, fontIcons);
     	co_IconAlarm_x = LEFT_x + w + ICON_PADDING;
-    	co_IconAlarm_y = Y_L2;
+    	co_IconAlarm_y = zone02_cy;
 
     	fontCustomHeight = dc.getFontHeight(customFont);
     	co_ClockTop_y = co_Screen_Height/2 - fontCustomHeight/2;
     	co_ClockBottom_y = co_Screen_Height/2 + fontCustomHeight/2;
-    	co_Clock_y = Y_L3;
+    	co_Clock_y = zone04_cy;
     	
 
     	co_clip_Seconds_Width = dc.getTextWidthInPixels("44", fontTextSeconds);
@@ -119,9 +194,9 @@ public class RootsJtbView extends Ui.WatchFace {
     	co_Date_y =  co_ClockTop_y - fontDateH;
     	
     	co_IconNotif_x = LEFT_x;
-    	co_IconNotif_y = Y_L4;
+    	co_IconNotif_y = zone05_cy;
     	
-    	co_HR_y = Y_L4;
+    	co_HR_y = zone05_cy;
     	co_clip_HR_Width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontTextHR) + ICON_PADDING + dc.getTextWidthInPixels("4444", fontTextHR);
     	co_clip_HR_Height =  dc.getFontHeight(fontIcons);
 		if(dc.getFontHeight(fontIcons) > co_clip_HR_Height){
@@ -130,15 +205,11 @@ public class RootsJtbView extends Ui.WatchFace {
     	co_clip_HR_x = co_Screen_Width/2 - co_clip_HR_Width/2;
     	co_clip_HR_y = co_HR_y - co_clip_HR_Height/2;
     	
-		co_StepsBar_x = co_Screen_Width/2 - STEPSBAR_WIDTH/2;
-    	co_StepsBar_y = Y_L6;
-    	co_StepsCount_y = co_StepsBar_y+18;
+//		co_StepsBar_x = co_Screen_Width/2 - STEPSBAR_WIDTH/2;
+//    	co_StepsBar_y = zone08_cy;
+//    	co_StepsCount_y = co_StepsBar_y+18;
     	
-    	// This is only to make UI debugging easier
-		if(showLines){
-	        System.println("screen height="+co_Screen_Height+", L1="+Y_L1+", L2="+Y_L2+", L3="+Y_L3+", L4="+Y_L4+", L6="+Y_L6);
-	    }
-	    
+    
 	    computeCoordinatesRequired=false;
     }
 
@@ -175,7 +246,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		   displayHR(dc);
         }
         
-      	displaySteps(dc);
+      	stepsComponent.draw(dc);
       	
       	if(showNotification){
         	displayNotifications(dc);
@@ -188,15 +259,27 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function drawGridLines(dc){
-		dc.setColor(colorForeground, colorBackground);
-        dc.drawLine(0, Y_L1, co_Screen_Width, Y_L1);
-        dc.drawLine(0, Y_L2, co_Screen_Width, Y_L2);
-        dc.drawLine(0, Y_L3, co_Screen_Width, Y_L3);
-        dc.drawLine(0, Y_L4, co_Screen_Width, Y_L4);
-        dc.drawLine(0, Y_L6, co_Screen_Width, Y_L6);
         
-        dc.drawLine(0, co_ClockBottom_y, co_Screen_Width, co_ClockBottom_y);
-        dc.drawLine(0, co_ClockTop_y, co_Screen_Width, co_ClockTop_y);
+        dc.setColor(Gfx.COLOR_GREEN, colorBackground);
+        dc.drawRectangle(zone01_x, zone01_y, zone01_w, zone01_h);
+        dc.drawRectangle(zone02_x, zone02_y, zone02_w, zone02_h);
+        dc.drawRectangle(zone03_x, zone03_y, zone03_w, zone03_h);
+       	dc.drawRectangle(zone04_x, zone04_y, zone04_w, zone04_h);
+  		dc.drawRectangle(zone05_x, zone05_y, zone05_w, zone05_h);
+		dc.drawRectangle(zone06_x, zone06_y, zone06_w, zone06_h);
+    	dc.drawRectangle(zone07_x, zone07_y, zone07_w, zone07_h);
+    	dc.drawRectangle(zone08_x, zone08_y, zone08_w, zone08_h);
+       	
+       	 
+        dc.setColor(Gfx.COLOR_BLUE, colorBackground);
+        dc.drawLine(zone01_x, zone01_cy, zone01_x+zone01_w, zone01_cy);
+        dc.drawLine(zone02_x, zone02_cy, zone02_x+zone02_w, zone02_cy);
+        dc.drawLine(zone03_x, zone03_cy, zone03_x+zone03_w, zone03_cy);
+        dc.drawLine(zone04_x, zone04_cy, zone04_x+zone04_w, zone04_cy);
+ 		dc.drawLine(zone05_x, zone05_cy, zone05_x+zone05_w, zone05_cy);
+       	dc.drawLine(zone06_x, zone06_cy, zone06_x+zone06_w, zone06_cy);
+       	dc.drawLine(zone07_x, zone07_cy, zone07_x+zone07_w, zone07_cy);
+       	dc.drawLine(zone08_x, zone08_cy, zone08_x+zone08_w, zone08_cy);
     }
     
     function onPartialUpdate(dc){
@@ -310,44 +393,44 @@ public class RootsJtbView extends Ui.WatchFace {
 	STEPS
 	------------------------
 */
-    function displaySteps(dc){
-		var stepsCount = Mon.getInfo().steps;
-        displayStepsBar(dc, stepsCount);
-        displayStepsCounter(dc, stepsCount);
-    }
-    
-    function displayStepsBar(dc, stepsCount){
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.drawRectangle(co_StepsBar_x, co_StepsBar_y, STEPSBAR_WIDTH, STEPSBAR_HEIGHT);
-        
-        var stepsCountGoal = Mon.getInfo().stepGoal;
-        var goal = (stepsCount * 1.0 / stepsCountGoal * 1.0) ;
-                        
-        var fillColor = COLOR_STEPSBAR_25;
-        var fillSize = (STEPSBAR_WIDTH -2.0) * goal;
-        if(goal>=1.0){
-	        fillColor=COLOR_STEPSBAR_100;
-	        fillSize=STEPSBAR_WIDTH-2;
-        }else if(goal >= 0.75){
-        	fillColor=COLOR_STEPSBAR_75;
-         }else if(goal <= 0.25){
-        	fillColor=COLOR_STEPSBAR_0;
-        }
-        
-        dc.setColor(fillColor, COLOR_TRANSPARENT);
-        dc.fillRectangle(co_StepsBar_x + 1, co_StepsBar_y+2, fillSize, STEPSBAR_HEIGHT-4);
-   }
-   
-   function displayStepsCounter(dc, stepsCount){
-   		var iconWidthAndPadding = dc.getTextWidthInPixels(FONT_ICON_CHAR_RUNNER, fontIcons) + ICON_PADDING;
-   		var size = dc.getTextWidthInPixels(stepsCount.toString(), fontTextSteps) + iconWidthAndPadding;
-		var start = co_Screen_Width/ 2.0 - size/2.0;
-		dc.setColor(iconColorRunner,COLOR_TRANSPARENT);
-		dc.drawText(start, co_StepsCount_y, fontIcons, FONT_ICON_CHAR_RUNNER, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-		dc.setColor(colorForeground,COLOR_TRANSPARENT);
-	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y,  fontTextSteps, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-	}
-    
+//    function displaySteps(dc){
+//		var stepsCount = Mon.getInfo().steps;
+//        displayStepsBar(dc, stepsCount);
+//        displayStepsCounter(dc, stepsCount);
+//    }
+//    
+//    function displayStepsBar(dc, stepsCount){
+//    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
+//        dc.drawRectangle(co_StepsBar_x, co_StepsBar_y, STEPSBAR_WIDTH, STEPSBAR_HEIGHT);
+//        
+//        var stepsCountGoal = Mon.getInfo().stepGoal;
+//        var goal = (stepsCount * 1.0 / stepsCountGoal * 1.0) ;
+//                        
+//        var fillColor = COLOR_STEPSBAR_25;
+//        var fillSize = (STEPSBAR_WIDTH -2.0) * goal;
+//        if(goal>=1.0){
+//	        fillColor=COLOR_STEPSBAR_100;
+//	        fillSize=STEPSBAR_WIDTH-2;
+//        }else if(goal >= 0.75){
+//        	fillColor=COLOR_STEPSBAR_75;
+//         }else if(goal <= 0.25){
+//        	fillColor=COLOR_STEPSBAR_0;
+//        }
+//        
+//        dc.setColor(fillColor, COLOR_TRANSPARENT);
+//        dc.fillRectangle(co_StepsBar_x + 1, co_StepsBar_y+2, fillSize, STEPSBAR_HEIGHT-4);
+//   }
+//   
+//   function displayStepsCounter(dc, stepsCount){
+//   		var iconWidthAndPadding = dc.getTextWidthInPixels(FONT_ICON_CHAR_RUNNER, fontIcons) + ICON_PADDING;
+//   		var size = dc.getTextWidthInPixels(stepsCount.toString(), fontTextSteps) + iconWidthAndPadding;
+//		var start = co_Screen_Width/ 2.0 - size/2.0;
+//		dc.setColor(iconColorRunner,COLOR_TRANSPARENT);
+//		dc.drawText(start, co_StepsCount_y, fontIcons, FONT_ICON_CHAR_RUNNER, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//		dc.setColor(colorForeground,COLOR_TRANSPARENT);
+//	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y,  fontTextSteps, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//	}
+//    
 
 /**
 	------------------------
@@ -462,7 +545,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	function displayDate(dc){
         var dateStr = formatDate();
         dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.drawText(co_Screen_Width - RIGHT_x,co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(co_Screen_Width - RIGHT_x,co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
 
 	function formatDate(){
