@@ -55,6 +55,15 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var co_ClockBottom_y, co_ClockTop_y;
 	hidden var co_Battery_y;
 	hidden var fontCustomHeight;
+	hidden var zone01_x, zone01_y, zone01_w, zone01_h, zone01_cy;
+	hidden var zone02_x, zone02_y, zone02_w, zone02_h, zone02_cy;
+	hidden var zone03_x, zone03_y, zone03_w, zone03_h, zone03_cy;
+	hidden var zone04_x, zone04_y, zone04_w, zone04_h, zone04_cy;
+	hidden var zone05_x, zone05_y, zone05_w, zone05_h, zone05_cy;
+	hidden var zone06_x, zone06_y, zone06_w, zone06_h, zone06_cy;
+	hidden var zone07_x, zone07_y, zone07_w, zone07_h, zone07_cy;
+	hidden var zone08_x, zone08_y, zone08_w, zone08_h, zone08_cy;
+	
 	//lines
 	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	//components
@@ -86,6 +95,59 @@ public class RootsJtbView extends Ui.WatchFace {
     	//get screen dimensions
 		co_Screen_Width = dc.getWidth();
         co_Screen_Height = dc.getHeight();
+        
+        //row 1 = 13%
+        zone01_x = 0;
+        zone01_y = 0;
+        zone01_w = co_Screen_Width;
+        zone01_h = co_Screen_Height * 0.13;
+        zone01_cy = zone01_y + zone01_h/2;
+        
+        //row 2 = 15%
+        zone02_x = 0;
+        zone02_y = zone01_h;
+        zone02_w = co_Screen_Width * 0.33;
+        zone02_h = co_Screen_Height * 0.15;
+        zone02_cy = zone02_y + zone02_h / 2;
+        
+        zone03_x = zone02_w;
+        zone03_y = zone01_h;
+        zone03_w = co_Screen_Width * 0.67;
+        zone03_h = co_Screen_Height * 0.15;
+        zone03_cy = zone03_y + zone03_h / 2;
+        
+        //row 3 = 45%
+        zone04_x = 0;
+        zone04_y = zone01_h + zone02_h;
+        zone04_w = co_Screen_Width;
+        zone04_h = co_Screen_Height * 0.45;
+        zone04_cy = zone04_y + zone04_h / 2;
+        
+        //row 4 = 13% 
+        zone05_x = 0;
+        zone05_y = zone01_h + zone02_h + zone04_h;
+        zone05_w = co_Screen_Width * 0.32;
+        zone05_h = co_Screen_Height * 0.13;
+        zone05_cy = zone05_y + zone05_h / 2;
+        
+        zone06_x = zone05_w;
+        zone06_y = zone05_y;
+        zone06_w = co_Screen_Width * 0.36;
+        zone06_h = co_Screen_Height * 0.13;
+        zone06_cy = zone06_y + zone06_h / 2;
+        
+        zone07_x = zone05_w + zone06_w;
+        zone07_y = zone05_y;
+        zone07_w = co_Screen_Width * 0.32;
+        zone07_h = co_Screen_Height * 0.13;
+        zone07_cy = zone07_y + zone07_h / 2;
+        
+        //row 5 = 14%
+        zone08_x = 0;
+        zone08_y = zone01_h + zone02_h + zone04_h + zone05_h;
+        zone08_w = co_Screen_Width;
+        zone08_h = co_Screen_Height * 0.1;
+        zone08_cy = zone08_y + zone08_h / 2;
         
 		Y_L1=L1;
 		Y_L2=co_Screen_Height*L2p;
@@ -197,6 +259,26 @@ public class RootsJtbView extends Ui.WatchFace {
         
         dc.drawLine(0, co_ClockBottom_y, co_Screen_Width, co_ClockBottom_y);
         dc.drawLine(0, co_ClockTop_y, co_Screen_Width, co_ClockTop_y);
+        
+        
+        dc.setColor(Gfx.COLOR_GREEN, colorBackground);
+        dc.drawRectangle(zone01_x, zone01_y, zone01_w, zone01_h);
+        dc.drawRectangle(zone02_x, zone02_y, zone02_w, zone02_h);
+        dc.drawRectangle(zone03_x, zone03_y, zone03_w, zone03_h);
+       	dc.drawRectangle(zone04_x, zone04_y, zone04_w, zone04_h);
+  		dc.drawRectangle(zone05_x, zone05_y, zone05_w, zone05_h);
+		dc.drawRectangle(zone06_x, zone06_y, zone06_w, zone06_h);
+    	dc.drawRectangle(zone07_x, zone07_y, zone07_w, zone07_h);
+    	dc.drawRectangle(zone08_x, zone08_y, zone08_w, zone08_h);
+       	
+        dc.drawLine(zone01_x, zone01_cy, zone01_x+zone01_w, zone01_cy);
+        dc.drawLine(zone02_x, zone02_cy, zone02_x+zone02_w, zone02_cy);
+        dc.drawLine(zone03_x, zone03_cy, zone03_x+zone03_w, zone03_cy);
+        dc.drawLine(zone04_x, zone04_cy, zone04_x+zone04_w, zone04_cy);
+ 		dc.drawLine(zone05_x, zone05_cy, zone05_x+zone05_w, zone05_cy);
+       	dc.drawLine(zone06_x, zone06_cy, zone06_x+zone06_w, zone06_cy);
+       	dc.drawLine(zone07_x, zone07_cy, zone07_x+zone07_w, zone07_cy);
+       	dc.drawLine(zone08_x, zone08_cy, zone08_x+zone08_w, zone08_cy);
     }
     
     function onPartialUpdate(dc){
