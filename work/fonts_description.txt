@@ -1,8 +1,9 @@
 font_icons
 --------------------
-* based on font icomoon
+* based on fonts icomoon (https://icomoon.io/) --> load project (json)
+* roots.ttf
 * in BMF : size = 16px + export as png
-* in font.xml, filter the font to '01234'
+* in font.xml, filter the font to '012345'
 
 
 font_text_small

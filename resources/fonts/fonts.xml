@@ -1,5 +1,5 @@
 <fonts>
 	<font id="customFont" filename="paranoid_150.fnt" filter="0123456789"/>
 	<font id="fontTextSmall" filename="font_text_small.fnt" filter="%0123456789"/>
-	<font id="fontIcons" filename="font_icons.fnt" filter="01234"/>
+	<font id="fontIcons" filename="font_icons.fnt" filter="012345"/>
 </fonts>

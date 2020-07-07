@@ -37,6 +37,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const FONT_ICON_CHAR_NOTIFICATION="2";
 	hidden const FONT_ICON_CHAR_RUNNER="3";
 	hidden const FONT_ICON_CHAR_HEART="4";
+	hidden const FONT_ICON_CHAR_CALORIES="5";
 	
 	//IINSTANCE VARIABLES 
 	//general
@@ -69,7 +70,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	//lines
 //	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	//components
-	hidden var batteryComponent, stepsComponent;
+	hidden var batteryComponent, stepsComponent, caloriesComponent;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -93,6 +94,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
 		
 		stepsComponent = new StepsComponent({
+			:dc=>dc,
 			:locX=>zone08_x,
 			:locY=>zone08_y,
 			:height=>zone08_h,
@@ -100,7 +102,25 @@ public class RootsJtbView extends Ui.WatchFace {
 			:bgc=>COLOR_TRANSPARENT,
 			:fgc=>colorForeground,
 			:dc=>dc,
-			:font=>fontTextBattery
+			:textFont=>fontTextSteps,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_RUNNER,
+			:iconColor=>iconColorRunner,
+		});
+		
+		caloriesComponent = new CaloriesComponent({
+			:dc=>dc,
+			:locX=>zone08_x,
+			:locY=>zone08_y,
+			:height=>zone08_h,
+			:width=>zone08_w,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:dc=>dc,
+			:textFont=>fontTextSteps,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_CALORIES,
+			:iconColor=>iconColorRunner,
 		});
     }
     
@@ -205,11 +225,7 @@ public class RootsJtbView extends Ui.WatchFace {
     	co_clip_HR_x = co_Screen_Width/2 - co_clip_HR_Width/2;
     	co_clip_HR_y = co_HR_y - co_clip_HR_Height/2;
     	
-//		co_StepsBar_x = co_Screen_Width/2 - STEPSBAR_WIDTH/2;
-//    	co_StepsBar_y = zone08_cy;
-//    	co_StepsCount_y = co_StepsBar_y+18;
-    	
-    
+   
 	    computeCoordinatesRequired=false;
     }
 
@@ -246,7 +262,8 @@ public class RootsJtbView extends Ui.WatchFace {
 		   displayHR(dc);
         }
         
-      	stepsComponent.draw(dc);
+//      	stepsComponent.draw(dc);
+      	caloriesComponent.draw(dc);
       	
       	if(showNotification){
         	displayNotifications(dc);
@@ -388,49 +405,6 @@ public class RootsJtbView extends Ui.WatchFace {
     	}
     }
     
-/**
-	------------------------
-	STEPS
-	------------------------
-*/
-//    function displaySteps(dc){
-//		var stepsCount = Mon.getInfo().steps;
-//        displayStepsBar(dc, stepsCount);
-//        displayStepsCounter(dc, stepsCount);
-//    }
-//    
-//    function displayStepsBar(dc, stepsCount){
-//    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//        dc.drawRectangle(co_StepsBar_x, co_StepsBar_y, STEPSBAR_WIDTH, STEPSBAR_HEIGHT);
-//        
-//        var stepsCountGoal = Mon.getInfo().stepGoal;
-//        var goal = (stepsCount * 1.0 / stepsCountGoal * 1.0) ;
-//                        
-//        var fillColor = COLOR_STEPSBAR_25;
-//        var fillSize = (STEPSBAR_WIDTH -2.0) * goal;
-//        if(goal>=1.0){
-//	        fillColor=COLOR_STEPSBAR_100;
-//	        fillSize=STEPSBAR_WIDTH-2;
-//        }else if(goal >= 0.75){
-//        	fillColor=COLOR_STEPSBAR_75;
-//         }else if(goal <= 0.25){
-//        	fillColor=COLOR_STEPSBAR_0;
-//        }
-//        
-//        dc.setColor(fillColor, COLOR_TRANSPARENT);
-//        dc.fillRectangle(co_StepsBar_x + 1, co_StepsBar_y+2, fillSize, STEPSBAR_HEIGHT-4);
-//   }
-//   
-//   function displayStepsCounter(dc, stepsCount){
-//   		var iconWidthAndPadding = dc.getTextWidthInPixels(FONT_ICON_CHAR_RUNNER, fontIcons) + ICON_PADDING;
-//   		var size = dc.getTextWidthInPixels(stepsCount.toString(), fontTextSteps) + iconWidthAndPadding;
-//		var start = co_Screen_Width/ 2.0 - size/2.0;
-//		dc.setColor(iconColorRunner,COLOR_TRANSPARENT);
-//		dc.drawText(start, co_StepsCount_y, fontIcons, FONT_ICON_CHAR_RUNNER, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//		dc.setColor(colorForeground,COLOR_TRANSPARENT);
-//	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y,  fontTextSteps, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//	}
-//    
 
 /**
 	------------------------
