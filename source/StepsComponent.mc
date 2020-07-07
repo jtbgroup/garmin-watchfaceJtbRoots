@@ -31,6 +31,7 @@ class StepsComponent extends Ui.Drawable {
 	hidden var barWidth;
 	
 	hidden var co_bar_x, co_bar_y;
+	hidden var co_stepsCount_y;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -50,6 +51,8 @@ class StepsComponent extends Ui.Drawable {
     	barWidth = STEPSBAR_WIDTH;
     	co_bar_x = x + width/2 - (STEPSBAR_WIDTH)/2;
     	co_bar_y = y+barHeight;
+    	
+    	co_stepsCount_y=co_bar_y+5;
     }
     
 //    private function computeCoordinatesX(dc){
@@ -65,7 +68,7 @@ class StepsComponent extends Ui.Drawable {
 	 function displaySteps(dc){
 		var stepsCount = Mon.getInfo().steps;
         displayStepsBar(dc, stepsCount);
-      //  displayStepsCounter(dc, stepsCount);
+       // displayStepsCounter(dc, stepsCount);
     }
     
     function displayStepsBar(dc, stepsCount){
