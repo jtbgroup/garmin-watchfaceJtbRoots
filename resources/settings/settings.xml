@@ -22,16 +22,18 @@
 	</setting>
 
 
+	<!-- COMPONENT CHOICE -->
 	<setting propertyKey="@Properties.PROP_ZONE_8"
 		title="@Strings.propertyZone8">
 		<settingConfig type="list">
-			<listEntry value="0">@Strings.steps</listEntry>
-			<listEntry value="1">@Strings.calories</listEntry>
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="1">@Strings.steps</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
 		</settingConfig>
 	</setting>
 
 
-
+	<!-- GENERAL COLORS -->
 	<setting propertyKey="@Properties.PROP_COLOR_BACKGROUND"
 		title="@Strings.propertyColorBackground">
 		<settingConfig type="list">
@@ -72,6 +74,7 @@
 		</settingConfig>
 	</setting>
 
+	<!-- CLOCK -->
 	<setting propertyKey="@Properties.PROP_COLOR_CLOCK_HOUR"
 		title="@Strings.propertyColorClockHour">
 		<settingConfig type="list">
@@ -111,6 +114,72 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
+
+	<!-- SECONDS -->
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_SECONDS"
+		title="@Strings.propertyFontSizeSeconds">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_SHOW_SECONDS"
+		title="@Strings.propertyShowSeconds">
+		<settingConfig type="boolean" />
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_SECONDS_KEEP_DISPLAYED"
+		title="@Strings.propertySecondsKeepDisplayed">
+		<settingConfig type="boolean" />
+	</setting>
+
+	<!-- DATE -->
+	<setting propertyKey="@Properties.PROP_DATE_FORMAT" title="@Strings.propertyDateFormat">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
+			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
+			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_DATE"
+		title="@Strings.propertyFontSizeDate">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_SHOW_DATE"
+		title="@Strings.propertyShowDate">
+		<settingConfig type="boolean" />
+	</setting>
+
+	<!-- BATTERY -->
+	<setting propertyKey="@Properties.PROP_SHOW_BATTERY_TEXT"
+		title="@Strings.propertyShowBatteryText">
+		<settingConfig type="boolean" />
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_BATTERY"
+		title="@Strings.propertyFontSizeBattery">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+
+
+	<!-- BLUETOOTH -->
+	<setting propertyKey="@Properties.PROP_SHOW_BLUETOOTH"
+		title="@Strings.propertyShowBluetooth">
+		<settingConfig type="boolean" />
+	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_BLUETOOTH"
 		title="@Strings.propertyIconColorBluetooth">
@@ -130,6 +199,13 @@
 			<listEntry value="12">@Strings.purple</listEntry>
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
+	</setting>
+
+
+	<!-- ALARM -->
+	<setting propertyKey="@Properties.PROP_SHOW_ALARM"
+		title="@Strings.propertyShowAlarm">
+		<settingConfig type="boolean" />
 	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_ALARM"
@@ -151,6 +227,12 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
+
+	<!-- NOTIFICATIONS -->
+	<setting propertyKey="@Properties.PROP_SHOW_NOTIFICATION"
+		title="@Strings.propertyShowNotification">
+		<settingConfig type="boolean" />
+	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_NOTIFICATION"
 		title="@Strings.propertyIconColorNotification">
@@ -170,6 +252,21 @@
 			<listEntry value="12">@Strings.purple</listEntry>
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_NOTIFICATION"
+		title="@Strings.propertyFontSizeNotification">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+	<!-- HEART RATE -->
+	<setting propertyKey="@Properties.PROP_SHOW_HR"
+		title="@Strings.propertyShowHr">
+		<settingConfig type="boolean" />
 	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_HEART"
@@ -191,7 +288,22 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
-	
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_HR"
+		title="@Strings.propertyFontSizeHR">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_HR_KEEP_DISPLAYED"
+		title="@Strings.propertyHrKeepDisplayed">
+		<settingConfig type="boolean" />
+	</setting>
+
+	<!-- STEPS COUNT -->
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_RUNNER"
 		title="@Strings.propertyIconColorRunner">
 		<settingConfig type="list">
@@ -212,50 +324,6 @@
 		</settingConfig>
 	</setting>
 
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_BATTERY" title="@Strings.propertyFontSizeBattery">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.xtiny</listEntry>
-			<listEntry value="1">@Strings.tiny</listEntry>
-			<listEntry value="2">@Strings.small</listEntry>
-		</settingConfig>
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_DATE"
-		title="@Strings.propertyFontSizeDate">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.xtiny</listEntry>
-			<listEntry value="1">@Strings.tiny</listEntry>
-			<listEntry value="2">@Strings.small</listEntry>
-		</settingConfig>
-	</setting>
-
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_NOTIFICATION"
-		title="@Strings.propertyFontSizeNotification">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.xtiny</listEntry>
-			<listEntry value="1">@Strings.tiny</listEntry>
-			<listEntry value="2">@Strings.small</listEntry>
-		</settingConfig>
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_HR"
-		title="@Strings.propertyFontSizeHR">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.xtiny</listEntry>
-			<listEntry value="1">@Strings.tiny</listEntry>
-			<listEntry value="2">@Strings.small</listEntry>
-		</settingConfig>
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_FONT_SIZE_SECONDS"
-		title="@Strings.propertyFontSizeSeconds">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.xtiny</listEntry>
-			<listEntry value="1">@Strings.tiny</listEntry>
-			<listEntry value="2">@Strings.small</listEntry>
-		</settingConfig>
-	</setting>
-	
 	<setting propertyKey="@Properties.PROP_FONT_SIZE_STEPS"
 		title="@Strings.propertyFontSizeSteps">
 		<settingConfig type="list">
@@ -265,58 +333,5 @@
 		</settingConfig>
 	</setting>
 
-	<setting propertyKey="@Properties.PROP_DATE_FORMAT"
-		title="@Strings.propertyDateFormat">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
-			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
-			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
-		</settingConfig>
-	</setting>
 
-	<setting propertyKey="@Properties.PROP_SHOW_BATTERY_TEXT"
-		title="@Strings.propertyShowBatteryText">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_BLUETOOTH"
-		title="@Strings.propertyShowBluetooth">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_ALARM"
-		title="@Strings.propertyShowAlarm">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_DATE"
-		title="@Strings.propertyShowDate">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_NOTIFICATION"
-		title="@Strings.propertyShowNotification">
-		<settingConfig type="boolean" />
-	</setting>
-
-	<setting propertyKey="@Properties.PROP_SHOW_SECONDS"
-		title="@Strings.propertyShowSeconds">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SHOW_HR"
-		title="@Strings.propertyShowHr">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_HR_KEEP_DISPLAYED"
-		title="@Strings.propertyHrKeepDisplayed">
-		<settingConfig type="boolean" />
-	</setting>
-	
-	<setting propertyKey="@Properties.PROP_SECONDS_KEEP_DISPLAYED"
-		title="@Strings.propertySecondsKeepDisplayed">
-		<settingConfig type="boolean" />
-	</setting>
-	
 </settings>

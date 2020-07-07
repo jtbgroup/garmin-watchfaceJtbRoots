@@ -60,5 +60,6 @@
 	<string id="propertyZone8">Information displayed at the bottom</string>
 	<string id="steps">Steps counter</string>
 	<string id="calories">Calories</string>
+	<string id="none">None</string>
 	
 </strings>

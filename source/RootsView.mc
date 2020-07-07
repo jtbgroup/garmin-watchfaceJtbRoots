@@ -3,7 +3,6 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
-//using Toybox.ActivityMonitor as Mon;
 using JTBUtils as Utils;
 using RootsConstants as Cst;
 
@@ -253,7 +252,9 @@ public class RootsJtbView extends Ui.WatchFace {
 		   displayHR(dc);
         }
         
-      	zone8Component.draw(dc);
+        if(null!= zone8Component){
+	      	zone8Component.draw(dc);
+        }
       	
       	if(showNotification){
         	displayNotifications(dc);
