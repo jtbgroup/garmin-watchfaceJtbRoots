@@ -28,10 +28,10 @@ class CaloriesComponent extends Ui.Drawable {
 		me.iconChar=params.get(:iconChar);
 		me.iconColor=params.get(:iconColor);
 		
-		computeCoordinates(params.get(:dc));
+		computeCoordinates();
     }
     
-    private function computeCoordinates(dc){
+    private function computeCoordinates(){
   	  	co_y = y + height/2;
     }
     

@@ -22,7 +22,7 @@ class StepsComponent extends Ui.Drawable {
 	hidden var barWidth;
 	
 	hidden var co_bar_x, co_bar_y;
-	hidden var co_stepsCount_y;
+	hidden var co_stepsCount_y = -1;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -37,23 +37,24 @@ class StepsComponent extends Ui.Drawable {
 		me.iconChar=params.get(:iconChar);
 		me.iconColor=params.get(:iconColor);
 		
-		computeCoordinates(params.get(:dc));
+		computeCoordinates();
     }
     
-    private function computeCoordinates(dc){
+    private function computeCoordinates(){
     	barWidth = STEPSBAR_WIDTH;
     	co_bar_x = x + width/2 - (STEPSBAR_WIDTH)/2;
     	co_bar_y = y + height/2 - barHeight - PADDING_V *2;
-    	
-    	var fHeight = dc.getFontHeight(textFont);
-    	if(fHeight < dc.getFontHeight(iconFont)){
-    		fHeight = dc.getFontHeight(iconFont);
-    	}
-    	System.println(fHeight);
-    	co_stepsCount_y = y + height/2  + fHeight/2 -PADDING_V;
     }
     
 	function draw(dc){
+		if(co_stepsCount_y == -1){
+			var fHeight = dc.getFontHeight(textFont);
+	    		if(fHeight < dc.getFontHeight(iconFont)){
+	    			fHeight = dc.getFontHeight(iconFont);
+	    		}
+	    	co_stepsCount_y = y + height/2  + fHeight/2 -PADDING_V;
+		}
+	
 		displaySteps(dc);	
 	}
 	

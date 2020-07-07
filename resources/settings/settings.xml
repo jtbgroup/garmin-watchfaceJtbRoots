@@ -21,6 +21,17 @@
 		</settingConfig>
 	</setting>
 
+
+	<setting propertyKey="@Properties.PROP_ZONE_8"
+		title="@Strings.propertyZone8">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.steps</listEntry>
+			<listEntry value="1">@Strings.calories</listEntry>
+		</settingConfig>
+	</setting>
+
+
+
 	<setting propertyKey="@Properties.PROP_COLOR_BACKGROUND"
 		title="@Strings.propertyColorBackground">
 		<settingConfig type="list">

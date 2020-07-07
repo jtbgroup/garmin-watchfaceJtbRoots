@@ -25,4 +25,5 @@
 	<property id="PROP_SHOW_ALARM" type="boolean">true</property>
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">false</property>
 	<property id="PROP_SECONDS_KEEP_DISPLAYED" type="boolean">false</property>
+	<property id="PROP_ZONE_8" type="number">0</property>
 </properties> 
