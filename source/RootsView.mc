@@ -51,11 +51,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var zone04, zone01,zone02, zone03, zone05, zone06, zone07, zone08;
 	hidden var clipSeconds, clipHR;
 	
-	//lines
-//	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	//components
-	hidden var zone8CompId;
-	hidden var batteryComponent, zone8Component;
+	hidden var zone8CompId, zone1CompId;
+	hidden var zone1Component, zone8Component;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -68,21 +66,39 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasics(false);
 		computeCoordinates(dc);
 		
-		batteryComponent = new BatteryComponent({
-			:locX=>co_Screen_Width/2,
-			:locY=>co_Battery_y,
-			:bgc=>COLOR_TRANSPARENT,
-			:fgc=>colorForeground,
-			:dc=>dc,
-			:font=>fontTextBattery,
-			:showText=>showBatteryText
-		});
-		
+		zone1Component = createZone1Component(zone1CompId);
 		zone8Component = createZone8Component(zone8CompId);
     }
     
+    function createZone1Component(componentId){
+    	if(componentId == Cst.OPTION_ZONE_CALORIES){
+			return new CaloriesComponent({
+				:locX=>zone08[0],
+				:locY=>zone08[1],
+				:width=>zone08[2],
+				:height=>zone08[3],
+				:bgc=>COLOR_TRANSPARENT,
+				:fgc=>colorForeground,
+				:textFont=>fontTextSteps,
+				:iconFont=>fontIcons,
+				:iconChar=>FONT_ICON_CHAR_CALORIES,
+				:iconColor=>iconColorRunner,
+			});
+		}else if(componentId == Cst.OPTION_ZONE_BATTERY){
+			return new BatteryComponent({
+				:locX=>co_Screen_Width/2,
+				:locY=>co_Battery_y,
+				:bgc=>COLOR_TRANSPARENT,
+				:fgc=>colorForeground,
+				:font=>fontTextBattery,
+				:showText=>showBatteryText
+			});
+		}
+		return null;
+    }
+     
     function createZone8Component(componentId){
-    	if(componentId == Cst.OPTION_ZONE8_STEPS){
+    	if(componentId == Cst.OPTION_ZONE_STEPS){
     		return new StepsComponent({
 				:locX=>zone08[0],
 				:locY=>zone08[1],
@@ -95,7 +111,7 @@ public class RootsJtbView extends Ui.WatchFace {
 				:iconChar=>FONT_ICON_CHAR_RUNNER,
 				:iconColor=>iconColorRunner,
 				});
-		}else if(componentId == Cst.OPTION_ZONE8_CALORIES){
+		}else if(componentId == Cst.OPTION_ZONE_CALORIES){
 			return new CaloriesComponent({
 				:locX=>zone08[0],
 				:locY=>zone08[1],
@@ -235,7 +251,6 @@ public class RootsJtbView extends Ui.WatchFace {
     	dc.setColor(colorForeground, colorBackground);
     	dc.clear();
     	
-		batteryComponent.draw(dc);
    		displayClock(dc);
    		
         if(!sleeping && showSeconds){
@@ -252,6 +267,9 @@ public class RootsJtbView extends Ui.WatchFace {
 		   displayHR(dc);
         }
         
+        if(null!= zone1Component){
+	      	zone1Component.draw(dc);
+        }
         if(null!= zone8Component){
 	      	zone8Component.draw(dc);
         }
@@ -334,7 +352,7 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function reloadShows(){
-    	showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
+    	//showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
   		showAlarm = Utils.getPropertyValue(Cst.PROP_SHOW_ALARM);
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
@@ -347,14 +365,15 @@ public class RootsJtbView extends Ui.WatchFace {
   		
   		dateFormat = Utils.getPropertyValue(Cst.PROP_DATE_FORMAT);
   		
+  		zone1CompId = Utils.getPropertyValue(Cst.PROP_ZONE_1);
   		zone8CompId = Utils.getPropertyValue(Cst.PROP_ZONE_8);
     }
     
     function reloadComponents(){
-  		batteryComponent.setFont(fontTextBattery);
-		batteryComponent.setForegroundColor(colorForeground);
-		batteryComponent.setShowText(showBatteryText);
-		
+//  		batteryComponent.setFont(fontTextBattery);
+//		batteryComponent.setForegroundColor(colorForeground);
+//		batteryComponent.setShowText(showBatteryText);
+		zone1Component = createZone1Component(zone1CompId);
 		zone8Component = createZone8Component(zone8CompId);
     }
     
@@ -403,8 +422,6 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorAlarm = Utils.getRandomColor([colorBackground]);
     		iconColorRunner = Utils.getRandomColor([colorBackground]);
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
-    		
-    		batteryComponent.setForegroundColor(colorForeground);
     	}
     }
     

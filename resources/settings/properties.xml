@@ -26,4 +26,5 @@
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">false</property>
 	<property id="PROP_SECONDS_KEEP_DISPLAYED" type="boolean">false</property>
 	<property id="PROP_ZONE_8" type="number">1</property>
+	<property id="PROP_ZONE_1" type="number">3</property>
 </properties> 

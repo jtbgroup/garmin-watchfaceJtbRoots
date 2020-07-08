@@ -16,7 +16,8 @@ class BatteryComponent extends Ui.Drawable {
 	hidden const ICON_PADDING = 3;
 	
 	hidden var colorForeground,colorBackground;
-	hidden var co_Battery_x, co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
+	hidden var co_Battery_x = -1;
+	hidden var co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var x, y, font, showText;
 	hidden var lastBatteryValue;
 	 
@@ -29,7 +30,6 @@ class BatteryComponent extends Ui.Drawable {
 		me.font=params.get(:font);
 		me.showText=params.get(:showText);
 		
-		computeCoordinatesX(params.get(:dc), "100%");
 		computeCoordinatesY();
     }
     
@@ -54,6 +54,9 @@ class BatteryComponent extends Ui.Drawable {
     }
 
 	function draw(dc){
+		if(co_Battery_x == -1){
+			computeCoordinatesX(dc, "100%");
+		}
 		displayBattery(dc);	
 	}
 	

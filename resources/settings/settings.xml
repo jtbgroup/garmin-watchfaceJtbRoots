@@ -23,6 +23,15 @@
 
 
 	<!-- COMPONENT CHOICE -->
+	<setting propertyKey="@Properties.PROP_ZONE_1"
+		title="@Strings.propertyZone1">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="3">@Strings.battery</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
+		</settingConfig>
+	</setting>
+
 	<setting propertyKey="@Properties.PROP_ZONE_8"
 		title="@Strings.propertyZone8">
 		<settingConfig type="list">
