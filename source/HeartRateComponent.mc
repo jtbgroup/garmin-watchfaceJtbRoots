@@ -30,8 +30,6 @@ class HeartRateComponent extends ZoneComponent {
    		var size = dc.getTextWidthInPixels(hrText.toString(), textFont) + iconWidthAndPadding;
 		var start = x + width/ 2.0 - size/2.0;
 
-		System.println(width);
-
 		dc.setColor(iconColor,colorBackground);
 		dc.drawText(start, co_y, iconFont, iconChar, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     	dc.setColor(colorForeground, colorBackground);

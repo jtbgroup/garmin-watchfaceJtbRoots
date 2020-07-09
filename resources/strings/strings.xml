@@ -62,6 +62,7 @@
 	
 	<string id="propertyZone1">Information displayed on top (zone 1)</string>
 	<string id="propertyZone6">Information displayed at the bottom (zone 6)</string>
+	<string id="propertyZone7">Information displayed at the bottom (zone 7)</string>
 	<string id="propertyZone8">Information displayed at the bottom (zone 8)</string>
 	<string id="steps">Steps counter</string>
 	<string id="calories">Calories</string>
@@ -69,5 +70,6 @@
 	<string id="none">None</string>
 	<string id="distance">Distance</string>
 	<string id="heartrate">Heart Rate</string>
+	<string id="seconds">Seconds</string>
 	
 </strings>

@@ -71,6 +71,8 @@
 			<listEntry value="0">@Strings.none</listEntry>
 			<listEntry value="3">@Strings.battery</listEntry>
 			<listEntry value="2">@Strings.calories</listEntry>
+			<listEntry value="4">@Strings.distance</listEntry>
+			<listEntry value="5">@Strings.heartrate</listEntry>
 		</settingConfig>
 	</setting>
 	
@@ -79,6 +81,17 @@
 		<settingConfig type="list">
 			<listEntry value="0">@Strings.none</listEntry>
 			<listEntry value="5">@Strings.heartrate</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
+			<listEntry value="4">@Strings.distance</listEntry>
+			<listEntry value="3">@Strings.battery</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.PROP_ZONE_7"
+		title="@Strings.propertyZone7">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="6">@Strings.seconds</listEntry>
 		</settingConfig>
 	</setting>
 	
