@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.ActivityMonitor as Mon;
 
-class StepsComponent extends Ui.Drawable {
+class StepsComponent extends ZoneComponent {
 	
 	hidden const COLOR_STEPSBAR_0=0xFF0000;
 	hidden const COLOR_STEPSBAR_25=0xFFAA00;
@@ -14,9 +14,6 @@ class StepsComponent extends Ui.Drawable {
 	hidden const PADDING = 3;
 	hidden const PADDING_V = 1;
 	
-	hidden var colorForeground,colorBackground, iconColor;
-	hidden var x, y, height, width;
-	hidden var textFont, iconFont, iconChar;
 	hidden var barPercent=0.7;
 	hidden var barHeight=10;
 	hidden var barWidth;
@@ -25,18 +22,7 @@ class StepsComponent extends Ui.Drawable {
 	hidden var co_stepsCount_y = -1;
 	 
     function initialize(params) {
-        Drawable.initialize(params);
-        me.x=locX;
-        me.y=locY;
-        me.height=params.get(:height);
-        me.width=params.get(:width);
-      	me.colorForeground=params.get(:fgc);
-		me.colorBackground=params.get(:bgc);
-		me.textFont=params.get(:textFont);
-		me.iconFont=params.get(:iconFont);
-		me.iconChar=params.get(:iconChar);
-		me.iconColor=params.get(:iconColor);
-		
+       ZoneComponent.initialize(params);
 		computeCoordinates();
     }
     

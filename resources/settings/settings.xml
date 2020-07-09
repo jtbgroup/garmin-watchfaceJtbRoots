@@ -12,35 +12,6 @@
 		title="@Strings.UsernameTitle"> <settingConfig type="alphaNumeric" required="true" 
 		/> </setting> -->
 
-	<setting propertyKey="@Properties.PROP_MODE_COLOR"
-		title="@Strings.propertyColorMode">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.standard</listEntry>
-			<listEntry value="1">@Strings.disco</listEntry>
-			<listEntry value="2">@Strings.lucy</listEntry>
-		</settingConfig>
-	</setting>
-
-
-	<!-- COMPONENT CHOICE -->
-	<setting propertyKey="@Properties.PROP_ZONE_1"
-		title="@Strings.propertyZone1">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.none</listEntry>
-			<listEntry value="3">@Strings.battery</listEntry>
-			<listEntry value="2">@Strings.calories</listEntry>
-		</settingConfig>
-	</setting>
-
-	<setting propertyKey="@Properties.PROP_ZONE_8"
-		title="@Strings.propertyZone8">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.none</listEntry>
-			<listEntry value="1">@Strings.steps</listEntry>
-			<listEntry value="2">@Strings.calories</listEntry>
-		</settingConfig>
-	</setting>
-
 
 	<!-- GENERAL COLORS -->
 	<setting propertyKey="@Properties.PROP_COLOR_BACKGROUND"
@@ -82,6 +53,39 @@
 			<listEntry value="13">@Strings.pink</listEntry>
 		</settingConfig>
 	</setting>
+	
+	<setting propertyKey="@Properties.PROP_MODE_COLOR"
+		title="@Strings.propertyColorMode">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.standard</listEntry>
+			<listEntry value="1">@Strings.disco</listEntry>
+			<listEntry value="2">@Strings.lucy</listEntry>
+		</settingConfig>
+	</setting>
+
+
+	<!-- COMPONENT CHOICE -->
+	<setting propertyKey="@Properties.PROP_ZONE_1"
+		title="@Strings.propertyZone1">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="3">@Strings.battery</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_ZONE_8"
+		title="@Strings.propertyZone8">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="1">@Strings.steps</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
+			<listEntry value="4">@Strings.distance</listEntry>
+			<listEntry value="3">@Strings.battery</listEntry>
+		</settingConfig>
+	</setting>
+
+
 
 	<!-- CLOCK -->
 	<setting propertyKey="@Properties.PROP_COLOR_CLOCK_HOUR"
@@ -335,6 +339,67 @@
 
 	<setting propertyKey="@Properties.PROP_FONT_SIZE_STEPS"
 		title="@Strings.propertyFontSizeSteps">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+
+
+<!-- CALORIES -->
+	<setting propertyKey="@Properties.PROP_ICON_COLOR_CALORIES"
+		title="@Strings.propertyIconColorCalories">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.white</listEntry>
+			<listEntry value="1">@Strings.light_gray</listEntry>
+			<listEntry value="2">@Strings.dark_gray</listEntry>
+			<listEntry value="3">@Strings.black</listEntry>
+			<listEntry value="4">@Strings.red</listEntry>
+			<listEntry value="5">@Strings.dark_red</listEntry>
+			<listEntry value="6">@Strings.orange</listEntry>
+			<listEntry value="7">@Strings.yellow</listEntry>
+			<listEntry value="8">@Strings.green</listEntry>
+			<listEntry value="9">@Strings.dark_green</listEntry>
+			<listEntry value="10">@Strings.blue</listEntry>
+			<listEntry value="11">@Strings.dark_blue</listEntry>
+			<listEntry value="12">@Strings.purple</listEntry>
+			<listEntry value="13">@Strings.pink</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_CALORIES"
+		title="@Strings.propertyFontSizeCalories">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.xtiny</listEntry>
+			<listEntry value="1">@Strings.tiny</listEntry>
+			<listEntry value="2">@Strings.small</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<!-- DISTANCE -->
+	<setting propertyKey="@Properties.PROP_ICON_COLOR_DISTANCE"
+		title="@Strings.propertyIconColorDistance">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.white</listEntry>
+			<listEntry value="1">@Strings.light_gray</listEntry>
+			<listEntry value="2">@Strings.dark_gray</listEntry>
+			<listEntry value="3">@Strings.black</listEntry>
+			<listEntry value="4">@Strings.red</listEntry>
+			<listEntry value="5">@Strings.dark_red</listEntry>
+			<listEntry value="6">@Strings.orange</listEntry>
+			<listEntry value="7">@Strings.yellow</listEntry>
+			<listEntry value="8">@Strings.green</listEntry>
+			<listEntry value="9">@Strings.dark_green</listEntry>
+			<listEntry value="10">@Strings.blue</listEntry>
+			<listEntry value="11">@Strings.dark_blue</listEntry>
+			<listEntry value="12">@Strings.purple</listEntry>
+			<listEntry value="13">@Strings.pink</listEntry>
+		</settingConfig>
+	</setting>
+
+	<setting propertyKey="@Properties.PROP_FONT_SIZE_DISTANCE"
+		title="@Strings.propertyFontSizeDistance">
 		<settingConfig type="list">
 			<listEntry value="0">@Strings.xtiny</listEntry>
 			<listEntry value="1">@Strings.tiny</listEntry>

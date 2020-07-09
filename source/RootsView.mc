@@ -31,12 +31,13 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const FONT_ICON_CHAR_RUNNER="3";
 	hidden const FONT_ICON_CHAR_HEART="4";
 	hidden const FONT_ICON_CHAR_CALORIES="5";
+	hidden const FONT_ICON_CHAR_DISTANCE="6";
 	
 	//IINSTANCE VARIABLES 
 	//general
-	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps;
+	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps,fontTextCalories, fontTextDistance;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
-	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth;
+	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance;
 	hidden var showAlarm, showDate, showBluetooth, showHR, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -66,66 +67,87 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasics(false);
 		computeCoordinates(dc);
 		
-		zone1Component = createZone1Component(zone1CompId);
-		zone8Component = createZone8Component(zone8CompId);
+		createZone1Component(zone1CompId);
+		createZone8Component(zone8CompId);
+    }
+    
+    
+    function createBatteryComponent(x, y, width, height){
+    	return new BatteryComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextBattery,
+			:showText=>showBatteryText
+		});
+    }
+    
+    function createCaloriesComponent(x, y, width, height){
+    	return new CaloriesComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextCalories,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_CALORIES,
+			:iconColor=>iconColorCalories,
+		});
+    }
+    
+    function createDistanceComponent(x, y, width, height){
+    	return new DistanceComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextDistance,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_DISTANCE,
+			:iconColor=>iconColorDistance,
+		});
+    }
+    
+     function createStepsComponent(x, y, width, height){
+    	return new StepsComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextSteps,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_RUNNER,
+			:iconColor=>iconColorRunner,
+		});
+    }
+    
+    function createZoneComponent(componentId, x, y, w, h){
+		if(componentId == Cst.OPTION_ZONE_STEPS){
+    		return createStepsComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_CALORIES){
+			return createCaloriesComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_BATTERY){
+			return createBatteryComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_DISTANCE){
+			return createDistanceComponent(x, y, w, h);
+		}
     }
     
     function createZone1Component(componentId){
-    	if(componentId == Cst.OPTION_ZONE_CALORIES){
-			return new CaloriesComponent({
-				:locX=>zone08[0],
-				:locY=>zone08[1],
-				:width=>zone08[2],
-				:height=>zone08[3],
-				:bgc=>COLOR_TRANSPARENT,
-				:fgc=>colorForeground,
-				:textFont=>fontTextSteps,
-				:iconFont=>fontIcons,
-				:iconChar=>FONT_ICON_CHAR_CALORIES,
-				:iconColor=>iconColorRunner,
-			});
-		}else if(componentId == Cst.OPTION_ZONE_BATTERY){
-			return new BatteryComponent({
-				:locX=>co_Screen_Width/2,
-				:locY=>co_Battery_y,
-				:bgc=>COLOR_TRANSPARENT,
-				:fgc=>colorForeground,
-				:font=>fontTextBattery,
-				:showText=>showBatteryText
-			});
-		}
-		return null;
+		zone1Component = createZoneComponent(componentId, zone01[0], zone01[1], zone01[2], zone01[3]);
     }
-     
+    
     function createZone8Component(componentId){
-    	if(componentId == Cst.OPTION_ZONE_STEPS){
-    		return new StepsComponent({
-				:locX=>zone08[0],
-				:locY=>zone08[1],
-				:width=>zone08[2],
-				:height=>zone08[3],
-				:bgc=>COLOR_TRANSPARENT,
-				:fgc=>colorForeground,
-				:textFont=>fontTextSteps,
-				:iconFont=>fontIcons,
-				:iconChar=>FONT_ICON_CHAR_RUNNER,
-				:iconColor=>iconColorRunner,
-				});
-		}else if(componentId == Cst.OPTION_ZONE_CALORIES){
-			return new CaloriesComponent({
-				:locX=>zone08[0],
-				:locY=>zone08[1],
-				:width=>zone08[2],
-				:height=>zone08[3],
-				:bgc=>COLOR_TRANSPARENT,
-				:fgc=>colorForeground,
-				:textFont=>fontTextSteps,
-				:iconFont=>fontIcons,
-				:iconChar=>FONT_ICON_CHAR_CALORIES,
-				:iconColor=>iconColorRunner,
-			});
-		}
-		return null;
+		zone8Component = createZoneComponent(componentId, zone08[0], zone08[1], zone08[2], zone08[3]);
     }
     
     function computeCoordinates(dc){
@@ -352,7 +374,7 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function reloadShows(){
-    	//showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
+    	showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
   		showAlarm = Utils.getPropertyValue(Cst.PROP_SHOW_ALARM);
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
@@ -373,8 +395,8 @@ public class RootsJtbView extends Ui.WatchFace {
 //  		batteryComponent.setFont(fontTextBattery);
 //		batteryComponent.setForegroundColor(colorForeground);
 //		batteryComponent.setShowText(showBatteryText);
-		zone1Component = createZone1Component(zone1CompId);
-		zone8Component = createZone8Component(zone8CompId);
+		createZone1Component(zone1CompId);
+		createZone8Component(zone8CompId);
     }
     
     function reloadFonts(){
@@ -384,6 +406,8 @@ public class RootsJtbView extends Ui.WatchFace {
     	fontTextDate = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DATE);
     	fontTextSeconds = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_SECONDS);
    		fontTextSteps = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_STEPS);
+   		fontTextCalories = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_CALORIES);
+   		fontTextDistance = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DISTANCE);
     }
     
 /**
@@ -402,6 +426,8 @@ public class RootsJtbView extends Ui.WatchFace {
     	iconColorAlarm = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_ALARM);
     	iconColorRunner = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_RUNNER);
     	iconColorBluetooth = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_BLUETOOTH);
+    	iconColorCalories = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_CALORIES);
+    	iconColorDistance = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_DISTANCE);
     	
     	colorMode = Utils.getPropertyValue(Cst.PROP_MODE_COLOR);
     }
@@ -420,8 +446,17 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorHeart = Utils.getRandomColor([colorBackground]);
     		iconColorNotification = Utils.getRandomColor([colorBackground]);
     		iconColorAlarm = Utils.getRandomColor([colorBackground]);
-    		iconColorRunner = Utils.getRandomColor([colorBackground]);
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
+    		
+    		if(null != zone1Component){
+    			zone1Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone1Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+			}
+			
+			if(null != zone8Component){
+    			zone8Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone8Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
     	}
     }
     
