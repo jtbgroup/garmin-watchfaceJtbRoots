@@ -73,7 +73,15 @@
 			<listEntry value="2">@Strings.calories</listEntry>
 		</settingConfig>
 	</setting>
-
+	
+	<setting propertyKey="@Properties.PROP_ZONE_6"
+		title="@Strings.propertyZone6">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.none</listEntry>
+			<listEntry value="5">@Strings.heartrate</listEntry>
+		</settingConfig>
+	</setting>
+	
 	<setting propertyKey="@Properties.PROP_ZONE_8"
 		title="@Strings.propertyZone8">
 		<settingConfig type="list">
@@ -277,10 +285,6 @@
 	</setting>
 
 	<!-- HEART RATE -->
-	<setting propertyKey="@Properties.PROP_SHOW_HR"
-		title="@Strings.propertyShowHr">
-		<settingConfig type="boolean" />
-	</setting>
 	
 	<setting propertyKey="@Properties.PROP_ICON_COLOR_HEART"
 		title="@Strings.propertyIconColorHeart">

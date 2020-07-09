@@ -13,8 +13,6 @@ class BatteryComponent extends ZoneComponent {
 	hidden const BATTERY_DOP_WIDTH = 2;
 	hidden const BATTERY_DOP_HEIGHT = 5;
 	
-	hidden const ICON_PADDING = 3;
-	
 	hidden var co_Battery_x = -1;
 	hidden var co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var showText;

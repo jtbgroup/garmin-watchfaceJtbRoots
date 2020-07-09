@@ -15,6 +15,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	//positions
 	hidden const LEFT_x = 35;
 	hidden const RIGHT_x = 35;
+	hidden const SPAN_y = 3;
 	hidden const L1 = 15;
 	hidden const L2p = 0.20;
 	hidden const L4p = 0.78;
@@ -38,7 +39,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps,fontTextCalories, fontTextDistance;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance;
-	hidden var showAlarm, showDate, showBluetooth, showHR, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
+	hidden var showAlarm, showDate, showBluetooth, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
 	hidden var co_Date_y, co_Clock_y;
@@ -53,8 +54,8 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var clipSeconds, clipHR;
 	
 	//components
-	hidden var zone8CompId, zone1CompId;
-	hidden var zone1Component, zone8Component;
+	hidden var zone8CompId, zone1CompId, zone6CompId;
+	hidden var zone1Component, zone8Component, zone6Component;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -68,6 +69,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		computeCoordinates(dc);
 		
 		createZone1Component(zone1CompId);
+		createZone6Component(zone6CompId);
 		createZone8Component(zone8CompId);
     }
     
@@ -130,6 +132,22 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
+     function createHeartRateComponent(x, y, width, height){
+    	return new HeartRateComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextHR,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_HEART,
+			:iconColor=>iconColorHeart,
+			:keepDisplayedOnSleep=>keepHRDisplayed
+		});
+    }
+    
     function createZoneComponent(componentId, x, y, w, h){
 		if(componentId == Cst.OPTION_ZONE_STEPS){
     		return createStepsComponent(x, y, w, h);
@@ -139,11 +157,17 @@ public class RootsJtbView extends Ui.WatchFace {
 			return createBatteryComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_DISTANCE){
 			return createDistanceComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_HEARTRATE){
+			return createHeartRateComponent(x, y, w, h);
 		}
     }
     
     function createZone1Component(componentId){
 		zone1Component = createZoneComponent(componentId, zone01[0], zone01[1], zone01[2], zone01[3]);
+    }
+    
+    function createZone6Component(componentId){
+		zone6Component = createZoneComponent(componentId, zone06[0], zone06[1], zone06[2], zone06[3]);
     }
     
     function createZone8Component(componentId){
@@ -153,11 +177,11 @@ public class RootsJtbView extends Ui.WatchFace {
     function computeCoordinates(dc){
     	//get screen dimensions
 		co_Screen_Width = dc.getWidth();
-        co_Screen_Height = dc.getHeight();
-        
+        co_Screen_Height = dc.getHeight() - 2*SPAN_y;
+                
           //row 3
         var zone04_cy = co_Screen_Height / 2;
-        var zone04_x = 0;
+        var zone04_x = 0 ;
         var zone04_y = zone04_cy - co_Screen_Height * HOUR_H_PERCENT / 2;
         var zone04_w = co_Screen_Width;
         var zone04_h = co_Screen_Height * HOUR_H_PERCENT;
@@ -174,7 +198,7 @@ public class RootsJtbView extends Ui.WatchFace {
         
         //row 1
         var zone01_x = 0;
-        var zone01_y = 0;
+        var zone01_y = SPAN_y;
         var zone01_w = co_Screen_Width;
         var zone01_h = row01_h;
         var zone01_cy = zone01_y + zone01_h/2;
@@ -284,13 +308,13 @@ public class RootsJtbView extends Ui.WatchFace {
        	if(showDate){
 	        displayDate(dc);
        	}
-		
-		if(!sleeping && showHR){
-		   displayHR(dc);
-        }
         
         if(null!= zone1Component){
 	      	zone1Component.draw(dc);
+        }
+        
+        if(null!= zone6Component){
+	      	zone6Component.draw(dc);
         }
         if(null!= zone8Component){
 	      	zone8Component.draw(dc);
@@ -345,13 +369,14 @@ public class RootsJtbView extends Ui.WatchFace {
     	
 		dc.clearClip();
   		
-  		if(showHR && keepHRDisplayed){
-	  		dc.setClip(clipHR[0], clipHR[1], clipHR[2], clipHR[3]);
+  		if(null != zone6Component && zone6Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone06[0], zone06[1], zone06[2], zone06[3]);
 	  		dc.setColor(colorBackground,colorBackground);
 			dc.clear();
-	  		
-			displayHR(dc);
-    	}
+			if(zone6Component.isKeptDisplayedOnSleep()){
+				zone6Component.draw(dc);
+			}
+  		}
     	
     	if(showSeconds && keepSecondsDisplayed){
     		dc.setClip(clipSeconds[0], clipSeconds[1], clipSeconds[2], clipSeconds[3]);
@@ -359,7 +384,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			dc.clear();
     		
 			displaySeconds(dc);
-		}
+		} 
     }
     
  	function reloadBasics(reloadComponents){
@@ -379,7 +404,6 @@ public class RootsJtbView extends Ui.WatchFace {
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
   		showNotification = Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
-  		showHR = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
   		showSeconds = Utils.getPropertyValue(Cst.PROP_SHOW_SECONDS);
   		
   		keepHRDisplayed = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
@@ -388,14 +412,13 @@ public class RootsJtbView extends Ui.WatchFace {
   		dateFormat = Utils.getPropertyValue(Cst.PROP_DATE_FORMAT);
   		
   		zone1CompId = Utils.getPropertyValue(Cst.PROP_ZONE_1);
+  		zone6CompId = Utils.getPropertyValue(Cst.PROP_ZONE_6);
   		zone8CompId = Utils.getPropertyValue(Cst.PROP_ZONE_8);
     }
     
     function reloadComponents(){
-//  		batteryComponent.setFont(fontTextBattery);
-//		batteryComponent.setForegroundColor(colorForeground);
-//		batteryComponent.setShowText(showBatteryText);
 		createZone1Component(zone1CompId);
+		createZone6Component(zone6CompId);
 		createZone8Component(zone8CompId);
     }
     
@@ -501,26 +524,26 @@ public class RootsJtbView extends Ui.WatchFace {
 	HEARTH RATE
 	------------------------
 */
-    function displayHR(dc){
-	    var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
-		var hrText = retrieveHeartrateText();
-	    var iconWidthAndPadding = width + ICON_PADDING;
-   		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
-		var start = co_Screen_Width/ 2.0 - size/2.0;
-
-		dc.setColor(iconColorHeart,COLOR_TRANSPARENT);
-		dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-		dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-	}
-	
-    private function retrieveHeartrateText() {
-		var hr = Activity.getActivityInfo().currentHeartRate;
-		if(null != hr){
-			return hr.format("%d");
-		}
-		return "000";
-    }    
+//    function displayHR(dc){
+//	    var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
+//		var hrText = retrieveHeartrateText();
+//	    var iconWidthAndPadding = width + ICON_PADDING;
+//   		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
+//		var start = co_Screen_Width/ 2.0 - size/2.0;
+//
+//		dc.setColor(iconColorHeart,COLOR_TRANSPARENT);
+//		dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
+//		dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//	}
+//	
+//    private function retrieveHeartrateText() {
+//		var hr = Activity.getActivityInfo().currentHeartRate;
+//		if(null != hr){
+//			return hr.format("%d");
+//		}
+//		return "000";
+//    }    
     
  
  /**
