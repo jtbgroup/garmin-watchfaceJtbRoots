@@ -9,7 +9,7 @@ using RootsConstants as Cst;
 public class RootsJtbView extends Ui.WatchFace {
 
 	//DEBUG
-	hidden var showLines = true;
+	hidden var showLines = false;
 	
 	//CONSTANTS
 	//positions
