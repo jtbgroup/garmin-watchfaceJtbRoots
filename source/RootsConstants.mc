@@ -19,6 +19,7 @@ module RootsConstants {
 	const OPTION_ZONE_BATTERY = 3;
 	const OPTION_ZONE_DISTANCE = 4;
 	const OPTION_ZONE_HEARTRATE = 5;
+	const OPTION_ZONE_SECONDS = 6;
 	
 	//hour format
 //	var HOUR_FORMAT_12 = 0;
@@ -63,5 +64,6 @@ module RootsConstants {
 	
 	const PROP_ZONE_1 = "PROP_ZONE_1";
 	const PROP_ZONE_6 = "PROP_ZONE_6";
+	const PROP_ZONE_7 = "PROP_ZONE_7";
 	const PROP_ZONE_8 = "PROP_ZONE_8";
 }

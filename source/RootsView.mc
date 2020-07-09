@@ -14,7 +14,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	//CONSTANTS
 	//positions
 	hidden const LEFT_x = 35;
-	hidden const RIGHT_x = 35;
+	hidden const RIGHT_x = 25;
 	hidden const SPAN_y = 3;
 	hidden const L1 = 15;
 	hidden const L2p = 0.20;
@@ -54,8 +54,8 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var clipSeconds, clipHR;
 	
 	//components
-	hidden var zone8CompId, zone1CompId, zone6CompId;
-	hidden var zone1Component, zone8Component, zone6Component;
+	hidden var zone1CompId, zone6CompId,zone7CompId, zone8CompId;
+	hidden var zone1Component, zone6Component, zone7Component, zone8Component;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -70,6 +70,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		
 		createZone1Component(zone1CompId);
 		createZone6Component(zone6CompId);
+		createZone7Component(zone7CompId);
 		createZone8Component(zone8CompId);
     }
     
@@ -94,7 +95,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:width=>width,
 			:height=>height,
 			:bgc=>COLOR_TRANSPARENT,
-			:fgc=>colorForeground,
+			:fgc=>colorMinute,
 			:textFont=>fontTextCalories,
 			:iconFont=>fontIcons,
 			:iconChar=>FONT_ICON_CHAR_CALORIES,
@@ -148,6 +149,19 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
+     function createSecondsComponent(x, y, width, height){
+    	return new SecondsComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorMinute,
+			:textFont=>fontTextSeconds,
+			:keepDisplayedOnSleep=>keepSecondsDisplayed
+		});
+    }
+    
     function createZoneComponent(componentId, x, y, w, h){
 		if(componentId == Cst.OPTION_ZONE_STEPS){
     		return createStepsComponent(x, y, w, h);
@@ -159,6 +173,8 @@ public class RootsJtbView extends Ui.WatchFace {
 			return createDistanceComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_HEARTRATE){
 			return createHeartRateComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_SECONDS){
+			return createSecondsComponent(x, y, w, h);
 		}
     }
     
@@ -168,6 +184,10 @@ public class RootsJtbView extends Ui.WatchFace {
     
     function createZone6Component(componentId){
 		zone6Component = createZoneComponent(componentId, zone06[0], zone06[1], zone06[2], zone06[3]);
+    }
+    
+     function createZone7Component(componentId){
+		zone7Component = createZoneComponent(componentId, zone07[0], zone07[1], zone07[2], zone07[3]);
     }
     
     function createZone8Component(componentId){
@@ -237,7 +257,7 @@ public class RootsJtbView extends Ui.WatchFace {
         
         var zone07_x = zone05_w + zone06_w;
         var zone07_y = co_ClockBottom_y;
-        var zone07_w = co_Screen_Width * 0.32;
+        var zone07_w = co_Screen_Width * 0.32 - RIGHT_x;
         var zone07_h = row04_h;
         var zone07_cy = zone07_y + zone07_h / 2;
         zone07 = [zone07_x, zone07_y, zone07_w, zone07_h, zone07_cy];
@@ -298,11 +318,6 @@ public class RootsJtbView extends Ui.WatchFace {
     	dc.clear();
     	
    		displayClock(dc);
-   		
-        if(!sleeping && showSeconds){
-			displaySeconds(dc);  
-		}
-   		
        	displayBtAndAlarm(dc);
        	
        	if(showDate){
@@ -312,9 +327,11 @@ public class RootsJtbView extends Ui.WatchFace {
         if(null!= zone1Component){
 	      	zone1Component.draw(dc);
         }
-        
         if(null!= zone6Component){
 	      	zone6Component.draw(dc);
+        }
+        if(null!= zone7Component){
+	      	zone7Component.draw(dc);
         }
         if(null!= zone8Component){
 	      	zone8Component.draw(dc);
@@ -371,20 +388,29 @@ public class RootsJtbView extends Ui.WatchFace {
   		
   		if(null != zone6Component && zone6Component.canBeHiddenOnSleep()){
 	  		dc.setClip(zone06[0], zone06[1], zone06[2], zone06[3]);
-	  		dc.setColor(colorBackground,colorBackground);
+	  		dc.setColor(Gfx.COLOR_YELLOW,colorBackground);
 			dc.clear();
 			if(zone6Component.isKeptDisplayedOnSleep()){
 				zone6Component.draw(dc);
 			}
   		}
-    	
-    	if(showSeconds && keepSecondsDisplayed){
-    		dc.setClip(clipSeconds[0], clipSeconds[1], clipSeconds[2], clipSeconds[3]);
-    		dc.setColor(colorBackground,colorBackground);
+  		
+  		if(null != zone7Component && zone7Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone07[0], zone07[1], zone07[2], zone07[3]);
+	  		dc.setColor(Gfx.COLOR_YELLOW,colorBackground);
 			dc.clear();
-    		
-			displaySeconds(dc);
-		} 
+			if(zone7Component.isKeptDisplayedOnSleep()){
+				zone7Component.draw(dc);
+			}
+  		}
+    	
+//    	if(showSeconds && keepSecondsDisplayed){
+//    		dc.setClip(clipSeconds[0], clipSeconds[1], clipSeconds[2], clipSeconds[3]);
+//    		dc.setColor(colorBackground,colorBackground);
+//			dc.clear();
+//    		
+//			displaySeconds(dc);
+//		} 
     }
     
  	function reloadBasics(reloadComponents){
@@ -413,12 +439,14 @@ public class RootsJtbView extends Ui.WatchFace {
   		
   		zone1CompId = Utils.getPropertyValue(Cst.PROP_ZONE_1);
   		zone6CompId = Utils.getPropertyValue(Cst.PROP_ZONE_6);
+  		zone7CompId = Utils.getPropertyValue(Cst.PROP_ZONE_7);
   		zone8CompId = Utils.getPropertyValue(Cst.PROP_ZONE_8);
     }
     
     function reloadComponents(){
 		createZone1Component(zone1CompId);
 		createZone6Component(zone6CompId);
+		createZone7Component(zone7CompId);
 		createZone8Component(zone8CompId);
     }
     
@@ -518,34 +546,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		}
 	}
 
-
-/**
-	------------------------
-	HEARTH RATE
-	------------------------
-*/
-//    function displayHR(dc){
-//	    var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
-//		var hrText = retrieveHeartrateText();
-//	    var iconWidthAndPadding = width + ICON_PADDING;
-//   		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
-//		var start = co_Screen_Width/ 2.0 - size/2.0;
-//
-//		dc.setColor(iconColorHeart,COLOR_TRANSPARENT);
-//		dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-//		dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//	}
-//	
-//    private function retrieveHeartrateText() {
-//		var hr = Activity.getActivityInfo().currentHeartRate;
-//		if(null != hr){
-//			return hr.format("%d");
-//		}
-//		return "000";
-//    }    
-    
- 
  /**
 	------------------------
 	CLOCK
@@ -583,10 +583,10 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(dc.getWidth()/2 + ICON_PADDING*2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
-    function displaySeconds(dc){
-    	dc.setColor(colorMinute, COLOR_TRANSPARENT);
-		dc.drawText(co_Seconds_x, co_Seconds_y, fontTextSeconds, System.getClockTime().sec.format("%02d"), Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-    }
+//    function displaySeconds(dc){
+//    	dc.setColor(colorMinute, COLOR_TRANSPARENT);
+//		dc.drawText(co_Seconds_x, co_Seconds_y, fontTextSeconds, System.getClockTime().sec.format("%02d"), Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+//    }
 
 
 /**
