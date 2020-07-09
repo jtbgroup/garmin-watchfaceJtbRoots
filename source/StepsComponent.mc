@@ -11,7 +11,6 @@ class StepsComponent extends ZoneComponent {
     hidden const COLOR_STEPSBAR_100=0x00FF00;
 	hidden const STEPSBAR_WIDTH = 80;
 	hidden const STEPSBAR_HEIGHT = 8;
-	hidden const PADDING = 3;
 	hidden const PADDING_V = 1;
 	
 	hidden var barPercent=0.7;
@@ -73,7 +72,7 @@ class StepsComponent extends ZoneComponent {
    }
    
    function displayStepsCounter(dc, stepsCount){
-   		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + PADDING;
+   		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(stepsCount.toString(), textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;
 		

@@ -5,7 +5,6 @@ using Toybox.ActivityMonitor as Mon;
 
 class CaloriesComponent extends ZoneComponent {
 	
-	hidden const PADDING = 3;
 	
 	hidden var co_y;
 	 
@@ -24,7 +23,7 @@ class CaloriesComponent extends ZoneComponent {
 	
 	 function displaySteps(dc){
 		var calories = Mon.getInfo().calories;
-		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + PADDING;
+		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(calories.toString(), textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;
 		

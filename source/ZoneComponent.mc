@@ -5,10 +5,13 @@ using Toybox.ActivityMonitor as Mon;
 
 class ZoneComponent extends Ui.Drawable {
 	
+	hidden const ICON_PADDING = 3;
+	
 	hidden var colorForeground,colorBackground, iconColor;
 	hidden var x, y, height, width;
 	hidden var textFont, iconFont, iconChar;
-	
+	hidden var keepDisplayedOnSleep = true;
+	hidden var canHideOnSleep = false;
 	 
     function initialize(params) {
         Drawable.initialize(params);
@@ -30,6 +33,14 @@ class ZoneComponent extends Ui.Drawable {
 	
 	function setForegroundColor(color){
 		me.colorForeground=color;
-	}   
+	} 
+	
+	function isKeptDisplayedOnSleep(){
+		return me.keepDisplayedOnSleep;
+	}
+	
+	function canBeHiddenOnSleep(){
+		return me.canHideOnSleep;
+	}
  
 }

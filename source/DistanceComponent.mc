@@ -5,7 +5,6 @@ using Toybox.ActivityMonitor as Mon;
 
 class DistanceComponent extends ZoneComponent {
 	
-	hidden const PADDING = 3;
 	hidden var co_y;
 	 
     function initialize(params) {
@@ -23,7 +22,7 @@ class DistanceComponent extends ZoneComponent {
 	
 	 function displaySteps(dc){
 		var distance = Mon.getInfo().distance / 100;
-		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + PADDING;
+		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(distance.toString(), textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;
 		
