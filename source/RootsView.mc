@@ -69,10 +69,10 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasics(false);
 		computeCoordinates(dc);
 		
-		//createZone1Component(zone1CompId);
+		createZone1Component(zone1CompId);
 		createZone6Component(zone6CompId);
 		createZone7Component(zone7CompId);
-		//createZone8Component(zone8CompId);
+		createZone8Component(zone8CompId);
     }
     
     
@@ -408,18 +408,18 @@ public class RootsJtbView extends Ui.WatchFace {
     	
 		dc.clearClip();
   		
-  		partialUpdate(zone1Component, zone01);
+  		//partialUpdate(zone1Component, zone01);
   		partialUpdate(zone6Component, zone06);
   		partialUpdate(zone7Component, zone07);
-  		partialUpdate(zone8Component, zone08);
+  		//partialUpdate(zone8Component, zone08);
     }
     
     function partialUpdate(component, zone){
-   		if(sleeping && null != component && component.canBeHiddenOnSleep()){
+   		if(null != component && component.canBeHiddenOnSleep()){
 	  		dc.setClip(zone[0], zone[1], zone[2], zone[3]);
 	  		dc.setColor(colorForeground,colorBackground);
 			dc.clear();
-			if(component.isKeptDisplayedOnSleep()){
+			if(sleeping && component.isKeptDisplayedOnSleep()){
 				component.draw(dc);
 			}
   		}
