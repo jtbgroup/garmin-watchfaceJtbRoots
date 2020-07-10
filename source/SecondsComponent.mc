@@ -10,6 +10,8 @@ class SecondsComponent extends ZoneComponent {
 	 
     function initialize(params) {
         ZoneComponent.initialize(params);
+        me.canHideOnSleep = true;
+        me.keepDisplayedOnSleep = params.get(:keepDisplayedOnSleep);
 		computeCoordinates();
     }
     
