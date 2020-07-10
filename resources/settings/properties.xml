@@ -21,7 +21,6 @@
 	<property id="PROP_FONT_SIZE_DISTANCE" type="number">0</property>
 	<property id="PROP_DATE_FORMAT" type="number">0</property>
 	<property id="PROP_SHOW_BATTERY_TEXT" type="boolean">true</property> 
-	<property id="PROP_SHOW_SECONDS" type="boolean">true</property>
 	<property id="PROP_SHOW_NOTIFICATION" type="boolean">true</property>
 	<property id="PROP_SHOW_DATE" type="boolean">true</property>
 	<property id="PROP_SHOW_BLUETOOTH" type="boolean">true</property>

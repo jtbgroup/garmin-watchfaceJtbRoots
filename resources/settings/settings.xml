@@ -92,6 +92,7 @@
 		<settingConfig type="list">
 			<listEntry value="0">@Strings.none</listEntry>
 			<listEntry value="6">@Strings.seconds</listEntry>
+			<listEntry value="2">@Strings.calories</listEntry>
 		</settingConfig>
 	</setting>
 	
@@ -157,11 +158,6 @@
 			<listEntry value="1">@Strings.tiny</listEntry>
 			<listEntry value="2">@Strings.small</listEntry>
 		</settingConfig>
-	</setting>
-
-	<setting propertyKey="@Properties.PROP_SHOW_SECONDS"
-		title="@Strings.propertyShowSeconds">
-		<settingConfig type="boolean" />
 	</setting>
 
 	<setting propertyKey="@Properties.PROP_SECONDS_KEEP_DISPLAYED"

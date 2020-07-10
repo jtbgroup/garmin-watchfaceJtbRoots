@@ -32,7 +32,6 @@
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
 	<string id="propertyShowBatteryText">Battery: show value</string>
-	<string id="propertyShowSeconds">Seconds: display</string>
 	<string id="propertyShowNotification">Notifications: show icon when there are some</string>
 	<string id="propertyShowAlarm">Alarm: show icon when active alarm is set</string>
 	<string id="propertyShowDate">Date: display</string>
