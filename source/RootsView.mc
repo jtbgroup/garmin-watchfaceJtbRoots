@@ -39,10 +39,10 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps,fontTextCalories, fontTextDistance;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance;
-	hidden var showAlarm, showDate, showBluetooth, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
+	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
-	hidden var co_Date_y, co_Clock_y;
+	hidden var co_Date_x, co_Date_y, co_Clock_y;
 	hidden var co_Seconds_y, co_Seconds_x;
 	hidden var co_IconBT_x,co_IconBT_y;
 	hidden var co_IconAlarm_x, co_IconAlarm_y;
@@ -95,7 +95,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:width=>width,
 			:height=>height,
 			:bgc=>COLOR_TRANSPARENT,
-			:fgc=>colorMinute,
+			:fgc=>colorForeground,
 			:textFont=>fontTextCalories,
 			:iconFont=>fontIcons,
 			:iconChar=>FONT_ICON_CHAR_CALORIES,
@@ -236,7 +236,7 @@ public class RootsJtbView extends Ui.WatchFace {
         var zone03_x = zone02_w;
         var zone03_h = row02_h;
         var zone03_y = co_ClockTop_y - zone03_h;
-        var zone03_w = co_Screen_Width * 0.67;
+        var zone03_w = co_Screen_Width * 0.63 - RIGHT_x;
         var zone03_cy = zone03_y + zone03_h / 2;
         zone03 = [zone03_x, zone03_y, zone03_w, zone03_h, zone03_cy];
         
@@ -285,11 +285,11 @@ public class RootsJtbView extends Ui.WatchFace {
     	fontCustomHeight = dc.getFontHeight(customFont);
     	co_Clock_y = zone04[04];
     	
-    	co_Seconds_x = zone07[0]+15;
+    	co_Seconds_x = zone07[0];
     	co_Seconds_y = zone07[4];
 		clipSeconds = [zone07[0], zone07[1], zone07[2], zone07[3]];
     	
-    	var fontDateH = dc.getFontHeight(fontTextDate);
+    	co_Date_x =  zone03[0] + zone03[2];
     	co_Date_y =  zone03[4];
     	
     	co_IconNotif_x = LEFT_x;
@@ -404,13 +404,6 @@ public class RootsJtbView extends Ui.WatchFace {
 			}
   		}
     	
-//    	if(showSeconds && keepSecondsDisplayed){
-//    		dc.setClip(clipSeconds[0], clipSeconds[1], clipSeconds[2], clipSeconds[3]);
-//    		dc.setColor(colorBackground,colorBackground);
-//			dc.clear();
-//    		
-//			displaySeconds(dc);
-//		} 
     }
     
  	function reloadBasics(reloadComponents){
@@ -430,7 +423,6 @@ public class RootsJtbView extends Ui.WatchFace {
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
   		showNotification = Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
-  		showSeconds = Utils.getPropertyValue(Cst.PROP_SHOW_SECONDS);
   		
   		keepHRDisplayed = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
   		keepSecondsDisplayed = Utils.getPropertyValue(Cst.PROP_SECONDS_KEEP_DISPLAYED);
@@ -498,11 +490,23 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorNotification = Utils.getRandomColor([colorBackground]);
     		iconColorAlarm = Utils.getRandomColor([colorBackground]);
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
+    		iconColorCalories = Utils.getRandomColor([colorBackground]);
+    		iconColorDistance = Utils.getRandomColor([colorBackground]);
     		
     		if(null != zone1Component){
     			zone1Component.setIconColor(Utils.getRandomColor([colorBackground]));
     			zone1Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
 			}
+			
+			if(null != zone6Component){
+    			zone6Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone6Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
+    		
+    		if(null != zone7Component){
+    			zone7Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone7Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
 			
 			if(null != zone8Component){
     			zone8Component.setIconColor(Utils.getRandomColor([colorBackground]));
@@ -583,11 +587,6 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(dc.getWidth()/2 + ICON_PADDING*2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
-//    function displaySeconds(dc){
-//    	dc.setColor(colorMinute, COLOR_TRANSPARENT);
-//		dc.drawText(co_Seconds_x, co_Seconds_y, fontTextSeconds, System.getClockTime().sec.format("%02d"), Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-//    }
-
 
 /**
 	------------------------
@@ -597,7 +596,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	function displayDate(dc){
         var dateStr = formatDate();
         dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.drawText(co_Screen_Width - RIGHT_x,co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(co_Date_x, co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
 
 	function formatDate(){

@@ -31,10 +31,9 @@
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
-	<string id="propertyShowBatteryText">Battery: show value</string>
-	<string id="propertyShowSeconds">Seconds: display</string>
+	<string id="propertyShowBatteryText">Battery: show value (%)</string>
 	<string id="propertyShowNotification">Notifications: show icon when there are some</string>
-	<string id="propertyShowAlarm">Alarm: show icon when active alarm is set</string>
+	<string id="propertyShowAlarm">Alarm: show icon when active alarm is configured</string>
 	<string id="propertyShowDate">Date: display</string>
 	<string id="propertyShowBluetooth">Bluetooth: show icon when connection is up</string>
 	<string id="propertyHrKeepDisplayed">Heart rate: keep displayed when screen enters in sleep mode (if asked to be visible)</string>
