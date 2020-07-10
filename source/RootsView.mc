@@ -408,24 +408,21 @@ public class RootsJtbView extends Ui.WatchFace {
     	
 		dc.clearClip();
   		
-  		if(null != zone6Component && zone6Component.canBeHiddenOnSleep()){
-	  		dc.setClip(zone06[0], zone06[1], zone06[2], zone06[3]);
+  		partialUpdate(zone1Component, zone01);
+  		partialUpdate(zone6Component, zone06);
+  		partialUpdate(zone7Component, zone07);
+  		partialUpdate(zone8Component, zone08);
+    }
+    
+    function partialUpdate(component, zone){
+   		if(sleeping && null != component && component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone[0], zone[1], zone[2], zone[3]);
 	  		dc.setColor(colorForeground,colorBackground);
 			dc.clear();
-			if(zone6Component.isKeptDisplayedOnSleep()){
-				zone6Component.draw(dc);
+			if(component.isKeptDisplayedOnSleep()){
+				component.draw(dc);
 			}
   		}
-  		
-  		if(null != zone7Component && zone7Component.canBeHiddenOnSleep()){
-	  		dc.setClip(zone07[0], zone07[1], zone07[2], zone07[3]);
-	  		dc.setColor(colorForeground,colorBackground);
-			dc.clear();
-			if(zone7Component.isKeptDisplayedOnSleep()){
-				zone7Component.draw(dc);
-			}
-  		}
-    	
     }
     
  	function reloadBasics(reloadComponents){
