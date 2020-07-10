@@ -37,9 +37,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	
 	//IINSTANCE VARIABLES 
 	//general
-	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance, fontTextFloorsClimbed;
+	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
-	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance, iconColorFloorsClimbed;
+	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance;
 	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -163,21 +163,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
-    function createFloorsClimbedComponent(x, y, width, height){
-    	return new FloorsClimbedComponent({
-			:locX=>x,
-			:locY=>y,
-			:width=>width,
-			:height=>height,
-			:bgc=>COLOR_TRANSPARENT,
-			:fgc=>colorForeground,
-			:textFont=>fontTextFloorsClimbed,
-			:iconFont=>fontIcons,
-			:iconChar=>FONT_ICON_CHAR_FLOORS_CLIMBED,
-			:iconColor=>iconColorFloorsClimbed,
-		});
-    }
-    
     function createZoneComponent(componentId, x, y, w, h){
 		if(componentId == Cst.OPTION_ZONE_STEPS){
     		return createStepsComponent(x, y, w, h);
@@ -191,8 +176,6 @@ public class RootsJtbView extends Ui.WatchFace {
 			return createHeartRateComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_SECONDS){
 			return createSecondsComponent(x, y, w, h);
-		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED){
-			return createFloorsClimbedComponent(x, y, w, h);
 		}
     }
     
@@ -470,7 +453,6 @@ public class RootsJtbView extends Ui.WatchFace {
    		fontTextSteps = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_STEPS);
    		fontTextCalories = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_CALORIES);
    		fontTextDistance = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DISTANCE);
-   		fontTextFloorsClimbed = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_FLOORS_CLIMBED);
     }
     
 /**
@@ -491,7 +473,6 @@ public class RootsJtbView extends Ui.WatchFace {
     	iconColorBluetooth = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_BLUETOOTH);
     	iconColorCalories = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_CALORIES);
     	iconColorDistance = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_DISTANCE);
-    	iconColorFloorsClimbed = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_FLOORS_CLIMBED);
     	
     	colorMode = Utils.getPropertyValue(Cst.PROP_MODE_COLOR);
     }
