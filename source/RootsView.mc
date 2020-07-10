@@ -342,16 +342,16 @@ public class RootsJtbView extends Ui.WatchFace {
 	        displayDate(dc);
        	}
         
-        if(null!= zone1Component){
+        if(checkUpdateCondition(zone1Component)){
 	      	zone1Component.draw(dc);
         }
-        if(null!= zone6Component){
+        if(checkUpdateCondition(zone6Component)){
 	      	zone6Component.draw(dc);
         }
-        if(null!= zone7Component){
+        if(checkUpdateCondition(zone7Component)){
 	      	zone7Component.draw(dc);
         }
-        if(null!= zone8Component){
+        if(checkUpdateCondition(zone8Component)){
 	      	zone8Component.draw(dc);
         }
       	
@@ -363,6 +363,10 @@ public class RootsJtbView extends Ui.WatchFace {
         if(showLines){
 		    drawGridLines(dc);
 	    }
+    }
+    
+    function checkUpdateCondition(component){
+    	return (null != component && !(component.canBeHiddenOnSleep())) || (null != component && component.canBeHiddenOnSleep() && !sleeping);
     }
     
     function drawGridLines(dc){
