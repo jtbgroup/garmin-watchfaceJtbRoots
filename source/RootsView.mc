@@ -650,6 +650,6 @@ public class RootsJtbView extends Ui.WatchFace {
     
     function onEnterSleep() {
     	sleeping = true;
-   		Ui.requestUpdate();
+   		//Ui.requestUpdate();
     }
  }
