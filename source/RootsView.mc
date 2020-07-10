@@ -490,11 +490,23 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorNotification = Utils.getRandomColor([colorBackground]);
     		iconColorAlarm = Utils.getRandomColor([colorBackground]);
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
+    		iconColorCalories = Utils.getRandomColor([colorBackground]);
+    		iconColorDistance = Utils.getRandomColor([colorBackground]);
     		
     		if(null != zone1Component){
     			zone1Component.setIconColor(Utils.getRandomColor([colorBackground]));
     			zone1Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
 			}
+			
+			if(null != zone6Component){
+    			zone6Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone6Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
+    		
+    		if(null != zone7Component){
+    			zone7Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone7Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
 			
 			if(null != zone8Component){
     			zone8Component.setIconColor(Utils.getRandomColor([colorBackground]));

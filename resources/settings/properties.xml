@@ -7,10 +7,10 @@
 	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">10</property> 
 	<property id="PROP_ICON_COLOR_ALARM" type="number">7</property> 
 	<property id="PROP_ICON_COLOR_NOTIFICATION" type="number">12</property> 
-	<property id="PROP_ICON_COLOR_CALORIES" type="number">12</property> 
+	<property id="PROP_ICON_COLOR_CALORIES" type="number">6</property> 
 	<property id="PROP_ICON_COLOR_HEART" type="number">4</property> 
 	<property id="PROP_ICON_COLOR_RUNNER" type="number">0</property> 
-	<property id="PROP_ICON_COLOR_DISTANCE" type="number">0</property> 
+	<property id="PROP_ICON_COLOR_DISTANCE" type="number">1</property> 
 	<property id="PROP_FONT_SIZE_DATE" type="number">2</property>
 	<property id="PROP_FONT_SIZE_SECONDS" type="number">2</property>
 	<property id="PROP_FONT_SIZE_HR" type="number">0</property>
@@ -27,8 +27,8 @@
 	<property id="PROP_SHOW_ALARM" type="boolean">true</property>
 	<property id="PROP_HR_KEEP_DISPLAYED" type="boolean">false</property>
 	<property id="PROP_SECONDS_KEEP_DISPLAYED" type="boolean">false</property>
-	<property id="PROP_ZONE_8" type="number">1</property>
-	<property id="PROP_ZONE_7" type="number">6</property>
-	<property id="PROP_ZONE_6" type="number">5</property>
 	<property id="PROP_ZONE_1" type="number">3</property>
+	<property id="PROP_ZONE_7" type="number">6</property>
+	<property id="PROP_ZONE_8" type="number">1</property>
+	<property id="PROP_ZONE_6" type="number">5</property>
 </properties> 

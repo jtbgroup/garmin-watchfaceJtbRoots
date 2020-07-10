@@ -166,12 +166,9 @@
 	</setting>
 
 	<!-- DATE -->
-	<setting propertyKey="@Properties.PROP_DATE_FORMAT" title="@Strings.propertyDateFormat">
-		<settingConfig type="list">
-			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
-			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
-			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
-		</settingConfig>
+	<setting propertyKey="@Properties.PROP_SHOW_DATE"
+		title="@Strings.propertyShowDate">
+		<settingConfig type="boolean" />
 	</setting>
 
 	<setting propertyKey="@Properties.PROP_FONT_SIZE_DATE"
@@ -183,10 +180,14 @@
 		</settingConfig>
 	</setting>
 
-	<setting propertyKey="@Properties.PROP_SHOW_DATE"
-		title="@Strings.propertyShowDate">
-		<settingConfig type="boolean" />
+	<setting propertyKey="@Properties.PROP_DATE_FORMAT" title="@Strings.propertyDateFormat">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.weekDayTxt_dayNum_monthTxt</listEntry>
+			<listEntry value="1">@Strings.dayNum_monthNum_yearNum</listEntry>
+			<listEntry value="2">@Strings.monthNum_dayNum_yearNum</listEntry>
+		</settingConfig>
 	</setting>
+
 
 	<!-- BATTERY -->
 	<setting propertyKey="@Properties.PROP_SHOW_BATTERY_TEXT"
