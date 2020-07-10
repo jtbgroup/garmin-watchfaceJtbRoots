@@ -69,10 +69,10 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasics(false);
 		computeCoordinates(dc);
 		
-		createZone1Component(zone1CompId);
+		//createZone1Component(zone1CompId);
 		createZone6Component(zone6CompId);
 		createZone7Component(zone7CompId);
-		createZone8Component(zone8CompId);
+		//createZone8Component(zone8CompId);
     }
     
     
