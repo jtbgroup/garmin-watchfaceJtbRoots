@@ -31,11 +31,6 @@ class DistanceComponent extends ZoneComponent {
 			string=(dist/(100000.0)).format(FORMAT_DIST)+" km";
 		} 
 
-
-//		var distTruncated = (Mon.getInfo().distance*100).toNumber().toFloat()/100; // truncate to 2 decimal places
-//		var distanceField = distTruncated.format("%.1f");
-		
-		
 		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(string, textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;

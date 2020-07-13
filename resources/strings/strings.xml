@@ -46,6 +46,7 @@
 	<string id="propertyIconColorNotification">Notification: icon color</string>
 	<string id="propertyIconColorCalories">Calories: icon color</string>
 	<string id="propertyIconColorDistance">Distance: icon color</string>
+	<string id="propertyIconColorFloorsClimbed">Floors Climbed: icon color</string>
 	
 	<string id="propertyFontSizeHR">Heart rate: font size (if displayed)</string>
 	<string id="propertyFontSizeNotification">Notification: font size (if displayed)</string>
@@ -55,6 +56,7 @@
 	<string id="propertyFontSizeSteps">Steps Counter: font size (if displayed)</string>
 	<string id="propertyFontSizeCalories">Calories: font size (if displayed))</string>
 	<string id="propertyFontSizeDistance">Distance: font size (if displayed))</string>
+	<string id="propertyFontSizeFloorsClimbed">Floors Climbed: font size (if displayed))</string>
 	<string id="xtiny">Extremely tiny</string>
 	<string id="tiny">Tiny</string>
 	<string id="small">Small</string>
@@ -70,5 +72,6 @@
 	<string id="distance">Distance</string>
 	<string id="heartrate">Heart Rate</string>
 	<string id="seconds">Seconds</string>
+	<string id="floorsClimbed">Floors Climbed</string>
 	
 </strings>

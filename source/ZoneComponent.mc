@@ -42,5 +42,9 @@ class ZoneComponent extends Ui.Drawable {
 	function canBeHiddenOnSleep(){
 		return me.canHideOnSleep;
 	}
+	
+	function canMonitor(){
+		return true;
+	}
  
 }

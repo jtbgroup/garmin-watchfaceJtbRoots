@@ -9,17 +9,13 @@ using RootsConstants as Cst;
 public class RootsJtbView extends Ui.WatchFace {
 
 	//DEBUG
-	hidden var showLines = false;
+	hidden var showLines = true;
 	
 	//CONSTANTS
 	//positions
 	hidden const LEFT_x = 35;
 	hidden const RIGHT_x = 25;
-	hidden const SPAN_y = 3;
-	hidden const L1 = 15;
-	hidden const L2p = 0.20;
-	hidden const L4p = 0.78;
-	hidden const L6 = 35;
+	hidden const SPAN_y = 2;
 	hidden const HOUR_H_PERCENT = 0.50;
 	
 	//colors
@@ -37,9 +33,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	
 	//IINSTANCE VARIABLES 
 	//general
-	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance;
+	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance, fontTextFloorsClimbed;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
-	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance;
+	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance, iconColorFloorsClimbed;
 	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
@@ -163,6 +159,21 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
+     function createFloorsClimbedComponent(x, y, width, height){
+    	return new FloorsClimbedComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextFloorsClimbed,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_FLOORS_CLIMBED,
+			:iconColor=>iconColorFloorsClimbed,
+		});
+    }
+    
     function createZoneComponent(componentId, x, y, w, h){
 		if(componentId == Cst.OPTION_ZONE_STEPS){
     		return createStepsComponent(x, y, w, h);
@@ -176,6 +187,8 @@ public class RootsJtbView extends Ui.WatchFace {
 			return createHeartRateComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_SECONDS){
 			return createSecondsComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED){
+			return createFloorsClimbedComponent(x, y, w, h);
 		}
     }
     
@@ -334,6 +347,7 @@ public class RootsJtbView extends Ui.WatchFace {
         if(checkUpdateCondition(zone7Component)){
 	      	zone7Component.draw(dc);
         }
+
         if(checkUpdateCondition(zone8Component)){
 	      	zone8Component.draw(dc);
         }
@@ -349,7 +363,23 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function checkUpdateCondition(component){
-    	return (null != component && !(component.canBeHiddenOnSleep())) || (null != component && component.canBeHiddenOnSleep() && !sleeping);
+    	if(null == component){
+    		return false;
+    	}
+    	
+    	if (!sleeping){
+    		return true;
+    	}
+    	
+    	if(component.canBeHiddenOnSleep() && component.isKeptDisplayedOnSleep()){
+    	 	return true;
+    	}
+    	 
+    	if(!component.canBeHiddenOnSleep()){
+    		return true;
+    	}
+    	
+    	return false;
     }
     
     function drawGridLines(dc){
@@ -391,19 +421,39 @@ public class RootsJtbView extends Ui.WatchFace {
     	
 		dc.clearClip();
   		
-  		//partialUpdate(zone1Component, zone01);
-  		partialUpdate(zone6Component, zone06);
-  		partialUpdate(zone7Component, zone07);
-  		//partialUpdate(zone8Component, zone08);
-    }
-    
-    function partialUpdate(component, zone){
-   		if(null != component && component.canBeHiddenOnSleep()){
-	  		dc.setClip(zone[0], zone[1], zone[2], zone[3]);
+  		if(null != zone1Component && zone1Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone01[0], zone01[1], zone01[2], zone01[3]);
 	  		dc.setColor(colorForeground,colorBackground);
 			dc.clear();
-			if(sleeping && component.isKeptDisplayedOnSleep()){
-				component.draw(dc);
+			if(zone1Component.isKeptDisplayedOnSleep()){
+				zone1Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone6Component && zone6Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone06[0], zone06[1], zone06[2], zone06[3]);
+	  		dc.setColor(colorForeground,colorBackground);
+			dc.clear();
+			if(zone6Component.isKeptDisplayedOnSleep()){
+				zone6Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone7Component && zone7Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone07[0], zone07[1], zone07[2], zone07[3]);
+	  		dc.setColor(colorForeground,colorBackground);
+			dc.clear();
+			if(zone7Component.isKeptDisplayedOnSleep()){
+				zone7Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone8Component && zone8Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone08[0], zone08[1], zone08[2], zone08[3]);
+	  		dc.setColor(colorForeground,colorBackground);
+			dc.clear();
+			if(zone8Component.isKeptDisplayedOnSleep()){
+				zone8Component.draw(dc);
 			}
   		}
     }
@@ -453,6 +503,7 @@ public class RootsJtbView extends Ui.WatchFace {
    		fontTextSteps = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_STEPS);
    		fontTextCalories = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_CALORIES);
    		fontTextDistance = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DISTANCE);
+   		fontTextFloorsClimbed = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_FLOORS_CLIMBED);
     }
     
 /**
@@ -473,6 +524,7 @@ public class RootsJtbView extends Ui.WatchFace {
     	iconColorBluetooth = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_BLUETOOTH);
     	iconColorCalories = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_CALORIES);
     	iconColorDistance = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_DISTANCE);
+    	iconColorFloorsClimbed = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_FLOORS_CLIMBED);
     	
     	colorMode = Utils.getPropertyValue(Cst.PROP_MODE_COLOR);
     }
@@ -494,6 +546,7 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
     		iconColorCalories = Utils.getRandomColor([colorBackground]);
     		iconColorDistance = Utils.getRandomColor([colorBackground]);
+    		iconColorFloorsClimbed = Utils.getRandomColor([colorBackground]);
     		
     		if(null != zone1Component){
     			zone1Component.setIconColor(Utils.getRandomColor([colorBackground]));
@@ -631,6 +684,6 @@ public class RootsJtbView extends Ui.WatchFace {
     
     function onEnterSleep() {
     	sleeping = true;
-   		Ui.requestUpdate();
+   		//Ui.requestUpdate();
     }
  }
