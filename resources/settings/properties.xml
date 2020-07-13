@@ -4,6 +4,7 @@
 	<property id="PROP_COLOR_FOREGROUND" type="number">0</property>
 	<property id="PROP_COLOR_CLOCK_HOUR" type="number">0</property> 
 	<property id="PROP_COLOR_CLOCK_MIN" type="number">4</property> 
+	<property id="PROP_COLOR_SECONDS" type="number">4</property> 
 	<property id="PROP_ICON_COLOR_BLUETOOTH" type="number">10</property> 
 	<property id="PROP_ICON_COLOR_ALARM" type="number">7</property> 
 	<property id="PROP_ICON_COLOR_NOTIFICATION" type="number">12</property> 

@@ -4,6 +4,7 @@
     
    	<string id="propertyColorClockHour">Clock: color for clock Hours</string>
     <string id="propertyColorClockMinute">Clock: color for Minutes</string>
+    <string id="propertyColorSeconds">Seconds: color</string>
     <string id="propertyColorBackground">Color: background</string>
     <string id="propertyColorForeground">Color: foreground</string>
     <string id="propertyColorMode">Color: Mode</string>

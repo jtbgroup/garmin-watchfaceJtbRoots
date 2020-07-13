@@ -10,8 +10,10 @@ More information can be found [here](https://apps.garmin.com/en-US/apps/c69e79c4
 ##### Changes
 * Deep code refactoring to have components in modules
 * Layout has been reviewed in zones to let the user choose it's favorite component. Not all the component are displayable in each zone because of the size of the components.
-* added calories component
-* added distance component (unit depending on the setting of the watch)
+* Added calories component (thank you Kit and Hufo for the request)
+* Added distance component; unit depending on the setting of the watch
+* Added floors climbing component; must be supported by your device (thank you Amy for the request)
+* Added option for seconds color (thank you Amy for the request)
 
 ### version 1.70
 * Added setting to keep seconds always displayed (thank you Amanda for the request)
