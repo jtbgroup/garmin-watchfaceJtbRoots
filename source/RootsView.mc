@@ -3,7 +3,6 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.Lang as Lang;
 using Toybox.Time.Gregorian as Calendar;
-using Toybox.ActivityMonitor as Mon;
 using JTBUtils as Utils;
 using RootsConstants as Cst;
 
@@ -15,20 +14,12 @@ public class RootsJtbView extends Ui.WatchFace {
 	//CONSTANTS
 	//positions
 	hidden const LEFT_x = 35;
-	hidden const RIGHT_x = 35;
-	hidden const L1 = 15;
-	hidden const L2p = 0.20;
-	hidden const L4p = 0.78;
-	hidden const L6 = 35;
+	hidden const RIGHT_x = 25;
+	hidden const SPAN_y = 2;
+	hidden const HOUR_H_PERCENT = 0.50;
 	
 	//colors
 	hidden const COLOR_TRANSPARENT = Gfx.COLOR_TRANSPARENT;
-    hidden const COLOR_STEPSBAR_0=0xFF0000;
-	hidden const COLOR_STEPSBAR_25=0xFFAA00;
-	hidden const COLOR_STEPSBAR_75=0xAA55FF;
-    hidden const COLOR_STEPSBAR_100=0x00FF00;
-	hidden const STEPSBAR_WIDTH = 80;
-	hidden const STEPSBAR_HEIGHT = 8;
 
 	hidden const ICON_PADDING = 3;
 	hidden const FONT_ICON_CHAR_ALARM="0";
@@ -36,38 +27,32 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden const FONT_ICON_CHAR_NOTIFICATION="2";
 	hidden const FONT_ICON_CHAR_RUNNER="3";
 	hidden const FONT_ICON_CHAR_HEART="4";
+	hidden const FONT_ICON_CHAR_CALORIES="5";
+	hidden const FONT_ICON_CHAR_DISTANCE="6";
+	hidden const FONT_ICON_CHAR_FLOORS_CLIMBED = "7";
 	
 	//IINSTANCE VARIABLES 
 	//general
-	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps;
+	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance, fontTextFloorsClimbed;
 	hidden var colorHour, colorMinute, colorForeground, colorBackground;
-	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth;
-	hidden var showAlarm, showDate, showBluetooth, showHR, showSeconds, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
+	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance, iconColorFloorsClimbed;
+	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
-	hidden var co_Date_y, co_Clock_y;
-	hidden var co_Seconds_y, co_Seconds_x, co_clip_Seconds_x, co_clip_Seconds_y,co_clip_Seconds_Width, co_clip_Seconds_Height;
+	hidden var co_Date_x, co_Date_y, co_Clock_y;
+	hidden var co_Seconds_y, co_Seconds_x;
 	hidden var co_IconBT_x,co_IconBT_y;
 	hidden var co_IconAlarm_x, co_IconAlarm_y;
-	hidden var co_HR_y, co_clip_HR_x, co_clip_HR_y, co_clip_HR_Width, co_clip_HR_Height;
-	hidden var co_StepsBar_x,co_StepsBar_y, co_StepsCount_y;
+	hidden var co_HR_y;
 	hidden var co_IconNotif_x, co_IconNotif_y;
-	hidden var co_ClockBottom_y, co_ClockTop_y;
 	hidden var co_Battery_y;
 	hidden var fontCustomHeight;
-	hidden var zone01_x, zone01_y, zone01_w, zone01_h, zone01_cy;
-	hidden var zone02_x, zone02_y, zone02_w, zone02_h, zone02_cy;
-	hidden var zone03_x, zone03_y, zone03_w, zone03_h, zone03_cy;
-	hidden var zone04_x, zone04_y, zone04_w, zone04_h, zone04_cy;
-	hidden var zone05_x, zone05_y, zone05_w, zone05_h, zone05_cy;
-	hidden var zone06_x, zone06_y, zone06_w, zone06_h, zone06_cy;
-	hidden var zone07_x, zone07_y, zone07_w, zone07_h, zone07_cy;
-	hidden var zone08_x, zone08_y, zone08_w, zone08_h, zone08_cy;
+	hidden var zone04, zone01,zone02, zone03, zone05, zone06, zone07, zone08;
+	hidden var clipSeconds, clipHR;
 	
-	//lines
-	hidden var Y_L1, Y_L2, Y_L3, Y_L4,Y_L5, Y_L6;
 	//components
-	hidden var batteryComponent;
+	hidden var zone1CompId, zone6CompId,zone7CompId, zone8CompId;
+	hidden var zone1Component, zone6Component, zone7Component, zone8Component;
 	hidden var computeCoordinatesRequired = false;
 	hidden var colorMode, dateFormat;
 
@@ -80,127 +65,253 @@ public class RootsJtbView extends Ui.WatchFace {
 		reloadBasics(false);
 		computeCoordinates(dc);
 		
-		batteryComponent = new BatteryComponent({
-			:locX=>co_Screen_Width/2,
-			:locY=>co_Battery_y,
+		createZone1Component(zone1CompId);
+		createZone6Component(zone6CompId);
+		createZone7Component(zone7CompId);
+		createZone8Component(zone8CompId);
+    }
+    
+    
+    function createBatteryComponent(x, y, width, height){
+    	return new BatteryComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
 			:bgc=>COLOR_TRANSPARENT,
 			:fgc=>colorForeground,
-			:dc=>dc,
-			:font=>fontTextBattery,
+			:textFont=>fontTextBattery,
 			:showText=>showBatteryText
 		});
+    }
+    
+    function createCaloriesComponent(x, y, width, height){
+    	return new CaloriesComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextCalories,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_CALORIES,
+			:iconColor=>iconColorCalories,
+		});
+    }
+    
+    function createDistanceComponent(x, y, width, height){
+    	return new DistanceComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextDistance,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_DISTANCE,
+			:iconColor=>iconColorDistance,
+		});
+    }
+    
+     function createStepsComponent(x, y, width, height){
+    	return new StepsComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextSteps,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_RUNNER,
+			:iconColor=>iconColorRunner,
+		});
+    }
+    
+     function createHeartRateComponent(x, y, width, height){
+    	return new HeartRateComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextHR,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_HEART,
+			:iconColor=>iconColorHeart,
+			:keepDisplayedOnSleep=>keepHRDisplayed
+		});
+    }
+    
+     function createSecondsComponent(x, y, width, height){
+    	return new SecondsComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorMinute,
+			:textFont=>fontTextSeconds,
+			:keepDisplayedOnSleep=>keepSecondsDisplayed
+		});
+    }
+    
+     function createFloorsClimbedComponent(x, y, width, height){
+    	return new FloorsClimbedComponent({
+			:locX=>x,
+			:locY=>y,
+			:width=>width,
+			:height=>height,
+			:bgc=>COLOR_TRANSPARENT,
+			:fgc=>colorForeground,
+			:textFont=>fontTextFloorsClimbed,
+			:iconFont=>fontIcons,
+			:iconChar=>FONT_ICON_CHAR_FLOORS_CLIMBED,
+			:iconColor=>iconColorFloorsClimbed,
+		});
+    }
+    
+    function createZoneComponent(componentId, x, y, w, h){
+		if(componentId == Cst.OPTION_ZONE_STEPS){
+    		return createStepsComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_CALORIES){
+			return createCaloriesComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_BATTERY){
+			return createBatteryComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_DISTANCE){
+			return createDistanceComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_HEARTRATE){
+			return createHeartRateComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_SECONDS){
+			return createSecondsComponent(x, y, w, h);
+		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED){
+			return createFloorsClimbedComponent(x, y, w, h);
+		}
+    }
+    
+    function createZone1Component(componentId){
+		zone1Component = createZoneComponent(componentId, zone01[0], zone01[1], zone01[2], zone01[3]);
+    }
+    
+    function createZone6Component(componentId){
+		zone6Component = createZoneComponent(componentId, zone06[0], zone06[1], zone06[2], zone06[3]);
+    }
+    
+     function createZone7Component(componentId){
+		zone7Component = createZoneComponent(componentId, zone07[0], zone07[1], zone07[2], zone07[3]);
+    }
+    
+    function createZone8Component(componentId){
+		zone8Component = createZoneComponent(componentId, zone08[0], zone08[1], zone08[2], zone08[3]);
     }
     
     function computeCoordinates(dc){
     	//get screen dimensions
 		co_Screen_Width = dc.getWidth();
-        co_Screen_Height = dc.getHeight();
+        co_Screen_Height = dc.getHeight() - 2*SPAN_y;
+                
+          //row 3
+        var zone04_cy = co_Screen_Height / 2;
+        var zone04_x = 0 ;
+        var zone04_y = zone04_cy - co_Screen_Height * HOUR_H_PERCENT / 2;
+        var zone04_w = co_Screen_Width;
+        var zone04_h = co_Screen_Height * HOUR_H_PERCENT;
+        zone04 = [zone04_x, zone04_y, zone04_w, zone04_h, zone04_cy];
         
-        //row 1 = 13%
-        zone01_x = 0;
-        zone01_y = 0;
-        zone01_w = co_Screen_Width;
-        zone01_h = co_Screen_Height * 0.13;
-        zone01_cy = zone01_y + zone01_h/2;
+        var row01_h = zone04_y * 0.30;
+        var row02_h = zone04_y * 0.70;
+        var row04_h = (co_Screen_Height / 2 - zone04_h/2) * 0.40;
+        var row05_h = (co_Screen_Height / 2 - zone04_h/2) * 0.60;
         
-        //row 2 = 15%
-        zone02_x = 0;
-        zone02_y = zone01_h;
-        zone02_w = co_Screen_Width * 0.33;
-        zone02_h = co_Screen_Height * 0.15;
-        zone02_cy = zone02_y + zone02_h / 2;
+        var fontCustomHeight = dc.getFontHeight(customFont);
+        var co_ClockTop_y = zone04[4] - fontCustomHeight/2;
+    	var co_ClockBottom_y = zone04[4] + fontCustomHeight/2;
         
-        zone03_x = zone02_w;
-        zone03_y = zone01_h;
-        zone03_w = co_Screen_Width * 0.67;
-        zone03_h = co_Screen_Height * 0.15;
-        zone03_cy = zone03_y + zone03_h / 2;
+        //row 1
+        var zone01_x = 0;
+        var zone01_y = SPAN_y;
+        var zone01_w = co_Screen_Width;
+        var zone01_h = row01_h;
+        var zone01_cy = zone01_y + zone01_h/2;
+        zone01 = [zone01_x, zone01_y, zone01_w, zone01_h, zone01_cy];
         
-        //row 3 = 45%
-        zone04_x = 0;
-        zone04_y = zone01_h + zone02_h;
-        zone04_w = co_Screen_Width;
-        zone04_h = co_Screen_Height * 0.45;
-        zone04_cy = zone04_y + zone04_h / 2;
+        //row 2
+        var zone02_x = 0;
+        var zone02_y = zone01_h;
+        var zone02_w = co_Screen_Width * 0.33;
+        var zone02_h = row02_h;
+        var zone02_cy = zone02_y + zone02_h / 2;
+        zone02 = [zone02_x, zone02_y, zone02_w, zone02_h, zone02_cy];
         
-        //row 4 = 13% 
-        zone05_x = 0;
-        zone05_y = zone01_h + zone02_h + zone04_h;
-        zone05_w = co_Screen_Width * 0.32;
-        zone05_h = co_Screen_Height * 0.13;
-        zone05_cy = zone05_y + zone05_h / 2;
+       
+        var zone03_x = zone02_w;
+        var zone03_h = row02_h;
+        var zone03_y = co_ClockTop_y - zone03_h;
+        var zone03_w = co_Screen_Width * 0.63 - RIGHT_x;
+        var zone03_cy = zone03_y + zone03_h / 2;
+        zone03 = [zone03_x, zone03_y, zone03_w, zone03_h, zone03_cy];
         
-        zone06_x = zone05_w;
-        zone06_y = zone05_y;
-        zone06_w = co_Screen_Width * 0.36;
-        zone06_h = co_Screen_Height * 0.13;
-        zone06_cy = zone06_y + zone06_h / 2;
+        //row 4 
+        var zone05_x = 0;
+        var zone05_y = zone04_y + zone04_h;
+        var zone05_w = co_Screen_Width * 0.32;
+        var zone05_h = row04_h;
+        var zone05_cy = zone05_y + zone05_h / 2;
+        zone05 = [zone05_x, zone05_y, zone05_w, zone05_h, zone05_cy];
         
-        zone07_x = zone05_w + zone06_w;
-        zone07_y = zone05_y;
-        zone07_w = co_Screen_Width * 0.32;
-        zone07_h = co_Screen_Height * 0.13;
-        zone07_cy = zone07_y + zone07_h / 2;
+        var zone06_x = zone05_w;
+        var zone06_y = zone05_y;
+        var zone06_w = co_Screen_Width * 0.36;
+        var zone06_h = row04_h;
+        var zone06_cy = zone06_y + zone06_h / 2;
+        zone06 = [zone06_x, zone06_y, zone06_w, zone06_h, zone06_cy];
         
-        //row 5 = 14%
-        zone08_x = 0;
-        zone08_y = zone01_h + zone02_h + zone04_h + zone05_h;
-        zone08_w = co_Screen_Width;
-        zone08_h = co_Screen_Height * 0.1;
-        zone08_cy = zone08_y + zone08_h / 2;
+        var zone07_x = zone05_w + zone06_w;
+        var zone07_y = co_ClockBottom_y;
+        var zone07_w = co_Screen_Width * 0.32 - RIGHT_x;
+        var zone07_h = row04_h;
+        var zone07_cy = zone07_y + zone07_h / 2;
+        zone07 = [zone07_x, zone07_y, zone07_w, zone07_h, zone07_cy];
         
-		Y_L1=L1;
-		Y_L2=co_Screen_Height*L2p;
-		Y_L3=co_Screen_Height/2;
-		Y_L4=co_Screen_Height*L4p;
-		Y_L6=co_Screen_Height-L6;
+        //row 5
+        var zone08_x = 0;
+        var zone08_y = zone05_y + row04_h;
+        var zone08_w = co_Screen_Width;
+        var zone08_h = row05_h;
+        var zone08_cy = zone08_y + zone08_h / 2;
+        zone08 = [zone08_x, zone08_y, zone08_w, zone08_h, zone08_cy];
 		
-    	co_Battery_y = Y_L1;
+		
+		
+		// Computing coordinates
+    	co_Battery_y = zone01[4];
 		
     	co_IconBT_x = LEFT_x;
-    	co_IconBT_y = Y_L2;
+    	co_IconBT_y = zone02[4];
     	
     	var w = dc.getTextWidthInPixels(FONT_ICON_CHAR_BLUETOOTH, fontIcons);
     	co_IconAlarm_x = LEFT_x + w + ICON_PADDING;
-    	co_IconAlarm_y = Y_L2;
+    	co_IconAlarm_y = zone02[4];
 
     	fontCustomHeight = dc.getFontHeight(customFont);
-    	co_ClockTop_y = co_Screen_Height/2 - fontCustomHeight/2;
-    	co_ClockBottom_y = co_Screen_Height/2 + fontCustomHeight/2;
-    	co_Clock_y = Y_L3;
+    	co_Clock_y = zone04[04];
     	
-
-    	co_clip_Seconds_Width = dc.getTextWidthInPixels("44", fontTextSeconds);
-    	co_clip_Seconds_Height =  dc.getFontHeight(fontTextSeconds);
-    	co_Seconds_x = co_Screen_Width - RIGHT_x;
-    	co_Seconds_y = co_ClockBottom_y + co_clip_Seconds_Height / 2;
-    	co_clip_Seconds_x = co_Screen_Width- RIGHT_x - co_clip_Seconds_Width;
-    	co_clip_Seconds_y = co_Seconds_y - co_clip_Seconds_Height/2;
+    	co_Seconds_x = zone07[0];
+    	co_Seconds_y = zone07[4];
+		clipSeconds = [zone07[0], zone07[1], zone07[2], zone07[3]];
     	
-    	var fontDateH = dc.getFontHeight(fontTextDate);
-    	co_Date_y =  co_ClockTop_y - fontDateH;
+    	co_Date_x =  zone03[0] + zone03[2];
+    	co_Date_y =  zone03[4];
     	
     	co_IconNotif_x = LEFT_x;
-    	co_IconNotif_y = Y_L4;
+    	co_IconNotif_y = zone05[4];
     	
-    	co_HR_y = Y_L4;
-    	co_clip_HR_Width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontTextHR) + ICON_PADDING + dc.getTextWidthInPixels("4444", fontTextHR);
-    	co_clip_HR_Height =  dc.getFontHeight(fontIcons);
-		if(dc.getFontHeight(fontIcons) > co_clip_HR_Height){
-	  		co_clip_HR_Height = dc.getFontHeight(fontIcons);
-		}
-    	co_clip_HR_x = co_Screen_Width/2 - co_clip_HR_Width/2;
-    	co_clip_HR_y = co_HR_y - co_clip_HR_Height/2;
-    	
-		co_StepsBar_x = co_Screen_Width/2 - STEPSBAR_WIDTH/2;
-    	co_StepsBar_y = Y_L6;
-    	co_StepsCount_y = co_StepsBar_y+18;
-    	
-    	// This is only to make UI debugging easier
-		if(showLines){
-	        System.println("screen height="+co_Screen_Height+", L1="+Y_L1+", L2="+Y_L2+", L3="+Y_L3+", L4="+Y_L4+", L6="+Y_L6);
-	    }
-	    
+    	co_HR_y = zone05[4];
+    	clipHR = [zone06[0], zone06[1], zone06[2], zone06[3]];
+   
 	    computeCoordinatesRequired=false;
     }
 
@@ -220,24 +331,26 @@ public class RootsJtbView extends Ui.WatchFace {
     	dc.setColor(colorForeground, colorBackground);
     	dc.clear();
     	
-		batteryComponent.draw(dc);
    		displayClock(dc);
-   		
-        if(!sleeping && showSeconds){
-			displaySeconds(dc);  
-		}
-   		
        	displayBtAndAlarm(dc);
        	
        	if(showDate){
 	        displayDate(dc);
        	}
-		
-		if(!sleeping && showHR){
-		   displayHR(dc);
-        }
         
-      	displaySteps(dc);
+        if(checkUpdateCondition(zone1Component)){
+	      	zone1Component.draw(dc);
+        }
+        if(checkUpdateCondition(zone6Component)){
+	      	zone6Component.draw(dc);
+        }
+        if(checkUpdateCondition(zone7Component)){
+	      	zone7Component.draw(dc);
+        }
+
+        if(checkUpdateCondition(zone8Component)){
+	      	zone8Component.draw(dc);
+        }
       	
       	if(showNotification){
         	displayNotifications(dc);
@@ -249,37 +362,57 @@ public class RootsJtbView extends Ui.WatchFace {
 	    }
     }
     
+    function checkUpdateCondition(component){
+    	if(null == component){
+    		return false;
+    	}
+    	
+    	if (!sleeping){
+    		return true;
+    	}
+    	
+    	if(component.canBeHiddenOnSleep() && component.isKeptDisplayedOnSleep()){
+    	 	return true;
+    	}
+    	 
+    	if(!component.canBeHiddenOnSleep()){
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
     function drawGridLines(dc){
-		dc.setColor(colorForeground, colorBackground);
-        dc.drawLine(0, Y_L1, co_Screen_Width, Y_L1);
-        dc.drawLine(0, Y_L2, co_Screen_Width, Y_L2);
-        dc.drawLine(0, Y_L3, co_Screen_Width, Y_L3);
-        dc.drawLine(0, Y_L4, co_Screen_Width, Y_L4);
-        dc.drawLine(0, Y_L6, co_Screen_Width, Y_L6);
-        
-        dc.drawLine(0, co_ClockBottom_y, co_Screen_Width, co_ClockBottom_y);
-        dc.drawLine(0, co_ClockTop_y, co_Screen_Width, co_ClockTop_y);
-        
         
         dc.setColor(Gfx.COLOR_GREEN, colorBackground);
-        dc.drawRectangle(zone01_x, zone01_y, zone01_w, zone01_h);
-        dc.drawRectangle(zone02_x, zone02_y, zone02_w, zone02_h);
-        dc.drawRectangle(zone03_x, zone03_y, zone03_w, zone03_h);
-       	dc.drawRectangle(zone04_x, zone04_y, zone04_w, zone04_h);
-  		dc.drawRectangle(zone05_x, zone05_y, zone05_w, zone05_h);
-		dc.drawRectangle(zone06_x, zone06_y, zone06_w, zone06_h);
-    	dc.drawRectangle(zone07_x, zone07_y, zone07_w, zone07_h);
-    	dc.drawRectangle(zone08_x, zone08_y, zone08_w, zone08_h);
-       	
-        dc.drawLine(zone01_x, zone01_cy, zone01_x+zone01_w, zone01_cy);
-        dc.drawLine(zone02_x, zone02_cy, zone02_x+zone02_w, zone02_cy);
-        dc.drawLine(zone03_x, zone03_cy, zone03_x+zone03_w, zone03_cy);
-        dc.drawLine(zone04_x, zone04_cy, zone04_x+zone04_w, zone04_cy);
- 		dc.drawLine(zone05_x, zone05_cy, zone05_x+zone05_w, zone05_cy);
-       	dc.drawLine(zone06_x, zone06_cy, zone06_x+zone06_w, zone06_cy);
-       	dc.drawLine(zone07_x, zone07_cy, zone07_x+zone07_w, zone07_cy);
-       	dc.drawLine(zone08_x, zone08_cy, zone08_x+zone08_w, zone08_cy);
+       	drawRectangleGrid(dc, zone01);
+   		drawRectangleGrid(dc, zone02);
+  		drawRectangleGrid(dc, zone03);
+  		drawRectangleGrid(dc, zone04);
+  		drawRectangleGrid(dc, zone05);
+  		drawRectangleGrid(dc, zone06);
+  		drawRectangleGrid(dc, zone07);
+  		drawRectangleGrid(dc, zone08);
+       					
+        dc.setColor(Gfx.COLOR_BLUE, colorBackground);
+        drawLineGrid(dc, zone01);
+        drawLineGrid(dc, zone02);
+        drawLineGrid(dc, zone03);
+        drawLineGrid(dc, zone04);
+        drawLineGrid(dc, zone05);
+        drawLineGrid(dc, zone06);
+ 		drawLineGrid(dc, zone07);
+ 		drawLineGrid(dc, zone08);
     }
+    
+    function drawRectangleGrid(dc, zone){
+    	dc.drawRectangle(zone[0], zone[1], zone[2], zone[3]);
+    }
+    
+    function drawLineGrid(dc, zone){
+    	dc.drawLine(zone[0], zone[4], zone[0]+zone[2], zone[4]);
+    }
+    
     
     function onPartialUpdate(dc){
     	if(computeCoordinatesRequired){
@@ -288,21 +421,41 @@ public class RootsJtbView extends Ui.WatchFace {
     	
 		dc.clearClip();
   		
-  		if(showHR && keepHRDisplayed){
-	  		dc.setClip(co_clip_HR_x, co_clip_HR_y, co_clip_HR_Width, co_clip_HR_Height);
-	  		dc.setColor(colorBackground,colorBackground);
+  		if(null != zone1Component && zone1Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone01[0], zone01[1], zone01[2], zone01[3]);
+	  		dc.setColor(colorForeground,colorBackground);
 			dc.clear();
-	  		
-			displayHR(dc);
-    	}
-    	
-    	if(showSeconds && keepSecondsDisplayed){
-    		dc.setClip(co_clip_Seconds_x, co_clip_Seconds_y, co_clip_Seconds_Width, co_clip_Seconds_Height);
-    		dc.setColor(colorBackground,colorBackground);
+			if(zone1Component.isKeptDisplayedOnSleep()){
+				zone1Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone6Component && zone6Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone06[0], zone06[1], zone06[2], zone06[3]);
+	  		dc.setColor(colorForeground,colorBackground);
 			dc.clear();
-    		
-			displaySeconds(dc);
-		}
+			if(zone6Component.isKeptDisplayedOnSleep()){
+				zone6Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone7Component && zone7Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone07[0], zone07[1], zone07[2], zone07[3]);
+	  		dc.setColor(colorForeground,colorBackground);
+			dc.clear();
+			if(zone7Component.isKeptDisplayedOnSleep()){
+				zone7Component.draw(dc);
+			}
+  		}
+  		
+  		if(null != zone8Component && zone8Component.canBeHiddenOnSleep()){
+	  		dc.setClip(zone08[0], zone08[1], zone08[2], zone08[3]);
+	  		dc.setColor(colorForeground,colorBackground);
+			dc.clear();
+			if(zone8Component.isKeptDisplayedOnSleep()){
+				zone8Component.draw(dc);
+			}
+  		}
     }
     
  	function reloadBasics(reloadComponents){
@@ -322,19 +475,23 @@ public class RootsJtbView extends Ui.WatchFace {
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);
   		showNotification = Utils.getPropertyValue(Cst.PROP_SHOW_NOTIFICATION);
-  		showHR = Utils.getPropertyValue(Cst.PROP_SHOW_HR);
-  		showSeconds = Utils.getPropertyValue(Cst.PROP_SHOW_SECONDS);
   		
   		keepHRDisplayed = Utils.getPropertyValue(Cst.PROP_HR_KEEP_DISPLAYED);
   		keepSecondsDisplayed = Utils.getPropertyValue(Cst.PROP_SECONDS_KEEP_DISPLAYED);
   		
   		dateFormat = Utils.getPropertyValue(Cst.PROP_DATE_FORMAT);
+  		
+  		zone1CompId = Utils.getPropertyValue(Cst.PROP_ZONE_1);
+  		zone6CompId = Utils.getPropertyValue(Cst.PROP_ZONE_6);
+  		zone7CompId = Utils.getPropertyValue(Cst.PROP_ZONE_7);
+  		zone8CompId = Utils.getPropertyValue(Cst.PROP_ZONE_8);
     }
     
     function reloadComponents(){
-  		batteryComponent.setFont(fontTextBattery);
-		batteryComponent.setForegroundColor(colorForeground);
-		batteryComponent.setShowText(showBatteryText);
+		createZone1Component(zone1CompId);
+		createZone6Component(zone6CompId);
+		createZone7Component(zone7CompId);
+		createZone8Component(zone8CompId);
     }
     
     function reloadFonts(){
@@ -344,6 +501,9 @@ public class RootsJtbView extends Ui.WatchFace {
     	fontTextDate = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DATE);
     	fontTextSeconds = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_SECONDS);
    		fontTextSteps = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_STEPS);
+   		fontTextCalories = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_CALORIES);
+   		fontTextDistance = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_DISTANCE);
+   		fontTextFloorsClimbed = Utils.getPropertyAsFont(Cst.PROP_FONT_SIZE_FLOORS_CLIMBED);
     }
     
 /**
@@ -362,6 +522,9 @@ public class RootsJtbView extends Ui.WatchFace {
     	iconColorAlarm = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_ALARM);
     	iconColorRunner = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_RUNNER);
     	iconColorBluetooth = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_BLUETOOTH);
+    	iconColorCalories = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_CALORIES);
+    	iconColorDistance = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_DISTANCE);
+    	iconColorFloorsClimbed = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_FLOORS_CLIMBED);
     	
     	colorMode = Utils.getPropertyValue(Cst.PROP_MODE_COLOR);
     }
@@ -380,55 +543,32 @@ public class RootsJtbView extends Ui.WatchFace {
     		iconColorHeart = Utils.getRandomColor([colorBackground]);
     		iconColorNotification = Utils.getRandomColor([colorBackground]);
     		iconColorAlarm = Utils.getRandomColor([colorBackground]);
-    		iconColorRunner = Utils.getRandomColor([colorBackground]);
     		iconColorBluetooth = Utils.getRandomColor([colorBackground]);
+    		iconColorCalories = Utils.getRandomColor([colorBackground]);
+    		iconColorDistance = Utils.getRandomColor([colorBackground]);
+    		iconColorFloorsClimbed = Utils.getRandomColor([colorBackground]);
     		
-    		batteryComponent.setForegroundColor(colorForeground);
+    		if(null != zone1Component){
+    			zone1Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone1Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+			}
+			
+			if(null != zone6Component){
+    			zone6Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone6Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
+    		
+    		if(null != zone7Component){
+    			zone7Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone7Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
+			
+			if(null != zone8Component){
+    			zone8Component.setIconColor(Utils.getRandomColor([colorBackground]));
+    			zone8Component.setForegroundColor(Utils.getRandomColor([colorBackground]));
+    		}
     	}
     }
-    
-/**
-	------------------------
-	STEPS
-	------------------------
-*/
-    function displaySteps(dc){
-		var stepsCount = Mon.getInfo().steps;
-        displayStepsBar(dc, stepsCount);
-        displayStepsCounter(dc, stepsCount);
-    }
-    
-    function displayStepsBar(dc, stepsCount){
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.drawRectangle(co_StepsBar_x, co_StepsBar_y, STEPSBAR_WIDTH, STEPSBAR_HEIGHT);
-        
-        var stepsCountGoal = Mon.getInfo().stepGoal;
-        var goal = (stepsCount * 1.0 / stepsCountGoal * 1.0) ;
-                        
-        var fillColor = COLOR_STEPSBAR_25;
-        var fillSize = (STEPSBAR_WIDTH -2.0) * goal;
-        if(goal>=1.0){
-	        fillColor=COLOR_STEPSBAR_100;
-	        fillSize=STEPSBAR_WIDTH-2;
-        }else if(goal >= 0.75){
-        	fillColor=COLOR_STEPSBAR_75;
-         }else if(goal <= 0.25){
-        	fillColor=COLOR_STEPSBAR_0;
-        }
-        
-        dc.setColor(fillColor, COLOR_TRANSPARENT);
-        dc.fillRectangle(co_StepsBar_x + 1, co_StepsBar_y+2, fillSize, STEPSBAR_HEIGHT-4);
-   }
-   
-   function displayStepsCounter(dc, stepsCount){
-   		var iconWidthAndPadding = dc.getTextWidthInPixels(FONT_ICON_CHAR_RUNNER, fontIcons) + ICON_PADDING;
-   		var size = dc.getTextWidthInPixels(stepsCount.toString(), fontTextSteps) + iconWidthAndPadding;
-		var start = co_Screen_Width/ 2.0 - size/2.0;
-		dc.setColor(iconColorRunner,COLOR_TRANSPARENT);
-		dc.drawText(start, co_StepsCount_y, fontIcons, FONT_ICON_CHAR_RUNNER, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-		dc.setColor(colorForeground,COLOR_TRANSPARENT);
-	  	dc.drawText(start+iconWidthAndPadding, co_StepsCount_y,  fontTextSteps, stepsCount.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-	}
     
 
 /**
@@ -465,34 +605,6 @@ public class RootsJtbView extends Ui.WatchFace {
 		}
 	}
 
-
-/**
-	------------------------
-	HEARTH RATE
-	------------------------
-*/
-    function displayHR(dc){
-	    var width = dc.getTextWidthInPixels(FONT_ICON_CHAR_HEART, fontIcons);
-		var hrText = retrieveHeartrateText();
-	    var iconWidthAndPadding = width + ICON_PADDING;
-   		var size = dc.getTextWidthInPixels(hrText.toString(), fontTextHR) + iconWidthAndPadding;
-		var start = co_Screen_Width/ 2.0 - size/2.0;
-
-		dc.setColor(iconColorHeart,COLOR_TRANSPARENT);
-		dc.drawText(start, co_HR_y, fontIcons, FONT_ICON_CHAR_HEART, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-    	dc.setColor(colorForeground, COLOR_TRANSPARENT);
-		dc.drawText(start+iconWidthAndPadding, co_HR_y, fontTextHR, hrText, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
-	}
-	
-    private function retrieveHeartrateText() {
-		var hr = Activity.getActivityInfo().currentHeartRate;
-		if(null != hr){
-			return hr.format("%d");
-		}
-		return "000";
-    }    
-    
- 
  /**
 	------------------------
 	CLOCK
@@ -530,11 +642,6 @@ public class RootsJtbView extends Ui.WatchFace {
         dc.drawText(dc.getWidth()/2 + ICON_PADDING*2, co_Clock_y, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]),Gfx.TEXT_JUSTIFY_LEFT|Gfx.TEXT_JUSTIFY_VCENTER);
     }
     
-    function displaySeconds(dc){
-    	dc.setColor(colorMinute, COLOR_TRANSPARENT);
-		dc.drawText(co_Seconds_x, co_Seconds_y, fontTextSeconds, System.getClockTime().sec.format("%02d"), Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
-    }
-
 
 /**
 	------------------------
@@ -544,7 +651,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	function displayDate(dc){
         var dateStr = formatDate();
         dc.setColor(colorForeground, COLOR_TRANSPARENT);
-        dc.drawText(co_Screen_Width - RIGHT_x,co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(co_Date_x, co_Date_y, fontTextDate, dateStr, Gfx.TEXT_JUSTIFY_RIGHT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
 
 	function formatDate(){
@@ -577,6 +684,6 @@ public class RootsJtbView extends Ui.WatchFace {
     
     function onEnterSleep() {
     	sleeping = true;
-   		Ui.requestUpdate();
+   		//Ui.requestUpdate();
     }
  }

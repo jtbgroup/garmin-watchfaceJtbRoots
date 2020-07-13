@@ -2,11 +2,11 @@
 
     <string id="AppName">JtB Face roots</string>
     
-   	<string id="propertyColorClockHour">Color for clock Hours</string>
-    <string id="propertyColorClockMinute">Color for clock Minutes</string>
-    <string id="propertyColorBackground">Background color</string>
-    <string id="propertyColorForeground">Foreground color</string>
-    <string id="propertyColorMode">Color Mode</string>
+   	<string id="propertyColorClockHour">Clock: color for clock Hours</string>
+    <string id="propertyColorClockMinute">Clock: color for Minutes</string>
+    <string id="propertyColorBackground">Color: background</string>
+    <string id="propertyColorForeground">Color: foreground</string>
+    <string id="propertyColorMode">Color: Mode</string>
 	<string id="standard">Standard</string>
 	<string id="disco">Flashing Disco</string>
 	<string id="lucy">Lucy In The Sky With Diamonds</string>
@@ -26,35 +26,52 @@
 	<string id="purple">Purple</string>
 	<string id="pink">Pink</string>
 	
-	<string id="propertyDateFormat">Format of the date</string>
+	<string id="propertyDateFormat">Date: format</string>
 	<string id="weekDayTxt_dayNum_monthTxt">Sun 16 Feb</string>
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
-	<string id="propertyShowBatteryText">Show value of the battery</string>
-	<string id="propertyShowSeconds">Show seconds</string>
-	<string id="propertyShowNotification">Show notifications icon when there are some</string>
-	<string id="propertyShowAlarm">Show alarm icon when active alarm is set</string>
-	<string id="propertyShowDate">Show date</string>
-	<string id="propertyShowBluetooth">Show bluetooth icon when connection is up</string>
-	<string id="propertyShowHr">Show heart rate</string>
-	<string id="propertyHrKeepDisplayed">Keep heart rate displayed when screen enters in sleep mode (if heart rate is asked to be visible)</string>
-	<string id="propertySecondsKeepDisplayed">Keep seconds displayed when screen enters in sleep mode (if seconds are asked to be visible)</string>
+	<string id="propertyShowBatteryText">Battery: show value (%)</string>
+	<string id="propertyShowNotification">Notifications: show icon when there are some</string>
+	<string id="propertyShowAlarm">Alarm: show icon when active alarm is configured</string>
+	<string id="propertyShowDate">Date: display</string>
+	<string id="propertyShowBluetooth">Bluetooth: show icon when connection is up</string>
+	<string id="propertyHrKeepDisplayed">Heart rate: keep displayed when screen enters in sleep mode (if asked to be visible)</string>
+	<string id="propertySecondsKeepDisplayed">Seconds: keep displayed when screen enters in sleep mode (if asked to be visible)</string>
 	
-	<string id="propertyIconColorBluetooth">Color for the bluetooth connection icon</string>
-	<string id="propertyIconColorHeart">Color for the heart rate icon</string>
-	<string id="propertyIconColorAlarm">Color for the alarm icon</string>
-	<string id="propertyIconColorRunner">Color for the steps icon</string>
-	<string id="propertyIconColorNotification">Color for the notification icon</string>
+	<string id="propertyIconColorBluetooth">Bluetooth: icon color</string>
+	<string id="propertyIconColorHeart">Heart rate: icon color</string>
+	<string id="propertyIconColorAlarm">Alarm: icon color</string>
+	<string id="propertyIconColorRunner">Steps counter: icon color</string>
+	<string id="propertyIconColorNotification">Notification: icon color</string>
+	<string id="propertyIconColorCalories">Calories: icon color</string>
+	<string id="propertyIconColorDistance">Distance: icon color</string>
+	<string id="propertyIconColorFloorsClimbed">Floors Climbed: icon color</string>
 	
-	<string id="propertyFontSizeHR">Font size for heart rate value (if displayed)</string>
-	<string id="propertyFontSizeNotification">Font size for notification count (if displayed)</string>
-	<string id="propertyFontSizeBattery">Font size for battery text</string>
-	<string id="propertyFontSizeDate">Font size for date</string>
-	<string id="propertyFontSizeSeconds">Font size for seconds (if displayed)</string>
-	<string id="propertyFontSizeSteps">Font size for steps count</string>
+	<string id="propertyFontSizeHR">Heart rate: font size (if displayed)</string>
+	<string id="propertyFontSizeNotification">Notification: font size (if displayed)</string>
+	<string id="propertyFontSizeBattery">Battery: font size (if displayed)</string>
+	<string id="propertyFontSizeDate">Date: font size (if displayed)</string>
+	<string id="propertyFontSizeSeconds">Seconds: font size (if displayed))</string>
+	<string id="propertyFontSizeSteps">Steps Counter: font size (if displayed)</string>
+	<string id="propertyFontSizeCalories">Calories: font size (if displayed))</string>
+	<string id="propertyFontSizeDistance">Distance: font size (if displayed))</string>
+	<string id="propertyFontSizeFloorsClimbed">Floors Climbed: font size (if displayed))</string>
 	<string id="xtiny">Extremely tiny</string>
 	<string id="tiny">Tiny</string>
 	<string id="small">Small</string>
+	
+	<string id="propertyZone1">Information displayed on top (zone 1)</string>
+	<string id="propertyZone6">Information displayed at the bottom (zone 6)</string>
+	<string id="propertyZone7">Information displayed at the bottom (zone 7)</string>
+	<string id="propertyZone8">Information displayed at the bottom (zone 8)</string>
+	<string id="steps">Steps counter</string>
+	<string id="calories">Calories</string>
+	<string id="battery">Battery</string>
+	<string id="none">None</string>
+	<string id="distance">Distance</string>
+	<string id="heartrate">Heart Rate</string>
+	<string id="seconds">Seconds</string>
+	<string id="floorsClimbed">Floors Climbed</string>
 	
 </strings>
