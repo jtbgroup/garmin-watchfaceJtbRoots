@@ -34,7 +34,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	//IINSTANCE VARIABLES 
 	//general
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance, fontTextFloorsClimbed;
-	hidden var colorHour, colorMinute, colorForeground, colorBackground;
+	hidden var colorHour, colorMinute, colorSeconds, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance, iconColorFloorsClimbed;
 	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
 	//coordinates
@@ -153,7 +153,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:width=>width,
 			:height=>height,
 			:bgc=>COLOR_TRANSPARENT,
-			:fgc=>colorMinute,
+			:fgc=>colorSeconds,
 			:textFont=>fontTextSeconds,
 			:keepDisplayedOnSleep=>keepSecondsDisplayed
 		});
@@ -190,6 +190,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED){
 			return createFloorsClimbedComponent(x, y, w, h);
 		}
+		return null;
     }
     
     function createZone1Component(componentId){
@@ -516,6 +517,7 @@ public class RootsJtbView extends Ui.WatchFace {
 	    colorHour = Utils.getPropertyAsColor(Cst.PROP_COLOR_CLOCK_HOUR);
     	colorMinute = Utils.getPropertyAsColor(Cst.PROP_COLOR_CLOCK_MIN);
     	colorForeground = Utils.getPropertyAsColor(Cst.PROP_COLOR_FOREGROUND);
+    	colorSeconds = Utils.getPropertyAsColor(Cst.PROP_COLOR_SECONDS);
     	
     	iconColorHeart = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_HEART);
     	iconColorNotification = Utils.getPropertyAsColor(Cst.PROP_ICON_COLOR_NOTIFICATION);
@@ -534,11 +536,13 @@ public class RootsJtbView extends Ui.WatchFace {
     		var color = Utils.getRandomColor([colorBackground]);
     		colorHour = color;
     		colorMinute = color;
+    		colorSeconds = color;
     	}else if(colorMode == Cst.OPTION_MODE_COLOR_LUCY){
     		var color = Utils.getRandomColor(null);
     		colorBackground = color;
     		colorHour = Utils.getRandomColor([colorBackground]);
     		colorMinute = Utils.getRandomColor([colorBackground, colorHour]);
+    		colorSeconds = Utils.getRandomColor([colorBackground]);
     		colorForeground = Utils.getRandomColor([colorBackground]);
     		iconColorHeart = Utils.getRandomColor([colorBackground]);
     		iconColorNotification = Utils.getRandomColor([colorBackground]);
