@@ -115,7 +115,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
-     function createStepsComponent(x, y, width, height){
+     function createStepsComponent(x, y, width, height, mode){
     	return new StepsComponent({
 			:locX=>x,
 			:locY=>y,
@@ -127,6 +127,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:iconFont=>fontIcons,
 			:iconChar=>FONT_ICON_CHAR_RUNNER,
 			:iconColor=>iconColorRunner,
+			:mode=>mode,
 		});
     }
     
@@ -159,7 +160,7 @@ public class RootsJtbView extends Ui.WatchFace {
 		});
     }
     
-     function createFloorsClimbedComponent(x, y, width, height){
+     function createFloorsClimbedComponent(x, y, width, height, mode){
     	return new FloorsClimbedComponent({
 			:locX=>x,
 			:locY=>y,
@@ -171,12 +172,13 @@ public class RootsJtbView extends Ui.WatchFace {
 			:iconFont=>fontIcons,
 			:iconChar=>FONT_ICON_CHAR_FLOORS_CLIMBED,
 			:iconColor=>iconColorFloorsClimbed,
+			:mode=>mode,
 		});
     }
     
     function createZoneComponent(componentId, x, y, w, h){
 		if(componentId == Cst.OPTION_ZONE_STEPS){
-    		return createStepsComponent(x, y, w, h);
+    		return createStepsComponent(x, y, w, h, GoalComponent.MODE_FULL);
 		}else if(componentId == Cst.OPTION_ZONE_CALORIES){
 			return createCaloriesComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_BATTERY){
@@ -188,7 +190,15 @@ public class RootsJtbView extends Ui.WatchFace {
 		}else if(componentId == Cst.OPTION_ZONE_SECONDS){
 			return createSecondsComponent(x, y, w, h);
 		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED){
-			return createFloorsClimbedComponent(x, y, w, h);
+			return createFloorsClimbedComponent(x, y, w, h, GoalComponent.MODE_FULL);
+		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED_BAR){
+			return createFloorsClimbedComponent(x, y, w, h,GoalComponent.MODE_BAR);
+		}else if(componentId == Cst.OPTION_ZONE_FLOORS_CLIMBED_VALUE){
+			return createFloorsClimbedComponent(x, y, w, h, GoalComponent.MODE_VALUE);
+		}else if(componentId == Cst.OPTION_ZONE_STEPS_BAR){
+			return createStepsComponent(x, y, w, h,  GoalComponent.MODE_BAR);
+		}else if(componentId == Cst.OPTION_ZONE_STEPS_VALUE){
+			return createStepsComponent(x, y, w, h, GoalComponent.MODE_VALUE);
 		}
 		return null;
     }

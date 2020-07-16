@@ -2,7 +2,10 @@
 This project is a watchface for garmin devices.
 More information can be found [here](https://apps.garmin.com/en-US/apps/c69e79c4-9263-4f09-9dc8-a7c22c6bc03d)
 
-### version 2.0
+### version 2.1.0
+* Added new possibility for goal components (floors and steps): show only value, only bar or both (thank you -again- Amy for the request)
+
+### version 2.0.0
 ##### Attention:
 * Due to deep refactoring, some properties might have been reset!
 * Floors Climbed conponent only works for devices having this monitoring possibility. This hasn't been tested outside the software Simulator.

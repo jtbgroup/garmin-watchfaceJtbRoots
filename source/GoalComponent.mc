@@ -10,11 +10,16 @@ class GoalComponent extends ZoneComponent {
 	hidden const COLOR_BAR_75=0xAA55FF;
     hidden const COLOR_BAR_100=0x00FF00;
 	hidden const BAR_WIDTH = 80;
-	hidden const BAR_HEIGHT = 8;
+	hidden const BAR_HEIGHT = 10;
 	hidden const PADDING_V = 1;
 	
+	const MODE_FULL = 0;
+	const MODE_VALUE = 1;
+	const MODE_BAR = 2;
+	
+	hidden var mode;
 	hidden var barPercent=0.7;
-	hidden var barHeight=10;
+	hidden var barHeight;
 	hidden var barWidth;
 	
 	hidden var co_bar_x, co_bar_y;
@@ -22,28 +27,40 @@ class GoalComponent extends ZoneComponent {
 	 
     function initialize(params) {
 		ZoneComponent.initialize(params);
+		me.mode=params.get(:mode);
 		co_counter_y = -1;
-		computeCoordinates();
     }
     
-    private function computeCoordinates(){
-    	barWidth = BAR_WIDTH;
-    	co_bar_x = x + width/2 - (BAR_WIDTH)/2;
+    private function computeCoordinates(dc){
+	    if(mode == MODE_FULL){
+	    	barWidth = BAR_WIDTH;
+	    	barHeight = BAR_HEIGHT;
+	    	co_bar_x = x + width/2 - (BAR_WIDTH)/2;
+	    	
+	    	var fHeight = dc.getFontHeight(textFont);
+		    if(fHeight < dc.getFontHeight(iconFont)){
+		    	fHeight = dc.getFontHeight(iconFont);
+		    }
+	    	
+		    var co_middle = y + height/2;
+		    var fullH = BAR_HEIGHT + fHeight;
+		    var pad = (height - fullH) / 2;
+		    	
+		    co_bar_y = y + pad;
+		    co_counter_y = co_bar_y + BAR_HEIGHT + fHeight / 2;
+	    } else if(mode == MODE_VALUE){
+	   		 co_counter_y = y + height/2;
+	    } else if(mode == MODE_BAR){
+	   		barWidth = BAR_WIDTH;
+	   		barHeight = BAR_HEIGHT;
+	    	co_bar_x = x + width/2 - (BAR_WIDTH)/2;
+	   		co_bar_y = y + height/2 - BAR_HEIGHT / 2;
+	    }
     }
     
 	function draw(dc){
 		if(co_counter_y == -1){
-			var fHeight = dc.getFontHeight(textFont);
-	    	if(fHeight < dc.getFontHeight(iconFont)){
-	    		fHeight = dc.getFontHeight(iconFont);
-	    	}
-	    	
-	    	var co_middle = y + height/2;
-	    	var fullH = BAR_HEIGHT + fHeight;
-	    	var pad = (height - fullH) / 2;
-	    	
-	    	co_bar_y = y + pad;
-	    	co_counter_y = co_bar_y + BAR_HEIGHT + fHeight / 2;
+			computeCoordinates(dc);
 		}
 	
 		display(dc);	
@@ -54,8 +71,16 @@ class GoalComponent extends ZoneComponent {
 		if(canMonitor()){
 			counter = getCounterValue();
 		}
-        displayBar(dc, counter);
-        displayCounter(dc, counter);
+		
+		if(mode == MODE_FULL){
+	        displayBar(dc, counter);
+	        displayCounter(dc, counter);
+	    }else if(mode == MODE_VALUE){
+	        displayCounter(dc, counter);
+	    }else if(mode == MODE_BAR){
+	        displayBar(dc, counter);
+	    }
+	    
     }
     
     function displayBar(dc, counter){
