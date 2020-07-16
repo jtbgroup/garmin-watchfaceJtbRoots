@@ -66,13 +66,17 @@
 	<string id="propertyZone6">Information displayed at the bottom (zone 6)</string>
 	<string id="propertyZone7">Information displayed at the bottom (zone 7)</string>
 	<string id="propertyZone8">Information displayed at the bottom (zone 8)</string>
-	<string id="steps">Steps counter</string>
+	<string id="stepsFull">Steps counter (full)</string>
+	<string id="stepsValue">Steps counter (value)</string>
+	<string id="stepsBar">Steps counter (bar)</string>
 	<string id="calories">Calories</string>
 	<string id="battery">Battery</string>
 	<string id="none">None</string>
 	<string id="distance">Distance</string>
 	<string id="heartrate">Heart Rate</string>
 	<string id="seconds">Seconds</string>
-	<string id="floorsClimbed">Floors Climbed</string>
+	<string id="floorsClimbedFull">Floors Climbed (full)</string>
+	<string id="floorsClimbedValue">Floors Climbed (value)</string>
+	<string id="floorsClimbedBar">Floors Climbed (bar)</string>
 	
 </strings>

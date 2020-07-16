@@ -83,6 +83,10 @@
 			<listEntry value="5">@Strings.heartrate</listEntry>
 			<listEntry value="2">@Strings.calories</listEntry>
 			<listEntry value="4">@Strings.distance</listEntry>
+			<listEntry value="10">@Strings.stepsValue</listEntry>
+			<listEntry value="11">@Strings.stepsBar</listEntry>
+			<listEntry value="8">@Strings.floorsClimbedValue</listEntry>
+			<listEntry value="9">@Strings.floorsClimbedBar</listEntry>
 			<listEntry value="3">@Strings.battery</listEntry>
 		</settingConfig>
 	</setting>
@@ -93,6 +97,8 @@
 			<listEntry value="0">@Strings.none</listEntry>
 			<listEntry value="6">@Strings.seconds</listEntry>
 			<listEntry value="2">@Strings.calories</listEntry>
+			<listEntry value="10">@Strings.stepsValue</listEntry>
+			<listEntry value="8">@Strings.floorsClimbedValue</listEntry>
 		</settingConfig>
 	</setting>
 	
@@ -100,10 +106,14 @@
 		title="@Strings.propertyZone8">
 		<settingConfig type="list">
 			<listEntry value="0">@Strings.none</listEntry>
-			<listEntry value="1">@Strings.steps</listEntry>
+			<listEntry value="1">@Strings.stepsFull</listEntry>
+			<listEntry value="10">@Strings.stepsValue</listEntry>
+			<listEntry value="11">@Strings.stepsBar</listEntry>
 			<listEntry value="2">@Strings.calories</listEntry>
 			<listEntry value="4">@Strings.distance</listEntry>
-			<listEntry value="7">@Strings.floorsClimbed</listEntry>
+			<listEntry value="7">@Strings.floorsClimbedFull</listEntry>
+			<listEntry value="8">@Strings.floorsClimbedValue</listEntry>
+			<listEntry value="9">@Strings.floorsClimbedBar</listEntry>
 			<listEntry value="3">@Strings.battery</listEntry>
 		</settingConfig>
 	</setting>
