@@ -16,7 +16,6 @@ class BatteryComponent extends ZoneComponent {
 	hidden var co_Battery_x = -1;
 	hidden var co_Battery_y, co_BatteryDop_x,co_BatteryDop_y, co_Battery_text_x, co_Battery_text_y;
 	hidden var showText;
-	hidden var lastBatteryValue;
 	 
     function initialize(params) {
        	ZoneComponent.initialize(params);
@@ -46,19 +45,13 @@ class BatteryComponent extends ZoneComponent {
     }
 
 	function draw(dc){
-		if(co_Battery_x == -1){
-			computeCoordinatesX(dc, "100%");
-		}
 		displayBattery(dc);	
 	}
 	
 	private function displayBattery(dc){
 		var battery = Sys.getSystemStats().battery;
 		var batteryTxt = battery.format("%d")+"%";
-		if(lastBatteryValue != battery){
-	   		lastBatteryValue = battery;
-			computeCoordinatesX(dc, batteryTxt);
-		}
+		computeCoordinatesX(dc, batteryTxt);
 		
 		displayBatteryIcon(dc, battery, COLOR_BATTERY_LOW, COLOR_BATTERY_MEDIUM, COLOR_BATTERY_HIGH);
 		if(showText){
@@ -106,6 +99,5 @@ class BatteryComponent extends ZoneComponent {
     
      function setShowText(showText){
     	me.showText=showText;
-    	lastBatteryValue=-1;
     }
 }
