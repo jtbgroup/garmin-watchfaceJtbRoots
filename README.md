@@ -2,6 +2,10 @@
 This project is a watchface for garmin devices.
 More information can be found [here](https://apps.garmin.com/en-US/apps/c69e79c4-9263-4f09-9dc8-a7c22c6bc03d)
 
+### version 2.2.0
+#### Changes
+* Battery has now the possibility to display the battery icon, the value or both (default)
+
 ### version 2.1.1
 * Removed a layout optimizer on the battery component; a potential cause of the bug on the Fenix 6 (thank you Dan for the report and feedback!).
 I hope the problem is solved!!! ;-)

@@ -23,14 +23,15 @@ class CaloriesComponent extends ZoneComponent {
 	
 	 function displaySteps(dc){
 		var calories = Mon.getInfo().calories;
+		var txt = calories + " kCal";
 		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
-   		var size = dc.getTextWidthInPixels(calories.toString(), textFont) + iconWidthAndPadding;
+   		var size = dc.getTextWidthInPixels(txt, textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;
 		
 		dc.setColor(iconColor,colorBackground);
 		dc.drawText(start, co_y, iconFont, iconChar, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
 		dc.setColor(colorForeground,colorBackground);
-	  	dc.drawText(start+iconWidthAndPadding, co_y, textFont, calories.toString(),Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
+	  	dc.drawText(start+iconWidthAndPadding, co_y, textFont, txt, Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER);
     }
    
  
