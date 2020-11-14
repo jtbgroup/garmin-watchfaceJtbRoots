@@ -23,7 +23,7 @@ class CaloriesComponent extends ZoneComponent {
 	
 	 function displaySteps(dc){
 		var calories = Mon.getInfo().calories;
-		var txt = calories + " kCal";
+		var txt = calories.toString();
 		var iconWidthAndPadding = dc.getTextWidthInPixels(iconChar, iconFont) + ICON_PADDING;
    		var size = dc.getTextWidthInPixels(txt, textFont) + iconWidthAndPadding;
 		var start = x + width/2 - size/2.0;
