@@ -36,7 +36,9 @@ public class RootsJtbView extends Ui.WatchFace {
 	hidden var fontIcons, customFont, fontTextHR, fontTextNotification, fontTextDate, fontTextSeconds, fontTextBattery, fontTextSteps, fontTextCalories, fontTextDistance, fontTextFloorsClimbed;
 	hidden var colorHour, colorMinute, colorSeconds, colorForeground, colorBackground;
 	hidden var iconColorHeart, iconColorNotification, iconColorAlarm, iconColorRunner, iconColorBluetooth,iconColorCalories, iconColorDistance, iconColorFloorsClimbed;
-	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification, showBatteryText;
+	hidden var showAlarm, showDate, showBluetooth, keepSecondsDisplayed, keepHRDisplayed, showNotification;
+	hidden var batteryMode;
+	
 	//coordinates
 	hidden var co_Screen_Height, co_Screen_Width;
 	hidden var co_Date_x, co_Date_y, co_Clock_y;
@@ -81,7 +83,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:bgc=>COLOR_TRANSPARENT,
 			:fgc=>colorForeground,
 			:textFont=>fontTextBattery,
-			:showText=>showBatteryText
+			:mode=>batteryMode,
 		});
     }
     
@@ -172,7 +174,7 @@ public class RootsJtbView extends Ui.WatchFace {
 			:iconFont=>fontIcons,
 			:iconChar=>FONT_ICON_CHAR_FLOORS_CLIMBED,
 			:iconColor=>iconColorFloorsClimbed,
-			:mode=>mode,
+			:mode=>mode
 		});
     }
     
@@ -481,7 +483,7 @@ public class RootsJtbView extends Ui.WatchFace {
     }
     
     function reloadShows(){
-    	showBatteryText = Utils.getPropertyValue(Cst.PROP_SHOW_BATTERY_TEXT);
+    	batteryMode = Utils.getPropertyValue(Cst.PROP_MODE_BATTERY);
   		showAlarm = Utils.getPropertyValue(Cst.PROP_SHOW_ALARM);
   		showDate = Utils.getPropertyValue(Cst.PROP_SHOW_DATE);
   		showBluetooth = Utils.getPropertyValue(Cst.PROP_SHOW_BLUETOOTH);

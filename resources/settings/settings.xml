@@ -221,9 +221,13 @@
 
 
 	<!-- BATTERY -->
-	<setting propertyKey="@Properties.PROP_SHOW_BATTERY_TEXT"
-		title="@Strings.propertyShowBatteryText">
-		<settingConfig type="boolean" />
+	<setting propertyKey="@Properties.PROP_MODE_BATTERY"
+		title="@Strings.propertyModeBattery">
+		<settingConfig type="list">
+			<listEntry value="0">@Strings.iconAndValue</listEntry>
+			<listEntry value="1">@Strings.iconOnly</listEntry>
+			<listEntry value="2">@Strings.valueOnly</listEntry>
+		</settingConfig>
 	</setting>
 
 	<setting propertyKey="@Properties.PROP_FONT_SIZE_BATTERY"

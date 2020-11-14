@@ -32,7 +32,6 @@
 	<string id="dayNum_monthNum_yearNum">16/02/2020</string>
 	<string id="monthNum_dayNum_yearNum">02/16/2020</string>
 	
-	<string id="propertyShowBatteryText">Battery: show value (%)</string>
 	<string id="propertyShowNotification">Notifications: show icon when there are some</string>
 	<string id="propertyShowAlarm">Alarm: show icon when active alarm is configured</string>
 	<string id="propertyShowDate">Date: display</string>
@@ -78,5 +77,11 @@
 	<string id="floorsClimbedFull">Floors Climbed (full)</string>
 	<string id="floorsClimbedValue">Floors Climbed (value)</string>
 	<string id="floorsClimbedBar">Floors Climbed (bar)</string>
+	
+	<string id="propertyModeBattery">Battery component appearance</string>
+	<string id="iconAndValue">Icon and value</string>
+	<string id="iconOnly">Icon only</string>
+	<string id="valueOnly">Value only</string>
+	
 	
 </strings>
